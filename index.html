@@ -630,30 +630,11 @@
             letter-spacing: -0.05em;
         }
 
-        /* CARD */
-        .card-miniatura {
-            background: #fff;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid #eee;
-        }
 
-        .card-miniatura:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-            border-color: #111;
-        }
-
-        .grid-ano {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
 
         /* Media Queries */
         @media (max-width: 1024px) {
-            .grid-ano {
-                grid-template-columns: repeat(2, 1fr);
-            }
+
 
             .calendar-section {
                 padding: 40px;
@@ -669,9 +650,7 @@
         }
 
         @media (max-width: 600px) {
-            .grid-ano {
-                grid-template-columns: 1fr;
-            }
+
 
             .month-title {
                 font-size: 32px;
@@ -691,8 +670,8 @@
 
             @media print {
                 @page {
-                    size: A3 landscape;
-                    /* Força folha A3 horizontal */
+                    size: A4 portrait;
+                    /* Força folha A4 vertical */
                     margin: 0;
                 }
 
@@ -724,11 +703,11 @@
                     /* Ocupa folha toda */
                     width: 100%;
                     border: none;
-                    flex-direction: row;
+                    flex-direction: column;
                 }
 
                 .hero-section {
-                    width: 55% !important;
+                    width: 100% !important;
                     border-left: 1px solid #ccc;
                     border-right: none;
                     padding: 60px;
@@ -741,7 +720,7 @@
                 }
 
                 .calendar-section {
-                    width: 45% !important;
+                    width: 100% !important;
                     padding: 30px 40px;
                 }
 
@@ -856,13 +835,7 @@
                     <input type="number" id="anoInput" onchange="atualizarCalendario()">
                 </div>
 
-                <div class="control-group">
-                    <label>Tamanho do Papel</label>
-                    <select id="tamanhoPapel">
-                        <option value="A3">A3 (297 × 420 mm)</option>
-                        <option value="A4">A4 (210 × 297 mm)</option>
-                    </select>
-                </div>
+
 
                 <div class="control-group">
                     <label>&nbsp;</label>
@@ -882,12 +855,6 @@
             </div>
 
             <div class="button-row">
-                <button class="btn btn-secondary" onclick="alternarVisao()">
-                    👁️ Ver Grade Anual
-                </button>
-                <button class="btn btn-dark" onclick="imprimirMes()">
-                    🖨️ Imprimir Mês
-                </button>
                 <button class="btn btn-primary" onclick="imprimirAnoCompleto()">
                     📅 Imprimir Ano Completo (12 meses)
                 </button>
@@ -900,9 +867,7 @@
         </div>
 
         <!-- Visão Grade Anual (Oculta) -->
-        <div id="visaoAno" class="grid-ano" style="display: none;">
-            <!-- Grid gerado via JS -->
-        </div>
+
     </div>
 
     <script>
@@ -1518,11 +1483,7 @@
             state.poesiaSelecionada = indiceReal;
 
             // Atualiza dependendo da visão
-            if (state.modoVisualizacao === 'grade') {
-                renderizarAnoView();
-            } else {
-                atualizarCalendario();
-            }
+            atualizarCalendario();
         }
 
         function randomizarAnoCompleto() {
@@ -1572,9 +1533,7 @@
             renderizarCalendario(poesiaAtual, fasesLua, dias);
 
             // Se estiver na visão de grade, atualiza ela também
-            if (state.modoVisualizacao === 'grade') {
-                renderizarAnoView();
-            }
+
 
             alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\n${novasEscolhas.filter(p => p !== null).length} poesias escolhidas.\n\nPoesias únicas garantidas para o ano!`);
         }
@@ -1868,140 +1827,10 @@
 
         // --- LÓGICA DA VISÃO ANUAL INTERATIVA ---
 
-        state.modoVisualizacao = 'unico'; // 'unico' ou 'grade'
-
-        function alternarVisao() {
-            const calendarioDiv = document.getElementById('calendario');
-            const visaoAnoDiv = document.getElementById('visaoAno');
-            const btn = document.querySelector('button[onclick="alternarVisao()"]');
-
-            if (state.modoVisualizacao === 'unico') {
-                state.modoVisualizacao = 'grade';
-                calendarioDiv.style.display = 'none';
-                visaoAnoDiv.style.display = 'grid';
-                btn.innerHTML = '👁️ Ver Mês Único';
-                renderizarAnoView();
-            } else {
-                state.modoVisualizacao = 'unico';
-                calendarioDiv.style.display = 'block';
-                visaoAnoDiv.style.display = 'none';
-                btn.innerHTML = '👁️ Ver Grade Anual';
-                atualizarCalendario(); // Volta para o mês selecionado
-            }
-        }
-
-        function selecionarMes(mesIndex) {
-            state.mes = mesIndex;
-            document.getElementById('mesSelect').value = mesIndex;
-
-            // Re-renderizar grade para atualizar seleção visual
-            renderizarAnoView();
-        }
-
-        function renderizarAnoView() {
-            const visaoAnoDiv = document.getElementById('visaoAno');
-            if (state.modoVisualizacao !== 'grade') return;
-
-            let htmlFull = '';
-
-            for (let m = 0; m < 12; m++) {
-                // Obter poesia
-                let poesiaDoMes;
-                const indicePoesiaEscolhida = state.poesiasEscolhidas[m];
-
-                if (indicePoesiaEscolhida !== null) {
-                    poesiaDoMes = state.todasPoesias[indicePoesiaEscolhida];
-                } else {
-                    // Se não tiver escolhida, pega padrão da época
-                    poesiaDoMes = state.todasPoesias.find(p => p.meses.includes(m + 1)) || state.todasPoesias[0];
-                }
-
-                const fasesLuaMes = obterDiasFasesLua(m, state.ano);
-                const diasMes = gerarCalendario(m, state.ano);
-                const isSelecionado = (m === state.mes);
-
-                // Gerar grid de dias do mês
-                let diasHTML = '';
-                diasMes.forEach((d, i) => {
-                    const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, m, state.ano) : null;
-                    const isDomingo = i % 7 === 0;
-                    const isSabado = i % 7 === 6;
-                    const rowIndex = Math.floor(i / 7);
-                    const colIndex = i % 7;
-                    const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
-                    const borderRight = colIndex < 6 ? 'border-right: 1px solid #e5e5e5;' : '';
-
-                    diasHTML += `
-                      <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
-                           style="${borderBottom} ${borderRight}">
-                        ${d.dia ? `<div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''} ${isSabado ? 'saturday' : ''}"
-                               style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (isSabado ? '#2563eb' : (d.mesAtual ? '#1a1a1a' : '#bbb'))};">
-                            ${d.dia}
-                          </div>` : ''}
-                      </div>`;
-                });
-
-                // HTML do Card Miniatura
-                htmlFull += `
-                <div class="card-miniatura ${isSelecionado ? 'selecionado' : ''}" onclick="selecionarMes(${m})">
-                    <div class="card-miniatura-content">
-                         <div class="hero-section">
-                          <div style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 40px; font-weight: 400;">Yama to Mizu</div>
-                          <div class="poesia-original">${poesiaDoMes.original}</div>
-                          <div class="poesia-traducao">${poesiaDoMes.translation}</div>
-                        </div>
-                        
-                        <div class="calendar-section">
-                          <div class="calendar-header">
-                            <div class="month-title">${mesesPt[m]}</div>
-                            <div class="moon-phases">
-                              <div class="moon-phases-row">
-                                <span class="moon-icon">◐</span>
-                                <span>${fasesLuaMes.crescente || '-'}</span>
-                                <span class="moon-icon" style="margin-left: 4px;">○</span>
-                                <span>${fasesLuaMes.cheia || '-'}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="calendar-grid">
-                            ${diasDaSemanaComKanji.map((dia, i) => `
-                              <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}; color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
-                                <span class="kanji-day">${dia.jp}</span>
-                                <span>${dia.pt}</span>
-                              </div>
-                            `).join('')}
-                            ${diasHTML}
-                          </div>
-                          <div class="year-footer">${state.ano}</div>
-                        </div>
-                    </div>
-                </div>`;
-            }
-
-            visaoAnoDiv.innerHTML = htmlFull;
-        }
-
-        // --- FIM LÓGICA VISÃO ANUAL ---
-
-        function imprimirMes() {
-            const tamanhoPapel = document.getElementById('tamanhoPapel').value;
-
-            // Adiciona classe ao body baseado no tamanho selecionado
-            document.body.classList.add(`print-${tamanhoPapel.toLowerCase()}`);
-
-            // Aguarda um pouco para aplicar o estilo
-            setTimeout(() => {
-                window.print();
-
-                // Remove a classe após imprimir
-                window.onafterprint = () => {
-                    document.body.classList.remove(`print-${tamanhoPapel.toLowerCase()}`);
-                };
-            }, 100);
-        }
+        // --- LÓGICA DA VISÃO ANUAL E IMPRESSÃO DE MES INTERATIVA REMOVIDAS ---
 
         function imprimirAnoCompleto() {
-            const tamanhoPapel = document.getElementById('tamanhoPapel').value;
+            const tamanhoPapel = 'A4'; // Padrão A4 vertical
             const janelaImpressao = window.open('', '', 'height=1200,width=1400');
 
             // Pegar TODOS os blocos de estilo
