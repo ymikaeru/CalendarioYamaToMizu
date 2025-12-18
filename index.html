@@ -7,6 +7,8 @@
     <title>Calendário de Poesias - Yama to Mizu</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+JP:wght@300;400&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -14,12 +16,12 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5f5f5;
-            /* Cinza nórdico suave */
-            min-height: 100vh;
-            padding: 60px 24px;
+            font-family: 'Inter', sans-serif;
+            background: #f8f8f8;
+            /* Branco gelo ainda mais limpo */
             color: #1a1a1a;
+            min-height: 100vh;
+            padding: 80px 24px;
         }
 
         .container {
@@ -27,463 +29,343 @@
             margin: 0 auto;
         }
 
-        /* CONTROLES NÓRDICOS */
+        /* CONTROLES */
         .controls-card {
             background: #fff;
-            border: 1px solid #eaeaea;
+            border: 1px solid #eee;
             padding: 40px;
-            margin-bottom: 40px;
-            border-radius: 4px;
-            /* Raio menor, mais minimalista */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            /* Sombra ultra suave */
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
         }
 
         .controls-title {
-            font-size: 18px;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 32px;
-            text-align: center;
-            letter-spacing: -0.01em;
+            font-size: 13px;
+            font-weight: 600;
+            color: #999;
             text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.1em;
-            color: #888;
+            letter-spacing: 0.15em;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .controls-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 24px;
             margin-bottom: 32px;
         }
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
         .control-group label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
-            color: #888;
+            color: #999;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .control-group select,
-        .control-group input {
-            padding: 12px 14px;
+        .control-group input,
+        .btn {
+            height: 48px;
+            width: 100%;
+            padding: 0 16px;
             border: 1px solid #e5e5e5;
             background: #fff;
-            font-size: 13px;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
             color: #1a1a1a;
-            transition: all 0.2s ease;
-            font-family: inherit;
             border-radius: 0;
-            -webkit-appearance: none;
-            height: 45px;
-            /* Altura fixa para inputs */
+            /* Quadrado nórdico */
+            transition: all 0.2s;
             appearance: none;
         }
 
-        .control-group .btn {
-            height: 45px;
-            /* Altura fixa para igualar com inputs e entre si */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            line-height: 1.2;
-            padding: 0 16px;
-        }
-
-        .control-group select:hover,
-        .control-group input:hover {
-            border-color: #ccc;
-        }
-
-        .control-group select:focus,
-        .control-group input:focus {
-            outline: none;
-            border-color: #1a1a1a;
-            background: #fafafa;
-        }
-
-        .button-row {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
         .btn {
-            padding: 14px 28px;
-            border: 1px solid transparent;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
-            letter-spacing: 0.05em;
-            font-family: inherit;
+            justify-content: center;
+            cursor: pointer;
             text-transform: uppercase;
-            border-radius: 2px;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            font-size: 12px;
+            gap: 8px;
         }
 
         .btn-primary {
-            background: #1a1a1a;
+            background: #111;
             color: #fff;
-            border-color: #1a1a1a;
+            border-color: #111;
         }
 
         .btn-primary:hover {
             background: #333;
-            border-color: #333;
-            transform: translateY(-1px);
         }
 
         .btn-secondary {
             background: #fff;
-            color: #1a1a1a;
+            color: #111;
             border: 1px solid #e5e5e5;
         }
 
         .btn-secondary:hover {
-            border-color: #1a1a1a;
-            background: #fff;
+            border-color: #111;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         /* CALENDÁRIO */
         #calendario {
             background: #fff;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+            /* Sombra suave de elevação */
         }
 
         .hero-section {
             background: #fff;
-            padding: 80px 60px;
+            padding: 100px 60px;
             text-align: center;
-            border-bottom: 1px solid #e5e5e5;
-            min-height: 450px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .poesia-original {
             font-family: 'Noto Serif JP', serif;
-            font-size: 38px;
+            font-size: 42px;
             font-weight: 300;
-            color: #1a1a1a;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            letter-spacing: 0.02em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #111;
         }
 
         .poesia-traducao {
-            font-size: 15px;
-            color: #525252;
+            font-size: 16px;
+            font-weight: 300;
+            color: #666;
             line-height: 1.8;
-            max-width: 650px;
+            max-width: 700px;
             margin: 0 auto;
-            font-weight: 400;
+            font-style: italic;
         }
 
         .calendar-section {
-            padding: 50px 60px;
-            background: #fafafa;
+            padding: 60px 80px;
+            background: #fff;
         }
 
         .calendar-header {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 32px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #e5e5e5;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #111;
+            /* Linha de impacto */
+            padding-bottom: 20px;
         }
 
         .month-title {
-            font-size: 28px;
-            font-weight: 500;
-            color: #1a1a1a;
-            letter-spacing: -0.02em;
+            font-size: 48px;
+            /* Título bem grande */
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #111;
+            line-height: 1;
         }
 
-        .year-display {
-            font-size: 20px;
-            font-weight: 300;
-            color: #737373;
+        .moon-phases {
+            text-align: right;
         }
 
-        .fases-container {
+        .moon-phases-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #999;
+            margin-bottom: 6px;
+        }
+
+        .moon-phases-row {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            font-size: 12px;
-            color: #737373;
-            margin-bottom: 24px;
-            font-weight: 400;
+            gap: 12px;
+            font-size: 13px;
+            color: #555;
+            font-family: 'Inter', sans-serif;
         }
 
-        .fase-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
+        /* GRID */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0;
-            border: 1px solid #e5e5e5;
-            width: 1050px;
-            margin: 0 auto;
-            background: #fff;
+            width: 100%;
         }
 
         .day-header {
-            background: #fafafa;
-            padding: 14px;
-            font-size: 11px;
-            font-weight: 500;
-            color: #737373;
-            text-align: center;
-            text-transform: uppercase;
+            padding: 16px 0;
+            text-align: left;
+            /* Alinhamento à esquerda moderno */
+            font-size: 12px;
+            font-weight: 700;
             letter-spacing: 0.1em;
+            text-transform: uppercase;
             border-bottom: 1px solid #e5e5e5;
+            color: #999;
         }
 
         .day-cell {
-            background: #fff;
-            padding: 16px;
-            min-height: 100px;
+            min-height: 140px;
+            /* Células bem altas */
+            padding: 16px 0;
+            /* Sem padding lateral */
+            border-bottom: 1px solid #f0f0f0;
             position: relative;
-            border-right: 1px solid #f5f5f5;
-            border-bottom: 1px solid #f5f5f5;
         }
 
-        .day-cell:nth-child(7n) {
-            border-right: none;
+        /* REMOVENDO BORDAS VERTICAIS PARA VISUAL CLEAN */
+        .day-cell {
+            border-right: none !important;
         }
 
-        .day-cell.outro-mes {
-            background: #fafafa;
-            opacity: 0.3;
+        .day-header {
+            border-right: none !important;
         }
 
         .day-number {
-            font-size: 16px;
-            font-weight: 400;
-            color: #1a1a1a;
-            margin-bottom: 4px;
+            font-size: 24px;
+            /* Números grandes */
+            font-weight: 300;
+            margin-bottom: 8px;
         }
 
-        .day-cell.feriado .day-number {
-            color: #dc2626;
+        .day-number.sunday {
+            color: #dc2626 !important;
+        }
+
+        .day-number.saturday {
+            color: #2563eb !important;
+        }
+
+        .day-number.holiday {
+            color: #dc2626 !important;
             font-weight: 500;
         }
 
-        .day-cell.domingo .day-number {
-            color: #dc2626;
-        }
-
-        .feriado-nome {
-            font-size: 9px;
-            color: #dc2626;
-            font-weight: 500;
-            margin-top: 6px;
+        .holiday-name {
+            font-size: 10px;
+            font-weight: 600;
             text-transform: uppercase;
+            color: #dc2626;
+            margin-top: 4px;
             letter-spacing: 0.05em;
         }
 
-        .fase-lua {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 14px;
-            opacity: 0.7;
+        .other-month .day-number {
+            color: #eee !important;
         }
 
-        /* FIM DO CSS DO CALENDÁRIO */
-
-        /* INÍCIO DAS MEDIA QUERIES */
-
-        @media print {
-            @page {
-                size: auto;
-                margin: 10mm;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                background: white;
-            }
-
-            body.print-a3 .hero-section {
-                padding: 60px 50px !important;
-                min-height: 350px !important;
-            }
-
-            body.print-a3 .calendar-section {
-                padding: 40px 50px !important;
-            }
-
-            body.print-a4 #calendario {
-                transform: scale(0.8);
-                transform-origin: top center;
-            }
-
-            body.print-a4 .hero-section {
-                padding: 40px 40px !important;
-                min-height: 280px !important;
-            }
-
-            body.print-a4 .calendar-section {
-                padding: 30px 40px !important;
-            }
-
-            body.print-a4 .poesia-original {
-                font-size: 32px !important;
-            }
-
-            body.print-a4 .poesia-traducao {
-                font-size: 13px !important;
-            }
-
-            .controls-card {
-                display: none;
-            }
-
-            .container {
-                max-width: 100%;
-                padding: 0;
-            }
-
-            #calendario {
-                box-shadow: none;
-                margin: 0 auto;
-                border: none;
-            }
-
-            .pagina {
-                page-break-after: always;
-            }
-
-            .pagina:last-child {
-                page-break-after: auto;
-            }
+        .year-footer {
+            margin-top: 40px;
+            text-align: right;
+            font-size: 80px;
+            font-weight: 800;
+            color: #f0f0f0;
+            /* Ano gigante e sutil no fundo */
+            line-height: 0.8;
+            letter-spacing: -0.05em;
         }
 
-        @media (max-width: 1100px) {
-            body {
-                padding: 32px 16px;
-            }
-
-            .calendar-grid {
-                width: 100%;
-            }
-
-            .hero-section {
-                padding: 60px 32px;
-            }
-
-            .calendar-section {
-                padding: 40px 32px;
-            }
-
-            .poesia-original {
-                font-size: 28px;
-            }
-
-            .controls-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .controls-card {
-                padding: 32px;
-            }
-        }
-
-        /* GRID ANUAL INTERATIVO */
-        .grid-ano {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
+        /* CARD */
         .card-miniatura {
             background: #fff;
-            border: 1px solid #e5e5e5;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-            /* Scale trick to fit large calendar content into small box */
-            height: 480px;
-            /* Altura fixa para o container */
-        }
-
-        .card-miniatura-content {
-            transform: scale(0.35);
-            /* Zoom out para caber */
-            transform-origin: top left;
-            width: 285%;
-            /* Compensar o scale (100 / 0.35) */
-            height: 285%;
-            pointer-events: none;
-            /* Evitar cliques internos interferindo */
-            background: #fff;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid #eee;
         }
 
         .card-miniatura:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            border-color: #ccc;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            border-color: #111;
         }
 
-        .card-miniatura.selecionado {
-            border: 2px solid #1a1a1a;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        .grid-ano {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
         }
 
-        .card-miniatura.selecionado::after {
-            content: '✓ SELECIONADO';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #1a1a1a;
-            color: #fff;
-            font-size: 10px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        @media (max-width: 1400px) {
-            .grid-ano {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 1000px) {
+        /* Media Queries */
+        @media (max-width: 1024px) {
             .grid-ano {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .calendar-section {
+                padding: 40px;
+            }
+
+            .day-number {
+                font-size: 20px;
+            }
+
+            .day-cell {
+                min-height: 100px;
             }
         }
 
         @media (max-width: 600px) {
             .grid-ano {
                 grid-template-columns: 1fr;
+            }
+
+            .month-title {
+                font-size: 32px;
+            }
+
+            .hero-section {
+                padding: 60px 24px;
+            }
+
+            .calendar-section {
+                padding: 30px 20px;
+            }
+
+            .day-header {
+                text-align: center;
+            }
+
+            /* Mobile centralizado */
+            .day-number {
+                text-align: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .controls-card,
+            .btn {
+                display: none;
+            }
+
+            #calendario {
+                box-shadow: none;
+            }
+
+            .month-title {
+                font-size: 60px;
+            }
+
+            /* Gigante na impressão */
+            .day-cell {
+                border-bottom: 1px solid #ccc;
             }
         }
     </style>
@@ -1135,7 +1017,7 @@
             // Nota: Não usa localStorage (compatibilidade com modo privado)
 
             const novasEscolhas = [];
-            let ultimaPoesiaEscolhida = null;
+            const indicesUsados = new Set(); // Para garantir unicidade no ano
 
             // Para cada mês (1-12)
             for (let mes = 1; mes <= 12; mes++) {
@@ -1146,22 +1028,24 @@
                     continue;
                 }
 
-                // Filtra poesias que NÃO são consecutivas
+                // Tenta filtrar poesias que ainda NÃO foram usadas neste ano
                 let pool = poesiasDoMes.filter((p) => {
                     const indiceReal = state.todasPoesias.indexOf(p);
-                    return indiceReal !== ultimaPoesiaEscolhida;
+                    return !indicesUsados.has(indiceReal);
                 });
 
-
-
-                // Se ainda assim não há opções, usa todas
-                if (pool.length === 0) pool = poesiasDoMes;
+                // Se não há opções únicas (esgotou o estoque para esta estação), 
+                // usa todas as disponíveis do mês (permite repetição como fallback)
+                if (pool.length === 0) {
+                    pool = poesiasDoMes;
+                }
 
                 // Escolhe aleatória
                 const indiceAleatorio = Math.floor(Math.random() * pool.length);
                 const poesiaEscolhida = pool[indiceAleatorio];
                 const indiceReal = state.todasPoesias.indexOf(poesiaEscolhida);
 
+                indicesUsados.add(indiceReal);
                 novasEscolhas.push(indiceReal);
             }
 
@@ -1175,7 +1059,12 @@
             const dias = gerarCalendario(state.mes, state.ano);
             renderizarCalendario(poesiaAtual, fasesLua, dias);
 
-            alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\n${novasEscolhas.filter(p => p !== null).length} poesias escolhidas.\n\nNão há repetições consecutivas!`);
+            // Se estiver na visão de grade, atualiza ela também
+            if (state.modoVisualizacao === 'grade') {
+                renderizarAnoView();
+            }
+
+            alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\n${novasEscolhas.filter(p => p !== null).length} poesias escolhidas.\n\nPoesias únicas garantidas para o ano!`);
         }
 
         function atualizarCalendario() {
@@ -1250,6 +1139,9 @@
         }
 
         function ehFeriado(dia, mes, ano) {
+            // Força bruta para garantir o Natal
+            if (mes === 11 && dia === 25) return 'Natal';
+
             const feriadoFixo = feriadosBrasileiros[mes]?.find(f => f.dia === dia);
             if (feriadoFixo) return feriadoFixo.nome;
 
@@ -1297,6 +1189,7 @@
             dias.forEach((d, i) => {
                 const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, state.mes, state.ano) : null;
                 const isDomingo = i % 7 === 0;
+                const isSabado = i % 7 === 6;
                 const rowIndex = Math.floor(i / 7);
                 const colIndex = i % 7;
 
@@ -1307,8 +1200,8 @@
           <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
                style="${borderBottom} ${borderRight}">
             ${d.dia ? `
-              <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''}"
-                   style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (d.mesAtual ? '#1a1a1a' : '#bbb')};">
+              <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''} ${isSabado ? 'saturday' : ''}"
+                   style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (isSabado ? '#2563eb' : (d.mesAtual ? '#1a1a1a' : '#bbb'))};">
                 ${d.dia}
               </div>
               ${nomeFeriado ? `<div class="holiday-name">${nomeFeriado}</div>` : ''}
@@ -1346,7 +1239,7 @@
           
           <div class="calendar-grid">
             ${diasSemana.map((dia, i) => `
-              <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}">
+              <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''} color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
                 ${dia}
               </div>
             `).join('')}
@@ -1418,6 +1311,7 @@
                 diasMes.forEach((d, i) => {
                     const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, m, state.ano) : null;
                     const isDomingo = i % 7 === 0;
+                    const isSabado = i % 7 === 6;
                     const rowIndex = Math.floor(i / 7);
                     const colIndex = i % 7;
                     const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
@@ -1426,8 +1320,8 @@
                     diasHTML += `
                       <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
                            style="${borderBottom} ${borderRight}">
-                        ${d.dia ? `<div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''}"
-                               style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (d.mesAtual ? '#1a1a1a' : '#bbb')};">
+                        ${d.dia ? `<div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''} ${isSabado ? 'saturday' : ''}"
+                               style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (isSabado ? '#2563eb' : (d.mesAtual ? '#1a1a1a' : '#bbb'))};">
                             ${d.dia}
                           </div>` : ''}
                       </div>`;
@@ -1456,7 +1350,11 @@
                             </div>
                           </div>
                           <div class="calendar-grid">
-                            ${diasSemana.map((dia, i) => `<div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}">${dia}</div>`).join('')}
+                            ${diasSemana.map((dia, i) => `
+                              <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}; color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
+                                ${dia}
+                              </div>
+                            `).join('')}
                             ${diasHTML}
                           </div>
                           <div class="year-footer">${state.ano}</div>
@@ -1524,6 +1422,7 @@
                 diasMes.forEach((d, i) => {
                     const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, m, state.ano) : null;
                     const isDomingo = i % 7 === 0;
+                    const isSabado = i % 7 === 6;
                     const rowIndex = Math.floor(i / 7);
                     const colIndex = i % 7;
 
@@ -1534,8 +1433,8 @@
             <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
                  style="${borderBottom} ${borderRight}">
               ${d.dia ? `
-                <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''}"
-                     style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (d.mesAtual ? '#1a1a1a' : '#bbb')};">
+                <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''} ${isSabado ? 'saturday' : ''}"
+                     style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (isSabado ? '#2563eb' : (d.mesAtual ? '#1a1a1a' : '#bbb'))};">
                   ${d.dia}
                 </div>
                 ${nomeFeriado ? `<div class="holiday-name">${nomeFeriado}</div>` : ''}
@@ -1574,7 +1473,7 @@
               
               <div class="calendar-grid">
                 ${diasSemana.map((dia, i) => `
-                  <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}">
+                  <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}; color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
                     ${dia}
                   </div>
                 `).join('')}
