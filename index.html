@@ -1471,97 +1471,98 @@
                 return;
             }
 
-            // Escolhe uma poesia aleatória
-            const indiceAleatorio = Math.floor(Math.random() * poesiasDoMes.length);
-            const poesiaEscolhida = poesiasDoMes[indiceAleatorio];
+            // Identifica índices usados em OUTROS meses para evitar colisão
+            const indicesUsadosOutrosMeses = new Set();
+            state.poesiasEscolhidas.forEach((idx, m) => {
+                if (m !== state.mes && idx !== null) {
+                    indicesUsadosOutrosMeses.add(idx);
+                }
+            });
 
-            // Encontra o índice real no array completo
-            const indiceReal = state.todasPoesias.indexOf(poesiaEscolhida);
+            // Cria pool de candidatos excluindo os já usados
+            let candidatos = poesiasDoMes.filter(p => {
+                const realIndex = state.todasPoesias.indexOf(p);
+                return !indicesUsadosOutrosMeses.has(realIndex);
+            });
 
-            // Salva na memória
-            state.poesiasEscolhidas[state.mes] = indiceReal;
-            state.poesiaSelecionada = indiceReal;
+            // Se não sobrar opções únicas (muito raro), libera todas do mês
+            if (candidatos.length === 0) {
+                candidatos = poesiasDoMes;
+            }
 
-            // Atualiza dependendo da visão
+            // Escolhe uma nova aleatória
+            const escolhida = candidatos[Math.floor(Math.random() * candidatos.length)];
+            const indexReal = state.todasPoesias.indexOf(escolhida);
+
+            // Salva na memória persistente
+            state.poesiasEscolhidas[state.mes] = indexReal;
+
+            // Atualiza visualização
             atualizarCalendario();
         }
 
-        function randomizarAnoCompleto() {
-            // Nota: Não usa localStorage (compatibilidade com modo privado)
+        // Função para garantir que cada mês tenha uma poesia única ao iniciar
+        function inicializarPoesiasUnicas() {
+            const novasEscolhas = Array(12).fill(null);
+            const indicesUsados = new Set();
 
-            const novasEscolhas = [];
-            const indicesUsados = new Set(); // Para garantir unicidade no ano
+            for (let m = 0; m < 12; m++) {
+                // Filtra poesias válidas para o mês (estação correta)
+                // Nota: nossos dados usam 1-12 para meses
+                const mesesValidos = state.todasPoesias.filter(p => p.meses && p.meses.includes(m + 1));
 
-            // Para cada mês (1-12)
-            for (let mes = 1; mes <= 12; mes++) {
-                const poesiasDoMes = state.todasPoesias.filter(p => p.meses && p.meses.includes(mes));
+                // Remove as que já foram escolhidas para meses anteriores
+                let candidatos = mesesValidos.filter(p => !indicesUsados.has(state.todasPoesias.indexOf(p)));
 
-                if (poesiasDoMes.length === 0) {
-                    novasEscolhas.push(null);
-                    continue;
+                // Se não sobrar nenhuma (caso raro), recicla as do mês mesmo que repetidas
+                if (candidatos.length === 0) {
+                    candidatos = mesesValidos;
                 }
 
-                // Tenta filtrar poesias que ainda NÃO foram usadas neste ano
-                let pool = poesiasDoMes.filter((p) => {
-                    const indiceReal = state.todasPoesias.indexOf(p);
-                    return !indicesUsados.has(indiceReal);
-                });
+                if (candidatos.length > 0) {
+                    // Escolhe aleatoriamente
+                    const escolhida = candidatos[Math.floor(Math.random() * candidatos.length)];
+                    const indexReal = state.todasPoesias.indexOf(escolhida);
 
-                // Se não há opções únicas (esgotou o estoque para esta estação), 
-                // usa todas as disponíveis do mês (permite repetição como fallback)
-                if (pool.length === 0) {
-                    pool = poesiasDoMes;
+                    novasEscolhas[m] = indexReal;
+                    indicesUsados.add(indexReal);
                 }
-
-                // Escolhe aleatória
-                const indiceAleatorio = Math.floor(Math.random() * pool.length);
-                const poesiaEscolhida = pool[indiceAleatorio];
-                const indiceReal = state.todasPoesias.indexOf(poesiaEscolhida);
-
-                indicesUsados.add(indiceReal);
-                novasEscolhas.push(indiceReal);
             }
 
-            // Salva as escolhas deste ano (apenas em memória)
             state.poesiasEscolhidas = novasEscolhas;
+            console.log("Poesias inicializadas:", state.poesiasEscolhidas);
+        }
 
-            // Atualiza o calendário para o mês atual
-            state.poesiaSelecionada = novasEscolhas[state.mes];
-            const poesiaAtual = state.todasPoesias[novasEscolhas[state.mes]];
-            const fasesLua = obterDiasFasesLua(state.mes, state.ano);
-            const dias = gerarCalendario(state.mes, state.ano);
-            renderizarCalendario(poesiaAtual, fasesLua, dias);
+        function randomizarAnoCompleto() {
+            // Reutiliza a lógica de inicialização qu é robusta
+            inicializarPoesiasUnicas();
 
-            // Se estiver na visão de grade, atualiza ela também
+            // Atualiza a visualização
+            atualizarCalendario();
 
-
-            alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\n${novasEscolhas.filter(p => p !== null).length} poesias escolhidas.\n\nPoesias únicas garantidas para o ano!`);
+            alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\nCada mês recebeu uma poesia única (sem repetições).`);
         }
 
         function atualizarCalendario() {
             state.mes = parseInt(document.getElementById('mesSelect').value);
             state.ano = parseInt(document.getElementById('anoInput').value);
 
-            const poesiasFiltradas = state.temaFiltro === 'Todos'
-                ? state.todasPoesias
-                : state.todasPoesias.filter(p => p.kigo && p.kigo.includes(state.temaFiltro));
+            // PRIORIDADE: Usar a poesia já escolhida para este mês (persistencia)
+            let indexPoesia = state.poesiasEscolhidas[state.mes];
 
-            // Busca a poesia específica para o mês atual (mes + 1 porque é 0-indexed)
-            const mesAtual = state.mes + 1;
-            let poesiaDoMesIndex = poesiasFiltradas.findIndex(p => p.meses && p.meses.includes(mesAtual));
+            // Fallback de segurança: se por algum motivo for null, escolhe uma agora
+            if (indexPoesia === null || indexPoesia === undefined || !state.todasPoesias[indexPoesia]) {
+                const mesAtual = state.mes + 1;
+                const possiveis = state.todasPoesias.findIndex(p => p.meses && p.meses.includes(mesAtual));
+                indexPoesia = possiveis !== -1 ? possiveis : 0;
 
-            // Se não houver poesia específica selecionada, escolhe a primeira do mês 
-            if (poesiaDoMesIndex === -1) {
-                // Tenta encontrar qualquer poesia do mês na lista completa
-                poesiaDoMesIndex = state.todasPoesias.findIndex(p => p.meses && p.meses.includes(mesAtual));
-                if (poesiaDoMesIndex !== -1) {
-                    state.poesiaSelecionada = poesiaDoMesIndex;
-                }
-            } else {
-                state.poesiaSelecionada = poesiaDoMesIndex;
+                // Salva para não perder
+                state.poesiasEscolhidas[state.mes] = indexPoesia;
             }
 
-            const poesiaAtual = state.todasPoesias[state.poesiaSelecionada] || poesiasFiltradas[0];
+            state.poesiaSelecionada = indexPoesia;
+            const poesiaAtual = state.todasPoesias[state.poesiaSelecionada];
+
             const fasesLua = obterDiasFasesLua(state.mes, state.ano);
             const dias = gerarCalendario(state.mes, state.ano);
 
