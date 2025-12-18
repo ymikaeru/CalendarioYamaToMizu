@@ -141,12 +141,17 @@
             background: #fff;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
             display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            /* Permite rodapé em nova linha */
-            /* Calendário ESQUERDA, Poesia DIREITA */
+            flex-direction: column;
             overflow: hidden;
             min-height: 600px;
+        }
+
+        /* Wrapper para calendário + poema */
+        .calendar-main-content {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            min-height: 0;
         }
 
         /* ÁREA DA POESIA - DIREITA (VERTICAL) */
@@ -154,18 +159,14 @@
             background: #fff;
             padding: 80px 40px;
             width: 55%;
-            /* POEMA COM MAIS DESTAQUE */
-            /* Coluna da direita (visualmente) */
             border-bottom: none;
             border-left: 1px solid #f0f0f0;
-            /* Borda na esquerda agora */
             border-right: none;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             writing-mode: vertical-rl;
-            /* Escrita Vertical Japonesa */
             text-orientation: upright;
         }
 
@@ -355,7 +356,6 @@
         .poesia-columns {
             display: flex;
             flex-direction: row-reverse;
-            /* Leitura da DIREITA para ESQUERDA */
             justify-content: flex-start;
             align-items: flex-start;
             gap: 30px;
@@ -377,17 +377,17 @@
             white-space: nowrap;
         }
 
-        /* Escalonamento diagonal: 1ª coluna (direita) no topo, 3ª coluna (esquerda) mais abaixo */
+        /* Escalonamento diagonal */
         .poem-line:nth-child(1) {
             transform: translate(130px, -860px);
         }
 
         .poem-line:nth-child(2) {
-            transform: translate(30px, -340px);
+            transform: translate(30px, -380px);
         }
 
         .poem-line:nth-child(3) {
-            transform: translate(-70px, 490px);
+            transform: translate(-70px, 360px);
         }
 
         /* RODAPÉ: Mini Calendários + Tradução + Romaji */
@@ -719,107 +719,155 @@
                 }
 
                 #calendario {
-                    box-shadow: none;
-                    min-height: 100vh;
-                    /* Ocupa folha toda */
+                    height: 100vh;
                     width: 100%;
-                    border: none;
-                    flex-direction: row;
+                    position: relative;
+                    overflow: hidden;
+                    display: block !important;
                 }
 
-                .hero-section {
-                    width: 55% !important;
-                    border-left: 1px solid #ccc;
-                    border-right: none;
-                    padding: 60px;
-                    -webkit-print-color-adjust: exact;
-                    print-color-adjust: exact;
-                }
-
-                .poem-line {
-                    font-size: 42px;
+                .calendar-main-content {
+                    display: block !important;
+                    height: 100%;
                 }
 
                 .calendar-section {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                     width: 45% !important;
+                    height: 85%;
                     padding: 30px 40px;
                 }
 
-                .month-title {
-                    font-size: 42px;
+                .hero-section {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 55% !important;
+                    height: 85%;
+                    padding: 40px;
+                    border-left: 1px solid #ccc;
+                    border-right: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
 
-                .day-row {
-                    border-bottom: 1px solid #eee;
-                    padding: 2px 0;
+                /* POESIA NA IMPRESSÃO */
+                .poesia-columns {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%;
+                    padding: 0;
                 }
 
-                .day-num {
-                    font-size: 14px;
+                .poem-line {
+                    font-size: 38px;
+                    writing-mode: vertical-rl;
+                    text-orientation: mixed;
+                    white-space: nowrap;
+                    transform: none !important;
+                    margin: 0 15px;
+                    line-height: 1.2;
                 }
 
-                .calendar-footer {
-                    display: flex !important;
-                    padding: 20px 30px;
-                    -webkit-print-color-adjust: exact;
-                    print-color-adjust: exact;
+                .poem-line:nth-child(1) {
+                    margin-top: -120px;
                 }
 
-                .footer-traducao {
-                    max-width: 60%;
+                .poem-line:nth-child(2) {
+                    margin-top: 0px;
                 }
 
-                .traducao-texto {
-                    font-size: 14px;
+                .poem-line:nth-child(3) {
+                    margin-top: 120px;
                 }
 
-                .romaji-texto {
-                    font-size: 11px;
-                }
             }
 
-            /* Estilos específicos para A4 */
-            @media print {
-                body.print-a4 #calendario {
-                    min-height: auto;
-                }
-
-                body.print-a4 .calendar-section {
-                    padding: 20px 30px;
-                }
-
-                body.print-a4 .hero-section {
-                    padding: 30px;
-                }
-
-                body.print-a4 .poem-line {
-                    font-size: 32px;
-                }
-
-                body.print-a4 .month-title {
-                    font-size: 36px;
-                }
-
-                body.print-a4 .day-row {
-                    padding: 1px 0;
-                }
-
-                body.print-a4 .day-num {
-                    font-size: 12px;
-                }
-
-                body.print-a4 .calendar-footer {
-                    padding: 15px 20px;
-                }
-
-                body.print-a4 .mini-cal {
-                    font-size: 8px;
-                }
-
-                body.print-a4 .traducao-texto {
-                    font-size: 12px;
-                }
+            .calendar-footer {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 15%;
+                padding: 20px 40px;
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
+
+            .footer-traducao {
+                max-width: 60%;
+            }
+
+            .traducao-texto {
+                font-size: 14px;
+            }
+
+            .romaji-texto {
+                font-size: 11px;
+            }
+        }
+
+        /* Estilos específicos para A4 */
+        @media print {
+            body.print-a4 .calendar-section {
+                padding: 20px 30px;
+            }
+
+            body.print-a4 .hero-section {
+                padding: 30px;
+            }
+
+            body.print-a4 .poem-line {
+                font-size: 32px;
+            }
+
+            body.print-a4 .poem-line:nth-child(1) {
+                margin-top: -80px;
+                transform: none !important;
+            }
+
+            body.print-a4 .poem-line:nth-child(2) {
+                margin-top: 0px;
+                transform: none !important;
+            }
+
+            body.print-a4 .poem-line:nth-child(3) {
+                margin-top: 80px;
+                transform: none !important;
+            }
+
+            body.print-a4 .month-title {
+                font-size: 36px;
+            }
+
+            body.print-a4 .day-row {
+                padding: 1px 0;
+            }
+
+            body.print-a4 .day-num {
+                font-size: 12px;
+            }
+
+            body.print-a4 .calendar-footer {
+                padding: 15px 20px;
+            }
+
+            body.print-a4 .mini-cal {
+                font-size: 8px;
+            }
+
+            body.print-a4 .traducao-texto {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -884,9 +932,6 @@
             <div class="button-row">
                 <button class="btn btn-secondary" onclick="alternarVisao()">
                     👁️ Ver Grade Anual
-                </button>
-                <button class="btn btn-dark" onclick="imprimirMes()">
-                    🖨️ Imprimir Mês
                 </button>
                 <button class="btn btn-primary" onclick="imprimirAnoCompleto()">
                     📅 Imprimir Ano Completo (12 meses)
@@ -1818,35 +1863,37 @@
 
             // HTML Completo - Layout Lista
             calendario.innerHTML = `
-                <!-- Seção Calendário (ESQUERDA) - LISTA VERTICAL -->
-                <div class="calendar-section">
-                    <div class="calendar-header">
-                        <div class="month-title">
-                            ${state.ano}
-                            <span class="month-label">${mesesPt[state.mes].toUpperCase()}</span>
+                <!-- Área principal: Calendário + Poesia -->
+                <div class="calendar-main-content">
+                    <!-- Seção Calendário (ESQUERDA) - LISTA VERTICAL -->
+                    <div class="calendar-section">
+                        <div class="calendar-header">
+                            <div class="month-title">
+                                ${state.ano}
+                                <span class="month-label">${mesesPt[state.mes].toUpperCase()}</span>
+                            </div>
+                            <div class="moon-phases">
+                                <div class="moon-phases-row">${luasHTML}</div>
+                            </div>
                         </div>
-                        <div class="moon-phases">
-                            <div class="moon-phases-row">${luasHTML}</div>
+                        
+                        <div class="list-header">
+                            <span>Dia</span>
+                            <span>曜日</span>
+                            <span></span>
                         </div>
-                    </div>
-                    
-                    <div class="list-header">
-                        <span>Dia</span>
-                        <span>曜日</span>
-                        <span></span>
+
+                        <div class="calendar-list">
+                            ${listaDiasHTML}
+                        </div>
                     </div>
 
-                    <div class="calendar-list">
-                        ${listaDiasHTML}
+                    <!-- Seção Poesia (DIREITA) - 3 COLUNAS VERTICAIS -->
+                    <div class="hero-section">
+                        <div class="poesia-columns">
+                            ${poemHTML}
+                        </div>
                     </div>
-                </div>
-
-                <!-- Seção Poesia (DIREITA) - 3 COLUNAS VERTICAIS -->
-                <div class="hero-section">
-                    <div class="poesia-columns">
-                        ${poemHTML}
-                    </div>
-                    
                 </div>
 
                 <!-- RODAPÉ: Mini Calendários + Tradução + Romaji -->
