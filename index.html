@@ -7,7 +7,7 @@
     <title>Calendário de Poesias - Yama to Mizu</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+JP:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+JP:wght@300;400&family=Zen+Antique+Soft&display=swap');
 
         * {
             margin: 0;
@@ -18,7 +18,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background: #f8f8f8;
-            /* Branco gelo ainda mais limpo */
             color: #1a1a1a;
             min-height: 100vh;
             padding: 80px 24px;
@@ -28,8 +27,24 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+    </style>
+    <script>
+        // Definir diasDaSemanaComKanji globalmente
+        const diasDaSemanaComKanji = [
+            { pt: 'Dom', jp: '日' },
+            { pt: 'Seg', jp: '月' },
+            { pt: 'Ter', jp: '火' },
+            { pt: 'Qua', jp: '水' },
+            { pt: 'Qui', jp: '木' },
+            { pt: 'Sex', jp: '金' },
+            { pt: 'Sáb', jp: '土' }
+        ];
 
-        /* CONTROLES */
+        /* --- END GLOBAL STATE --- */
+
+        /* --- FUNÇÕES --- */
+    </script>
+    <style>
         .controls-card {
             background: #fff;
             border: 1px solid #eee;
@@ -77,7 +92,6 @@
             font-size: 14px;
             color: #1a1a1a;
             border-radius: 0;
-            /* Quadrado nórdico */
             transition: all 0.2s;
             appearance: none;
         }
@@ -121,42 +135,82 @@
             flex-wrap: wrap;
         }
 
-        /* CALENDÁRIO */
+        /* CALENDÁRIO - LAYOUT HORIZONTAL (LANDSCAPE) */
+        /* CALENDÁRIO - LAYOUT HORIZONTAL (LANDSCAPE) */
         #calendario {
             background: #fff;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
-            /* Sombra suave de elevação */
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            /* Permite rodapé em nova linha */
+            /* Calendário ESQUERDA, Poesia DIREITA */
+            overflow: hidden;
+            min-height: 600px;
         }
 
+        /* ÁREA DA POESIA - DIREITA (VERTICAL) */
         .hero-section {
             background: #fff;
-            padding: 100px 60px;
-            text-align: center;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 80px 40px;
+            width: 55%;
+            /* POEMA COM MAIS DESTAQUE */
+            /* Coluna da direita (visualmente) */
+            border-bottom: none;
+            border-left: 1px solid #f0f0f0;
+            /* Borda na esquerda agora */
+            border-right: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            writing-mode: vertical-rl;
+            /* Escrita Vertical Japonesa */
+            text-orientation: upright;
         }
 
         .poesia-original {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 42px;
-            font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            font-family: 'Zen Antique Soft', serif;
+            font-size: 72px;
+            /* MUITO MAIOR */
+            /* Ajuste para vertical */
+            font-weight: 400;
+            line-height: 1.8;
+            margin-bottom: 0;
+            margin-left: 40px;
+            /* Margem maior */
+            /* Margem lateral no modo vertical */
             color: #111;
+            letter-spacing: 0.15em;
         }
 
         .poesia-traducao {
-            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
             font-weight: 300;
             color: #666;
             line-height: 1.8;
-            max-width: 700px;
-            margin: 0 auto;
+            max-width: none;
+            margin: 0;
             font-style: italic;
+            writing-mode: horizontal-tb;
+            /* Tradução continua horizontal */
+            width: 100%;
+            text-align: center;
+            margin-top: 30px;
+            display: block;
+            /* Garante visibilidade */
         }
 
+        /* ÁREA DO CALENDÁRIO - ESQUERDA (SECUNDÁRIO) */
         .calendar-section {
-            padding: 60px 80px;
+            padding: 50px 60px;
             background: #fff;
+            width: 45%;
+            /* Coluna da direita (agora na esquerda por causa do reverse) */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .calendar-header {
@@ -165,13 +219,11 @@
             align-items: flex-end;
             margin-bottom: 40px;
             border-bottom: 2px solid #111;
-            /* Linha de impacto */
             padding-bottom: 20px;
         }
 
         .month-title {
             font-size: 48px;
-            /* Título bem grande */
             font-weight: 700;
             letter-spacing: -0.03em;
             color: #111;
@@ -192,10 +244,272 @@
 
         .moon-phases-row {
             display: flex;
-            gap: 12px;
-            font-size: 13px;
+            gap: 8px;
+            font-size: 12px;
             color: #555;
             font-family: 'Inter', sans-serif;
+        }
+
+        .moon-phase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 28px;
+            gap: 4px;
+        }
+
+        .moon-phase span:first-child {
+            font-size: 18px;
+            line-height: 1;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+        }
+
+        .moon-phase span:last-child {
+            font-size: 10px;
+            color: #999;
+        }
+
+        /* LISTA VERTICAL DE DIAS */
+        .calendar-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            justify-content: space-between;
+            /* Espalha verticalmente se sobrar espaço */
+        }
+
+        .list-header {
+            display: grid;
+            grid-template-columns: 40px 60px 1fr;
+            padding: 10px 0;
+            border-bottom: 2px solid #111;
+            margin-bottom: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #999;
+            font-weight: 700;
+        }
+
+        .day-row {
+            display: grid;
+            grid-template-columns: 40px 60px 1fr;
+            align-items: center;
+            padding: 4px 0;
+            /* Compacto para caber 31 dias */
+            border-bottom: 1px dotted #eee;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .day-row:last-child {
+            border-bottom: none;
+        }
+
+        .day-num {
+            font-family: 'Zen Antique Soft', serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: #111;
+        }
+
+        .day-weekday-jp {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 14px;
+            color: #555;
+            padding-left: 8px;
+        }
+
+        .day-info-container {
+            text-align: right;
+            font-size: 11px;
+        }
+
+        .day-feriado {
+            color: #dc2626;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Cores da Linha */
+        .sunday-row .day-num,
+        .sunday-row .day-weekday-jp {
+            color: #dc2626;
+        }
+
+        .saturday-row .day-num,
+        .saturday-row .day-weekday-jp {
+            color: #2563eb;
+        }
+
+        .holiday-row .day-num,
+        .holiday-row .day-weekday-jp {
+            color: #dc2626;
+        }
+
+        /* POESIA EM 3 COLUNAS VERTICAIS (Direita para Esquerda) */
+        .poesia-columns {
+            display: flex;
+            flex-direction: row-reverse;
+            /* Leitura da DIREITA para ESQUERDA */
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 40px 60px;
+            height: 100%;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .poem-line {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Zen Antique Soft', serif;
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: #111;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        /* Escalonamento diagonal: 1ª coluna (direita) no topo, 3ª coluna (esquerda) mais abaixo */
+        .poem-line:nth-child(1) {
+            transform: translate(130px, -860px);
+        }
+
+        .poem-line:nth-child(2) {
+            transform: translate(30px, -380px);
+        }
+
+        .poem-line:nth-child(3) {
+            transform: translate(-70px, 360px);
+        }
+
+        /* RODAPÉ: Mini Calendários + Tradução + Romaji */
+        .calendar-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 40px 40px;
+            background: #fafafa;
+            border-top: 2px solid #ddd;
+            width: 100%;
+            flex-shrink: 0;
+            min-height: 140px;
+        }
+
+        .footer-mini-cal {
+            flex: 0 0 150px;
+        }
+
+        .mini-cal {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+        }
+
+        .mini-cal-header {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            color: #111;
+        }
+
+        .mini-cal-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+        }
+
+        .mini-cal-days span {
+            padding: 2px;
+        }
+
+        .mini-cal-days .sun {
+            color: #dc2626;
+        }
+
+        .mini-cal-days .sat {
+            color: #2563eb;
+        }
+
+        .footer-traducao {
+            flex: 1;
+            text-align: center;
+            padding: 0 40px;
+            max-width: 640px;
+        }
+
+        .traducao-texto {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+            font-style: italic;
+        }
+
+        .traducao-autor {
+            font-size: 11px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .romaji-texto {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 25px;
+            letter-spacing: 0.03em;
+            font-weight: 500;
+        }
+
+        .footer-obra-titulo {
+            font-family: 'Inter', sans-serif;
+            font-size: 19px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        /* Assinaturas */
+        .signature-jp {
+            font-family: 'Zen Antique Soft', serif;
+            font-size: 28px;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            position: absolute;
+            bottom: 80px;
+            left: 120px;
+            /* Ajuste fino */
+            color: #111;
+        }
+
+        .poesia-traducao-wrapper {
+            position: absolute;
+            bottom: 40px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .signature-pt {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hanko-seal {
+            bottom: 90px;
+            left: 60px;
         }
 
         /* GRID */
@@ -207,26 +521,36 @@
 
         .day-header {
             padding: 16px 0;
-            text-align: left;
-            /* Alinhamento à esquerda moderno */
-            font-size: 12px;
+            text-align: center;
+            /* Centralizado para acomodar Kanji */
+            font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            border-bottom: 1px solid #e5e5e5;
-            color: #999;
+            border-bottom: 2px solid #111;
+            /* Linha mais forte */
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kanji-day {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #555;
         }
 
         .day-cell {
             min-height: 140px;
-            /* Células bem altas */
-            padding: 16px 0;
-            /* Sem padding lateral */
-            border-bottom: 1px solid #f0f0f0;
+            padding: 10px;
+            /* Padding interno */
+            border-bottom: 1px solid #eee;
             position: relative;
         }
 
-        /* REMOVENDO BORDAS VERTICAIS PARA VISUAL CLEAN */
+        /* REMOVENDO BORDAS VERTICAIS */
         .day-cell {
             border-right: none !important;
         }
@@ -236,10 +560,38 @@
         }
 
         .day-number {
-            font-size: 24px;
-            /* Números grandes */
-            font-weight: 300;
+            font-size: 28px;
+            /* Números ainda maiores */
+            font-weight: 400;
+            font-family: 'Zen Antique Soft', serif;
+            /* Usando a fonte japonesa nos números */
             margin-bottom: 8px;
+        }
+
+        /* CARIMBO (HANKO) */
+        .hanko-seal {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #d93d3d;
+            /* Vermelho carimbo */
+            border-radius: 8px;
+            /* Canto levemente arredondado */
+            color: #d93d3d;
+            font-family: 'Yuji Syuku', serif;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            /* Canto inferior esquerdo da área do poema */
+            opacity: 0.8;
+            transform: rotate(-5deg);
+            /* Leve inclinação natural */
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .day-number.sunday {
@@ -274,7 +626,6 @@
             font-size: 80px;
             font-weight: 800;
             color: #f0f0f0;
-            /* Ano gigante e sutil no fundo */
             line-height: 0.8;
             letter-spacing: -0.05em;
         }
@@ -338,36 +689,63 @@
                 text-align: center;
             }
 
-            /* Mobile centralizado */
-            .day-number {
-                text-align: center;
-            }
-        }
+            @media print {
+                @page {
+                    size: A3 landscape;
+                    /* Força folha A3 horizontal */
+                    margin: 0;
+                }
 
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
+                body {
+                    background: white;
+                    padding: 0;
+                }
 
-            .controls-card,
-            .btn {
-                display: none;
-            }
+                .controls-card,
+                .btn {
+                    display: none;
+                }
 
-            #calendario {
-                box-shadow: none;
-            }
+                #calendario {
+                    box-shadow: none;
+                    min-height: 100vh;
+                    /* Ocupa folha toda */
+                    width: 100%;
+                    border: none;
+                    flex-direction: row-reverse;
+                    /* Garante texto na direita */
+                }
 
-            .month-title {
-                font-size: 60px;
-            }
+                .hero-section {
+                    width: 55% !important;
+                    border-left: 1px solid #ccc;
+                    /* Borda agora na esquerda */
+                    border-right: none;
+                    padding: 60px;
+                    writing-mode: vertical-rl;
+                    /* Vertical garantido */
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
 
-            /* Gigante na impressão */
-            .day-cell {
-                border-bottom: 1px solid #ccc;
+                .poesia-original {
+                    font-size: 84px;
+                    /* GIGANTE NA IMPRESSÃO */
+                }
+
+                .calendar-section {
+                    width: 45% !important;
+                    padding: 40px;
+                }
+
+                .month-title {
+                    font-size: 48px;
+                }
+
+                .day-cell {
+                    border-bottom: 1px solid #ccc;
+                }
             }
-        }
     </style>
 </head>
 
@@ -460,12 +838,13 @@
             ano: new Date().getFullYear(),
             poesiaSelecionada: 0,
             temaFiltro: 'Todos',
-            poesiasEscolhidas: Array(12).fill(null), // Array para guardar índice da poesia de cada mês (0-11)
+            poesiasEscolhidas: Array(12).fill(null),
             todasPoesias: [
                 // JANEIRO - Verão
                 {
                     title: "Pirilampos",
                     original: "夕さりて　青田を渡る風涼し　行手の闇を蛍かすめぬ",
+                    romaji: "Yūsarite / Aota wo wataru kaze suzushi / Yukute no yami wo hotaru kasumenu",
                     translation: "Ao cair da tarde, O vento que cruza os arrozais verdes traz frescor; Pirilampos riscam a escuridão do meu caminho.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -473,6 +852,7 @@
                 {
                     title: "Verde Vibrante",
                     original: "青青と　茂り合う木の葉影に　涼しき風の時々吹ける",
+                    romaji: "Aoao to / Shigerian ko no hakage ni / Suzushiki kaze no tokidoki fukeru",
                     translation: "Azul-verde vibrante! À sombra das folhas que se entrelaçam densamente, Uma brisa fresca sopra de tempos em tempos.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -480,6 +860,7 @@
                 {
                     title: "Arrozais Verdes",
                     original: "青青田原　渡る風こそ心地よけれ　頬に当たりて汗の乾くを",
+                    romaji: "Aoao tahara / Wataru kaze koso kokochiyokere / Hō ni atarite ase no kawaku wo",
                     translation: "O vento que cruza os arrozais verdejantes É tão agradável! Toca meu rosto E seca o suor que escorre.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -487,6 +868,7 @@
                 {
                     title: "Vento Perfumado",
                     original: "風薫る　朝のすずろに心地よき　鈴虫の音を聞きつつ歩む",
+                    romaji: "Kaze kaoru / Asa no suzuro ni kokochiyoki / Suzumushi no ne wo kikitsutsu ayumu",
                     translation: "O vento perfumado da manhã traz uma sensação deliciosa! Caminho ouvindo O som dos grilos cantando.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -494,6 +876,7 @@
                 {
                     title: "Sombra do Bambu",
                     original: "竹林の　下陰涼し夏の日の　暑さを忘れしばしたたずむ",
+                    romaji: "Chikurin no / Shitakage suzushi natsu no hi no / Atsusa wo wasure shibashi tatazumu",
                     translation: "Fresca é a sombra sob os bambus! Em um dia de verão, Esqueço o calor E fico parado por um momento.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -503,6 +886,7 @@
                 {
                     title: "Expansão da Alma",
                     original: "風薫り　青葉光れる初夏の　庭に下りたてば胸のひろぎぬ",
+                    romaji: "Kaze kaori / Aoba hikareru shoka no / Niwa ni oritareba mune no hiroginu",
                     translation: "O vento perfumado e as folhas verdes resplandecem; Ao descer ao jardim no início do verão, Meu peito se dilata infinitamente.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -510,6 +894,7 @@
                 {
                     title: "Luz nas Folhas",
                     original: "木の葉影　はだらに光る夏の日の　暑さも忘れしばしたたずむ",
+                    romaji: "Ko no hakage / Hadara ni hikaru natsu no hi no / Atsusa mo wasure shibashi tatazumu",
                     translation: "Através da sombra das folhas, A luz do sol cintila salpicada... Esqueço até o calor do verão E fico parado, contemplando.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -517,6 +902,7 @@
                 {
                     title: "Juncos Crescendo",
                     original: "若葦の　すくすく伸びる夏の野の　力強さを見るこそ嬉し",
+                    romaji: "Wakaashi no / Sukusuku nobiru natsu no no no / Chikarazuyosa wo miru koso ureshii",
                     translation: "Os juncos jovens crescem vigorosos nos campos de verão... Que alegria ver Essa força poderosa!",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -524,6 +910,7 @@
                 {
                     title: "Verde Intenso",
                     original: "青葉若葉　光り輝く夏の朝　心も晴れて気分爽やか",
+                    romaji: "Aoba wakaba / Hikari kagayaku natsu no asa / Kokoro mo harete kibun sawayaka",
                     translation: "Folhas verdes, folhas novas Brilham radiantes na manhã de verão... Meu coração se abre E meu espírito se torna fresco.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -531,6 +918,7 @@
                 {
                     title: "Rio Azul",
                     original: "青青と　澄める川面に鮎跳ねて　夏のいのちの輝き見せぬ",
+                    romaji: "Aoao to / Sumeru kawamo ni ayu hanete / Natsu no inochi no kagayaki misenu",
                     translation: "Azul profundo e límpido é o rio... Os peixes saltam na superfície, Mostrando o brilho Da vida no verão.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -540,6 +928,7 @@
                 {
                     title: "O Arco-Íris de Maio",
                     original: "五月雨の　霽るると見れば遠方に　雲の峯並みうすら虹見ゆ",
+                    romaji: "Samidare no / Haruru to mireba enpō ni / Kumo no mine nami usura niji miyu",
                     translation: "Ao dissipar-se a longa chuva de maio, Vislumbro ao longe picos de nuvens E um tênue arco-íris a surgir.",
                     kigo: "Outono",
                     meses: [5]
@@ -547,6 +936,7 @@
                 {
                     title: "Céu Transparente",
                     original: "秋晴れの　空の清けさ言葉なし　ただ見上げつつ心洗わる",
+                    romaji: "Akibare no / Sora no kiyokesa kotoba nashi / Tada miagetsutsu kokoro arawareru",
                     translation: "Não há palavras para descrever A pureza do céu claro de outono... Apenas olho para cima E meu coração é lavado.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -554,6 +944,7 @@
                 {
                     title: "Ar Cristalino",
                     original: "秋の空　澄めるが如く心まで　清められゆく思いするかな",
+                    romaji: "Aki no sora / Sumeru ga gotoku kokoro made / Kiyomerare yuku omoi suru kana",
                     translation: "Como o céu límpido do outono, Sinto que até meu coração Está sendo purificado.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -561,6 +952,7 @@
                 {
                     title: "Folhas Coloridas",
                     original: "もみじ葉の　色づき初むる秋の山　見るも楽しき今日この頃かな",
+                    romaji: "Momijiba no / Irozuki hajimuru aki no yama / Miru mo tanoshiki kyō kono goro kana",
                     translation: "As folhas de bordo começam a se colorir Na montanha de outono... Que prazer contemplá-las Nestes dias!",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -568,6 +960,7 @@
                 {
                     title: "Brisa Outonal",
                     original: "秋風の　涼しく吹きて心地よし　暑さ去りたる幸を思いぬ",
+                    romaji: "Akikaze no / Suzushiku fukite kokochiyoshi / Atsusa saritaru sachi wo omoinu",
                     translation: "A brisa de outono sopra fresca e agradável... Penso na felicidade De o calor ter passado.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -577,6 +970,7 @@
                 {
                     title: "O Tempo da Dália",
                     original: "ダーリヤの　花のいろいろ秋の陽に　もえたつを見ぬわが暇ひまを",
+                    romaji: "Dāriya no / Hana no iroiro aki no hi ni / Moetatsu wo minu waga hima hima wo",
                     translation: "As várias cores das Dálias ardem como fogo ao sol de outono... E eu aproveito meus momentos de folga para contemplar esse incêndio.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -584,6 +978,7 @@
                 {
                     title: "Sol de Outono",
                     original: "秋の陽の　優しく照らす午後の庭　静けさの中に心安らぐ",
+                    romaji: "Aki no hi no / Yasashiku terasu gogo no niwa / Shizukesa no naka ni kokoro yasuragu",
                     translation: "O sol de outono ilumina gentilmente O jardim da tarde... No silêncio, Meu coração encontra paz.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -591,6 +986,7 @@
                 {
                     title: "Montanha Distante",
                     original: "秋晴れに　遠き山見え心地よし　空気澄みたる今日この頃を",
+                    romaji: "Akibare ni / Tōki yama mie kokochiyoshi / Kūki sumitaru kyō kono goro wo",
                     translation: "No céu claro de outono, vejo montanhas dist antes... Que sensação agradável! Nestes dias de ar puro.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -598,6 +994,7 @@
                 {
                     title: "Libélulas Dançando",
                     original: "秋空に　群れて飛び交う赤とんぼ　夕日を浴びて輝き見せぬ",
+                    romaji: "Akizora ni / Murete tobikau aka tonbo / Yūhi wo abite kagayaki misenu",
                     translation: "No céu de outono, libélulas vermelhas voam em bando... Banhadas pelo sol poente, Mostram seu brilho.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -605,6 +1002,7 @@
                 {
                     title: "Noite Fresca",
                     original: "秋の夜の　涼しき風に誘われて　窓を開けば星の輝き",
+                    romaji: "Aki no yo no / Suzushiki kaze ni sasowarete / Mado wo akeba hoshi no kagayaki",
                     translation: "Convidado pela brisa fresca da noite de outono, Abro a janela E vejo o brilho das estrelas.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -614,6 +1012,7 @@
                 {
                     title: "Vidros Cintilantes",
                     original: "うららかに　陽ざす朝なり秋の空　すける玻璃戸はみなきらめける",
+                    romaji: "Uraraka ni / Hi zasu asa nari aki no sora / Sukeru harido wa mina kiramekeru",
                     translation: "Radiante e serena é a manhã, banhada de sol sob o céu de outono... As portas de vidro, perfeitamente translúcidas, Cintilam todas, em um espetáculo de pura luz.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -621,6 +1020,7 @@
                 {
                     title: "Claridade Matinal",
                     original: "秋の朝　窓より差し込む光見て　一日の始まり心躍らす",
+                    romaji: "Aki no asa / Mado yori sashikomu hikari mite / Ichinichi no hajimari kokoro odorasu",
                     translation: "Manhã de outono... Vejo a luz entrando pela janela E meu coração salta Com o início do dia.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -628,6 +1028,7 @@
                 {
                     title: "Grama Outonal",
                     original: "秋草の　露に濡れたる朝の庭　静寂の中に美しさ宿る",
+                    romaji: "Akikusa no / Tsuyu ni nuretaru asa no niwa / Seijaku no naka ni utsukushisa yadoru",
                     translation: "As ervas de outono molhadas de orvalho No jardim da manhã... No silêncio Habita a beleza.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -635,6 +1036,7 @@
                 {
                     title: "Paz do Entardecer",
                     original: "秋の日の　夕べ静かに暮れゆきて　心の内も穏やかになる",
+                    romaji: "Aki no hi no / Yūbe shizuka ni kureyukite / Kokoro no uchi mo odayaka ni naru",
                     translation: "O dia de outono vai silenciosamente escurecendo... E dentro do meu coração Também se faz a calma.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -642,6 +1044,7 @@
                 {
                     title: "Lua Clara",
                     original: "秋の月　冴え冴えと照る夜の空　眺めて心清められゆく",
+                    romaji: "Aki no tsuki / Saezae to teru yoru no sora / Nagamete kokoro kiyomerare yuku",
                     translation: "A lua de outono brilha límpida e clara No céu noturno... Contemplando-a, Meu coração é purificado.",
                     kigo: "Outono",
                     meses: [3, 4, 5]
@@ -651,6 +1054,7 @@
                 {
                     title: "O Som da Geada",
                     original: "橋の上の　夜霜さらさら音すなり　寒月空につめたく光る",
+                    romaji: "Hashi no ue no / Yoshimo sarasara oto sunari / Kangetsu sora ni tsumetaku hikaru",
                     translation: "Sobre o tabuleiro da ponte, a geada noturna roça e sussurra — 'sara-sara'... Enquanto no alto, a Lua Fria cintila, Gélida e cortante na vastidão do firmamento.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -658,6 +1062,7 @@
                 {
                     title: "Manhã Gelada",
                     original: "冬の朝　窓の外には霜降りて　白き世界の美しきかな",
+                    romaji: "Fuyu no asa / Mado no soto ni wa shimo furite / Shiroki sekai no utsukushiki kana",
                     translation: "Manhã de inverno... Fora da janela a geada caiu, Criando um mundo branco De grande beleza.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -665,6 +1070,7 @@
                 {
                     title: "Ar Frio",
                     original: "寒き朝　息白く出て冬を知る　身を引き締めて歩み始める",
+                    romaji: "Samuki asa / Iki shiroku dete fuyu wo shiru / Mi wo hikishimete ayumi hajimeru",
                     translation: "Manhã fria... Minha respiração sai branca e sei que é inverno. Armando-me de coragem, Começo a caminhar.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -672,6 +1078,7 @@
                 {
                     title: "Céu de Inverno",
                     original: "冬空の　澄み渡りたる青さかな　心まで澄む思いするなり",
+                    romaji: "Fuyuzora no / Sumiwataritaru aosa kana / Kokoro made sumu omoi suru nari",
                     translation: "Que azul límpido tem o céu de inverno! Sinto como se Até meu coração Se tornasse transparente.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -679,6 +1086,7 @@
                 {
                     title: "Ramos Nus",
                     original: "冬木立　葉を落としたる枝見れば　春を待つ力感じられぬ",
+                    romaji: "Fuyukodachi / Ha wo otoshitaru eda mireba / Haru wo matsu chikara kanjirare nu",
                     translation: "As árvores de inverno... Vendo os galhos que perderam as folhas, Sinto a força Que aguarda a primavera.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -688,6 +1096,7 @@
                 {
                     title: "O Toque do Braseiro",
                     original: "瀬戸火鉢のしたしい触感　ヒシヒシと鳴る　炭火の音",
+                    romaji: "Seto hibachi no shitashii shokkukan / Hishihishi to naru / Sumibi no oto",
                     translation: "A textura íntima e familiar do braseiro de cerâmica... E o som do carvão que canta — 'hishi-hishi' — Num estalar tenso e abafado.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -695,6 +1104,7 @@
                 {
                     title: "Calor do Fogo",
                     original: "炉の火の　温もり嬉しき冬の夜　家族囲みて心和むなり",
+                    romaji: "Ro no hi no / Nukumori ureshiki fuyu no yoru / Kazoku kakomite kokoro nagomu nari",
                     translation: "Que alegria o calor do fogo na lareira Numa noite de inverno! A família se reúne E os corações se harmonizam.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -702,6 +1112,7 @@
                 {
                     title: "Lua Gélida",
                     original: "寒月の　冴え渡りたる夜の空　凍る思いで眺めておりぬ",
+                    romaji: "Kangetsu no / Saewataritaru yoru no sora / Kōru omoi de nagamete orinu",
                     translation: "A lua fria brilha intensamente No céu noturno... Com sentimento de congelamento, Fico contemplando.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -709,6 +1120,7 @@
                 {
                     title: "Vento Cortante",
                     original: "木枯らしの　吹く音聞けば身に沁みて　冬の厳しさ改めて知る",
+                    romaji: "Kogarashi no / Fuku oto kikeba mi ni shimite / Fuyu no kibishisa aratamete shiru",
                     translation: "Ouvindo o som do vento gélido soprar, Sinto penetrar até os ossos E conheço novamente A severidade do inverno.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -716,6 +1128,7 @@
                 {
                     title: "Neve Silenciosa",
                     original: "降る雪の　静けさの中に身を置けば　心も静まり安らぎ得たり",
+                    romaji: "Furu yuki no / Shizukesa no naka ni mi wo okeba / Kokoro mo shizumari yasuragi etari",
                     translation: "Colocando-me no silêncio Da neve que cai, Meu coração também se acalma E encontro paz.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -725,6 +1138,7 @@
                 {
                     title: "Folhas na Geada",
                     original: "二つ三つ　もみぢのちり葉松の葉に　かかるが見ゆる霜白き朝",
+                    romaji: "Futatsu mittsu / Momiji no chiriba matsu no ha ni / Kakaru ga miyuru shimo shiroki asa",
                     translation: "Duas, três folhas vermelhas caídas... ficaram presas nos galhos do pinheiro. Vejo-as brilhando nesta manhã branca de geada.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -732,6 +1146,7 @@
                 {
                     title: "Pinheiro Verde",
                     original: "常緑の　松の緑も冬の朝　霜に覆われ白く輝く",
+                    romaji: "Tokiwa no / Matsu no midori mo fuyu no asa / Shimo ni ōware shiroku kagayaku",
                     translation: "Até o verde sempre-vivo do pinheiro Numa manhã de inverno É coberto pela geada E brilha em branco.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -739,6 +1154,7 @@
                 {
                     title: "Orvalho Gelado",
                     original: "冬の朝　草葉に凍る露見れば　自然の厳しさ美しきかな",
+                    romaji: "Fuyu no asa / Kusaba ni kōru tsuyu mireba / Shizen no kibishisa utsukushiki kana",
                     translation: "Manhã de inverno... Vendo o orvalho congelado nas folhas da grama, A severidade da natureza É bela!",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -746,6 +1162,7 @@
                 {
                     title: "Quietude Invernal",
                     original: "冬の夜の　静寂深く心澄む　この静けさに身を委ねたり",
+                    romaji: "Fuyu no yoru no / Seijaku fukaku kokoro sumu / Kono shizukesa ni mi wo yudanetari",
                     translation: "A noite de inverno... O silêncio é profundo e o coração se purifica. A este silêncio Entrego-me completamente.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -753,6 +1170,7 @@
                 {
                     title: "Sol Fraco",
                     original: "冬日和　弱き日差しも有難く　暖を求める心満たさる",
+                    romaji: "Fuyubiyori / Yowaki hizashi mo arigataku / Dan wo motomeru kokoro mitasaru",
                     translation: "Dia de bom tempo no inverno... Até os fracos raios de sol são gratos E satisfazem o coração Que busca calor.",
                     kigo: "Inverno",
                     meses: [6, 7, 8]
@@ -762,6 +1180,7 @@
                 {
                     title: "A Primavera Interior",
                     original: "春は先づ　人の心に立ちそむか　昨日と同じ寒風ふけども",
+                    romaji: "Haru wa mazu / Hito no kokoro ni tachi somuka / Kinō to onaji kanpū fukedomo",
                     translation: "A Primavera, por acaso, começa primeiro dentro do coração humano? Pergunto isso porque, lá fora, O mesmo vento gélido de ontem continua a soprar.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -769,6 +1188,7 @@
                 {
                     title: "Primeiros Brotos",
                     original: "春めいて　小さな芽吹き見つけたり　大地の命目覚める時を",
+                    romaji: "Haru meite / Chiisana mebuki mitsuke tari / Daichi no inochi mezameru toki wo",
                     translation: "Cheira a primavera... Encontrei pequenos brotos! É o momento em que A vida da terra desperta.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -776,6 +1196,7 @@
                 {
                     title: "Ar Renovado",
                     original: "春の風　優しく吹きて心地よし　新しき季節の訪れ感じぬ",
+                    romaji: "Haru no kaze / Yasashiku fukite kokochiyoshi / Atarashiki kisetsu no otozure kanjinu",
                     translation: "O vento da primavera sopra gentilmente e agradavelmente... Sinto a chegada Da nova estação.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -783,6 +1204,7 @@
                 {
                     title: "Esperança Verde",
                     original: "若草の　萌え出づる野辺を眺むれば　希望に満ちたる思いするなり",
+                    romaji: "Wakakusa no / Moe izuru nobe wo nagamureba / Kibō ni michitaru omoi suru nari",
                     translation: "Contemplando os campos onde A grama jovem brota, Sinto-me Cheio de esperança.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -790,6 +1212,7 @@
                 {
                     title: "Céu Clareando",
                     original: "春の空　霞たなびき穏やかに　心も軽くなりゆくを知る",
+                    romaji: "Haru no sora / Kasumi tanabiki odayaka ni / Kokoro mo karuku nariyuku wo shiru",
                     translation: "O céu da primavera... A bruma paira suavemente E sei que Meu coração também se torna leve.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -799,6 +1222,7 @@
                 {
                     title: "Chuva e Musgo",
                     original: "雨はれて　露もしとどの篁の　下かげ青く苔の花咲く",
+                    romaji: "Ame harete / Tsuyu mo shitodo no takamura no / Shitakage aoku koke no hana saku",
                     translation: "A chuva cessou. No bambuzal ainda denso de orvalho, Sob a sombra fresca e úmida, O musgo floresce em verde profundo.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -806,6 +1230,7 @@
                 {
                     title: "Riacho Cantando",
                     original: "春の水　せせらぎの音心地よく　耳を澄ませば心洗わる",
+                    romaji: "Haru no mizu / Seseragi no oto kokochiyoku / Mimi wo sumaseba kokoro arawareru",
                     translation: "A água da primavera... O som do riacho murmurando é agradável. Aguçando os ouvidos, Meu coração é lavado.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -813,6 +1238,7 @@
                 {
                     title: "Verde Ressurgindo",
                     original: "木々の芽の　吹き出す様に春を見て　生命の力感じ入りぬ",
+                    romaji: "Kigi no me no / Fukidasu sama ni haru wo mite / Seimei no chikara kanji irinu",
                     translation: "Vendo a primavera Nos brotos que explodem das árvores, Sinto profundamente O poder da vida.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -820,6 +1246,7 @@
                 {
                     title: "Borboletas Dançantes",
                     original: "蝶々の　舞い飛ぶ春の午後の庭　のどかなる時に心和むなり",
+                    romaji: "Chōchō no / Mai tobu haru no gogo no niwa / Nodoka naru toki ni kokoro nagomu nari",
                     translation: "Borboletas voam dançando No jardim numa tarde de primavera... Neste tempo tranquilo, Meu coração se harmoniza.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -827,6 +1254,7 @@
                 {
                     title: "Manhã Luminosa",
                     original: "春の朝　光り溢るる窓辺にて　新しき日の喜び感ず",
+                    romaji: "Haru no asa / Hikari afururu madobe nite / Atarashiki hi no yorokobi kanzu",
                     translation: "Manhã de primavera... À janela transbordante de luz, Sinto a alegria Do novo dia.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -836,6 +1264,7 @@
                 {
                     title: "A Montanha de Cerejeiras",
                     original: "むらさきの　霞の奥にどんよりと　陽うけて桜の山たたずまう",
+                    romaji: "Murasaki no / Kasumi no oku ni donyori to / Hi ukete sakura no yama tatazumau",
                     translation: "No fundo da bruma purpúrea... Banhada por uma luz difusa e pesada, A montanha coberta de cerejeiras repousa imóvel.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -843,6 +1272,7 @@
                 {
                     title: "Flores Desabrochando",
                     original: "春深く　花々咲き誇る庭見れば　自然の恵み感謝せずおれず",
+                    romaji: "Haru fukaku / Hanabana sakihokoru niwa mireba / Shizen no megumi kansha sezu orezu",
                     translation: "Primavera profunda... Vendo o jardim onde as flores desabrocham orgulhosas, Não posso deixar de Agradecer as bênçãos da natureza.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -850,6 +1280,7 @@
                 {
                     title: "Brisa Floral",
                     original: "花の香の　漂う春の夕暮れに　心も華やぐ思いするかな",
+                    romaji: "Hana no ka no / Tadayou haru no yūgure ni / Kokoro mo hanayagu omoi suru kana",
                     translation: "No entardecer de primavera onde O perfume das flores fluor a... Sinto como se Meu coração também florescesse.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -857,6 +1288,7 @@
                 {
                     title: "Pássaros Cantando",
                     original: "小鳥らの　さえずり聞こゆ春の朝　心弾みて一日始まる",
+                    romaji: "Kotorira no / Saezuri kikoyu haru no asa / Kokoro hazumite ichinichi hajimaru",
                     translation: "Ouço o chilrear dos passarinhos Numa manhã de primavera... Meu coração salta E o dia começa.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -864,6 +1296,7 @@
                 {
                     title: "Verde Intenso",
                     original: "新緑の　眩しき程に光りたる　木々を見上げて力もらいぬ",
+                    romaji: "Shinryoku no / Mabushiki hodo ni hikaritaru / Kigi wo miagete chikara moraimu",
                     translation: "O verde fresco brilha tão intensamente que ofusca... Olhando para as árvores, Recebo força.",
                     kigo: "Primavera",
                     meses: [9, 10, 11]
@@ -873,6 +1306,7 @@
                 {
                     title: "O Crescimento do Povo",
                     original: "日の光　月の恵みにすくすくと　たみくさのびるときぞまたるる",
+                    romaji: "Hi no hikari / Tsuki no megumi ni sukusuku to / Tamikusa nobiru toki zo mataruru",
                     translation: "Sob a luz do Sol, E a graça da Lua, Aguardo o tempo em que o povo, como a relva, Crescerá vigoroso e próspero.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -880,6 +1314,7 @@
                 {
                     title: "Céu Azul",
                     original: "夏空の　青さ見上げて心晴れ　この日の喜び胸に刻まる",
+                    romaji: "Natsuzora no / Aosa miagete kokoro hare / Kono hi no yorokobi mune ni kizamaru",
                     translation: "Olhando o azul do céu de verão, meu coração se abre... A alegria deste dia É gravada em meu peito.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -887,6 +1322,7 @@
                 {
                     title: "Força Vital",
                     original: "夏草の　生い茂る野辺の力強さ　見るも頼もし心躍らす",
+                    romaji: "Natsukusa no / Oishigeru nobe no chikarazuyosa / Miru mo tanomoshi kokoro odorasu",
                     translation: "A força das ervas de verão crescendo densamente nos campos... É confiável de ver E faz meu coração saltar.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -894,6 +1330,7 @@
                 {
                     title: "Dia Radiante",
                     original: "夏の日の　光り満ちたる午後の庭　生命溢るる様美しき",
+                    romaji: "Natsu no hi no / Hikari michitaru gogo no niwa / Seimei afururu sama utsukushiki",
                     translation: "Jardim da tarde cheio Da luz do dia de verão... Bela é a aparência Transbordante de vida.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -901,6 +1338,7 @@
                 {
                     title: "Energia do Sol",
                     original: "太陽の　恵み受けたる大地見て　感謝の思い新たにするなり",
+                    romaji: "Taiyō no / Megumi uketaru daichi mite / Kansha no omoi arata ni suru nari",
                     translation: "Vendo a terra recebendo As bênçãos do sol, Renovo os sentimentos De gratidão.",
                     kigo: "Verão",
                     meses: [1, 2, 12]
@@ -1182,74 +1620,176 @@
             return fases;
         }
 
+        // Função auxiliar para dividir poema em 3 partes
+        function dividirPoemaEm3(texto) {
+            // Remove espaços extras e divide por espaços japoneses ou regulares
+            const partes = texto.replace(/　/g, ' ').split(' ').filter(p => p.trim());
+            const total = partes.length;
+
+            if (total <= 3) {
+                return partes.concat(['', '', '']).slice(0, 3);
+            }
+
+            // Divide em 3 grupos aproximadamente iguais
+            const tamanho = Math.ceil(total / 3);
+            return [
+                partes.slice(0, tamanho).join(''),
+                partes.slice(tamanho, tamanho * 2).join(''),
+                partes.slice(tamanho * 2).join('')
+            ];
+        }
+
+        // Função para gerar mini calendário (visão compacta)
+        function gerarMiniCalendario(mes, ano) {
+            const primeiroDia = new Date(ano, mes, 1).getDay();
+            const ultimoDia = new Date(ano, mes + 1, 0).getDate();
+
+            let html = `<div class="mini-cal">
+                <div class="mini-cal-header">${mes + 1}</div>
+                <div class="mini-cal-days">
+                    ${['日', '月', '火', '水', '木', '金', '土'].map((d, i) =>
+                `<span class="${i === 0 ? 'sun' : (i === 6 ? 'sat' : '')}">${d}</span>`
+            ).join('')}
+            `;
+
+            // Espaços vazios antes do dia 1
+            for (let i = 0; i < primeiroDia; i++) {
+                html += '<span></span>';
+            }
+
+            // Dias do mês (com feriados em vermelho)
+            for (let d = 1; d <= ultimoDia; d++) {
+                const diaSemana = (primeiroDia + d - 1) % 7;
+                const feriado = ehFeriado(d, mes, ano);
+                let classe = '';
+
+                if (feriado || diaSemana === 0) {
+                    classe = 'sun'; // Vermelho para domingos e feriados
+                } else if (diaSemana === 6) {
+                    classe = 'sat'; // Azul para sábados
+                }
+
+                html += `<span class="${classe}">${d}</span>`;
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
         function renderizarCalendario(poesia, fasesLua, dias) {
             const calendario = document.getElementById('calendario');
 
-            let diasHTML = '';
-            dias.forEach((d, i) => {
-                const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, state.mes, state.ano) : null;
-                const isDomingo = i % 7 === 0;
-                const isSabado = i % 7 === 6;
-                const rowIndex = Math.floor(i / 7);
-                const colIndex = i % 7;
+            // Formatar HTML das fases da lua (usando SVG para tamanho uniforme)
+            const moonSVG = {
+                crescente: '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="none" stroke="#555" stroke-width="1.5"/><path d="M12 2a10 10 0 0 1 0 20" fill="#555"/></svg>',
+                cheia: '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="none" stroke="#555" stroke-width="1.5"/></svg>',
+                minguante: '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="none" stroke="#555" stroke-width="1.5"/><path d="M12 2a10 10 0 0 0 0 20" fill="#555"/></svg>',
+                nova: '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#555"/></svg>'
+            };
 
-                const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
-                const borderRight = colIndex < 6 ? 'border-right: 1px solid #e5e5e5;' : '';
+            const luasHTML = [
+                { svg: moonSVG.crescente, dia: fasesLua.crescente },
+                { svg: moonSVG.cheia, dia: fasesLua.cheia },
+                { svg: moonSVG.minguante, dia: fasesLua.minguante },
+                { svg: moonSVG.nova, dia: fasesLua.nova }
+            ].filter(f => f.dia).map(f => `
+                <div class="moon-phase">
+                    <span>${f.svg}</span>
+                    <span>${f.dia}</span>
+                </div>
+            `).join('');
 
-                diasHTML += `
-          <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
-               style="${borderBottom} ${borderRight}">
-            ${d.dia ? `
-              <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''} ${isSabado ? 'saturday' : ''}"
-                   style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (isSabado ? '#2563eb' : (d.mesAtual ? '#1a1a1a' : '#bbb'))};">
-                ${d.dia}
-              </div>
-              ${nomeFeriado ? `<div class="holiday-name">${nomeFeriado}</div>` : ''}
-            ` : ''}
-          </div>
-        `;
-            });
+            // Filtrar apenas dias válidos do mês atual
+            const diasValidos = dias.filter(d => d && d.mesAtual && d.dia);
 
+            // Construir LISTA de Dias (vertical)
+            let listaDiasHTML = diasValidos.map(dia => {
+                const feriadoNome = ehFeriado(dia.dia, state.mes, state.ano);
+                const diaDaSemanaIndex = (new Date(state.ano, state.mes, dia.dia)).getDay();
+                const diaSemanaInfo = diasDaSemanaComKanji[diaDaSemanaIndex];
+
+                const isDomingo = diaDaSemanaIndex === 0;
+                const isSabado = diaDaSemanaIndex === 6;
+
+                let rowClass = 'day-row';
+                if (isDomingo) rowClass += ' sunday-row';
+                if (isSabado) rowClass += ' saturday-row';
+                if (feriadoNome) rowClass += ' holiday-row';
+
+                return `
+                    <div class="${rowClass}">
+                        <div class="day-num">${dia.dia}</div>
+                        <div class="day-weekday-jp">${diaSemanaInfo.jp}</div>
+                        <div class="day-info-container">
+                            <div class="day-feriado">${feriadoNome ? feriadoNome : ''}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Dividir poema em 3 colunas
+            const linhasPoema = dividirPoemaEm3(poesia.original);
+            const poemHTML = linhasPoema.map(linha =>
+                `<div class="poem-line">${linha}</div>`
+            ).join('');
+
+            // Mini calendários do mês anterior e próximo
+            const mesAnterior = state.mes === 0 ? 11 : state.mes - 1;
+            const anoAnterior = state.mes === 0 ? state.ano - 1 : state.ano;
+            const mesProximo = state.mes === 11 ? 0 : state.mes + 1;
+            const anoProximo = state.mes === 11 ? state.ano + 1 : state.ano;
+
+            const miniCalAnterior = gerarMiniCalendario(mesAnterior, anoAnterior);
+            const miniCalProximo = gerarMiniCalendario(mesProximo, anoProximo);
+
+            // HTML Completo - Layout Lista
             calendario.innerHTML = `
-        <div class="hero-section">
-          <div style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 40px; font-weight: 400;">Yama to Mizu</div>
-          <div class="poesia-original">${poesia.original}</div>
-          <div class="poesia-traducao">${poesia.translation}</div>
-          <div style="font-size: 12px; color: #999; margin-top: 35px; font-weight: 300; letter-spacing: 1px;">— Meishu-sama</div>
-        </div>
-        
-        <div class="calendar-section">
-          <div class="calendar-header">
-            <div class="month-title">${mesesPt[state.mes]}</div>
-            
-            <div class="moon-phases">
-              <div class="moon-phases-title">Fases da lua</div>
-              <div class="moon-phases-row">
-                <span class="moon-icon">◐</span>
-                <span>${fasesLua.crescente || '-'}</span>
-                <span class="moon-icon" style="margin-left: 4px;">○</span>
-                <span>${fasesLua.cheia || '-'}</span>
-                <span class="moon-icon" style="margin-left: 4px;">◑</span>
-                <span>${fasesLua.minguante || '-'}</span>
-                <span class="moon-icon" style="margin-left: 4px;">●</span>
-                <span>${fasesLua.nova || '-'}</span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="calendar-grid">
-            ${diasSemana.map((dia, i) => `
-              <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''} color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
-                ${dia}
-              </div>
-            `).join('')}
-            
-            ${diasHTML}
-          </div>
-          
-          <div class="year-footer">${state.ano}</div>
-        </div>
-      `;
+                <!-- Seção Calendário (ESQUERDA) - LISTA VERTICAL -->
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <div class="month-title">
+                            ${state.ano}
+                            <span class="month-label">${mesesPt[state.mes].toUpperCase()}</span>
+                        </div>
+                        <div class="moon-phases">
+                            <div class="moon-phases-row">${luasHTML}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-header">
+                        <span>Dia</span>
+                        <span>曜日</span>
+                        <span></span>
+                    </div>
+
+                    <div class="calendar-list">
+                        ${listaDiasHTML}
+                    </div>
+                </div>
+
+                <!-- Seção Poesia (DIREITA) - 3 COLUNAS VERTICAIS -->
+                <div class="hero-section">
+                    <div class="poesia-columns">
+                        ${poemHTML}
+                    </div>
+                    
+                </div>
+
+                <!-- RODAPÉ: Mini Calendários + Tradução + Romaji -->
+                <div class="calendar-footer">
+                    <div class="footer-mini-cal">
+                        ${miniCalAnterior}
+                    </div>
+                    <div class="footer-traducao">
+                        <div class="footer-obra-titulo">山と水 (Yama To Mizu)</div>
+                        <div class="romaji-texto">${poesia.romaji || ''}</div>
+                        <div class="traducao-texto">${poesia.translation || poesia.traducao}</div>
+                    </div>
+                    <div class="footer-mini-cal">
+                        ${miniCalProximo}
+                    </div>
+                </div>
+            `;
         }
 
         // --- LÓGICA DA VISÃO ANUAL INTERATIVA ---
@@ -1350,9 +1890,10 @@
                             </div>
                           </div>
                           <div class="calendar-grid">
-                            ${diasSemana.map((dia, i) => `
+                            ${diasDaSemanaComKanji.map((dia, i) => `
                               <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}; color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
-                                ${dia}
+                                <span class="kanji-day">${dia.jp}</span>
+                                <span>${dia.pt}</span>
                               </div>
                             `).join('')}
                             ${diasHTML}
@@ -1405,7 +1946,7 @@
       `;
 
             for (let m = 0; m < 12; m++) {
-                // Obter poesia (usa lógica de escolhidas se houver)
+                // Obter poesia
                 let poesiaDoMes;
                 const indicePoesiaEscolhida = state.poesiasEscolhidas[m];
 
@@ -1418,70 +1959,84 @@
                 const fasesLuaMes = obterDiasFasesLua(m, state.ano);
                 const diasMes = gerarCalendario(m, state.ano);
 
-                let diasHTML = '';
-                diasMes.forEach((d, i) => {
-                    const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, m, state.ano) : null;
-                    const isDomingo = i % 7 === 0;
-                    const isSabado = i % 7 === 6;
-                    const rowIndex = Math.floor(i / 7);
-                    const colIndex = i % 7;
+                // Formatar Fases Lua
+                const fasesLuaFormatadas = [
+                    { emoji: '◐', dia: fasesLuaMes.crescente },
+                    { emoji: '○', dia: fasesLuaMes.cheia },
+                    { emoji: '◑', dia: fasesLuaMes.minguante },
+                    { emoji: '●', dia: fasesLuaMes.nova }
+                ].filter(f => f.dia); // Filter out phases that don't exist for the month
 
-                    const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
-                    const borderRight = colIndex < 6 ? 'border-right: 1px solid #e5e5e5;' : '';
+                const luasHTML = fasesLuaFormatadas.map(f => `
+                    <div class="moon-phase">
+                        <span>${f.emoji}</span>
+                        <span>${f.dia}</span>
+                    </div>
+                `).join('');
 
-                    diasHTML += `
-            <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
-                 style="${borderBottom} ${borderRight}">
-              ${d.dia ? `
-                <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''} ${isSabado ? 'saturday' : ''}"
-                     style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (isSabado ? '#2563eb' : (d.mesAtual ? '#1a1a1a' : '#bbb'))};">
-                  ${d.dia}
-                </div>
-                ${nomeFeriado ? `<div class="holiday-name">${nomeFeriado}</div>` : ''}
-              ` : ''}
-            </div>
-          `;
-                });
+                // Gerar LISTA de dias (Print)
+                const diasValidos = diasMes.filter(d => d.mesAtual && d.dia); // Only current month days
+                let listaDiasHTML = diasValidos.map(dia => {
+                    const feriadoNome = ehFeriado(dia.dia, m, state.ano);
+                    const diaDaSemanaIndex = (new Date(state.ano, m, dia.dia)).getDay();
+                    const diaSemanaInfo = diasDaSemanaComKanji[diaDaSemanaIndex]; // Use diasDaSemanaComKanji
+
+                    const isDomingo = diaDaSemanaIndex === 0;
+                    const isSabado = diaDaSemanaIndex === 6;
+
+                    let rowClass = 'day-row';
+                    if (isDomingo) rowClass += ' sunday-row';
+                    if (isSabado) rowClass += ' saturday-row';
+                    if (feriadoNome) rowClass += ' holiday-row';
+
+                    return `
+                        <div class="${rowClass}">
+                            <div class="day-num">${dia.dia}</div>
+                            <div class="day-weekday-jp">${diaSemanaInfo.jp}</div>
+                            <div class="day-info-container">
+                                <div class="day-feriado">${feriadoNome ? feriadoNome : ''}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
                 htmlCompleto += `
           <div class="pagina" id="calendario">
-            <div class="hero-section">
-              <div style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 40px; font-weight: 400;">Yama to Mizu</div>
-              <div class="poesia-original">${poesiaDoMes.original}</div>
-              <div class="poesia-traducao">${poesiaDoMes.translation}</div>
-              <div style="font-size: 12px; color: #999; margin-top: 35px; font-weight: 300; letter-spacing: 1px;">— Meishu-sama</div>
-            </div>
-            
+            <!-- Seção Calendário (Esquerda) -->
             <div class="calendar-section">
-              <div class="calendar-header">
-                <div class="month-title">${mesesPt[m]}</div>
-                
-                <div class="moon-phases">
-                  <div class="moon-phases-title">Fases da lua</div>
-                  <div class="moon-phases-row">
-                    <span class="moon-icon">◐</span>
-                    <span>${fasesLuaMes.crescente || '-'}</span>
-                    <span class="moon-icon" style="margin-left: 4px;">○</span>
-                    <span>${fasesLuaMes.cheia || '-'}</span>
-                    <span class="moon-icon" style="margin-left: 4px;">◑</span>
-                    <span>${fasesLuaMes.minguante || '-'}</span>
-                    <span class="moon-icon" style="margin-left: 4px;">●</span>
-                    <span>${fasesLuaMes.nova || '-'}</span>
-                  </div>
+                <div class="calendar-header">
+                    <div class="month-title">
+                        ${m + 1}
+                        <span class="month-label">${mesesPt[m].toUpperCase()}</span>
+                    </div>
+                    <div class="moon-phases">
+                            <div class="moon-phases-row">${luasHTML}</div>
+                    </div>
                 </div>
-              </div>
-              
-              <div class="calendar-grid">
-                ${diasSemana.map((dia, i) => `
-                  <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}; color: ${i === 0 ? '#dc2626' : (i === 6 ? '#2563eb' : '#737373')};">
-                    ${dia}
-                  </div>
-                `).join('')}
                 
-                ${diasHTML}
-              </div>
-              
-              <div class="year-footer">${state.ano}</div>
+                <div class="list-header">
+                    <span>Dia</span>
+                    <span>Semana</span>
+                    <span>Detalhes</span>
+                </div>
+
+                <div class="calendar-list">
+                    ${listaDiasHTML}
+                </div>
+                <div class="year-footer-small">${state.ano}</div>
+            </div>
+
+            <!-- Seção Poesia (Direita) -->
+            <div class="hero-section">
+                <div class="poesia-columns">
+                    <div class="poesia-original">${poesiaDoMes.original}</div>
+                </div>
+                
+
+                <div class="poesia-traducao-wrapper">
+                    <div class="poesia-traducao">"${poesiaDoMes.traducao || poesiaDoMes.translation}"</div>
+                
+                </div>
             </div>
           </div>
         `;
