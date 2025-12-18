@@ -1,0 +1,196 @@
+{
+    "calendario": [
+        {
+            "mes": 1,
+            "nome_mes": "Janeiro",
+            "estacao_brasil": "Verão",
+            "poesia": {
+                "numero": 6,
+                "titulo": "Pirilampos",
+                "original": "夕さりて　青田を渡る風涼し　行手の闇を蛍かすめぬ",
+                "leitura": "Yū sarite / aota o wataru / kaze suzushi / yukute no yami o / hotaru kasumenu",
+                "traducao": "Ao cair da tarde, O vento que cruza os arrozais verdes traz frescor; Pirilampos riscam a escuridão do meu caminho.",
+                "kigo": "Verão pleno. Aota (arrozal verde) e Hotaru (pirilampo) são a assinatura visual do verão rural japonês. O vento fresco é o alívio após o calor do dia.",
+                "licao_espiritual": "\"Yukute no yami\" significa \"a escuridão do caminho à frente\" (o futuro). Meishu-Sama nos diz que, mesmo quando não sabemos o que vem adiante, pequenas luzes divinas (os pirilampos/inspirações) surgirão para guiar nossos passos, desde que estejamos em harmonia com a natureza.",
+                "razao_escolha": "Janeiro é o mês de novos começos e caminhos. A imagem dos pirilampos iluminando o caminho desconhecido é perfeita para o início do ano."
+            }
+        },
+        {
+            "mes": 2,
+            "nome_mes": "Fevereiro",
+            "estacao_brasil": "Verão",
+            "poesia": {
+                "numero": 9,
+                "titulo": "Expansão da Alma",
+                "original": "風薫り　青葉光れる初夏の　庭に下りたてば胸のひろぎぬ",
+                "leitura": "Kaze kaori / aoba hikareru / shoka no / niwa ni oritateba / mune no hiroginu",
+                "traducao": "O vento perfumado e as folhas verdes resplandecem; Ao descer ao jardim no início do verão, Meu peito se dilata infinitamente.",
+                "kigo": "Shoka (Início do verão). A luz é clara, o ar é perfumado (Kaze kaori - literalmente 'vento cheiroso').",
+                "licao_espiritual": "A união mística com a natureza. Não é apenas 'sentir-se bem'; é a expansão do corpo etérico. Ao entrar no jardim, Meishu-Sama deixa de ser um indivíduo isolado e sua energia se funde com a vitalidade do Cosmo. É o efeito terapêutico da Beleza.",
+                "razao_escolha": "Fevereiro é época de Carnaval no Brasil, de celebração e expansão. Esta poesia captura a alegria expansiva do coração em harmonia com a natureza."
+            }
+        },
+        {
+            "mes": 3,
+            "nome_mes": "Março",
+            "estacao_brasil": "Outono (início)",
+            "poesia": {
+                "numero": 3,
+                "titulo": "O Arco-Íris de Maio",
+                "original": "五月雨の　霽るると見れば遠方に　雲の峯並みうすら虹見ゆ",
+                "leitura": "Samidare no / haruru to mireba / ochikata ni / kumo no minenami / usura niji miyu",
+                "traducao": "Ao dissipar-se a longa chuva de maio, Vislumbro ao longe picos de nuvens E um tênue arco-íris a surgir.",
+                "kigo": "Samidare é a chuva de maio (no calendário lunar, corresponde ao início do verão, época das chuvas longas).",
+                "licao_espiritual": "A Lei da Ordem: após a purificação (chuva/sofrimento), vem a luz (sol/alegria). O arco-íris é a ponte entre o céu e a terra, um sinal de aliança divina. Meishu-Sama vê além das nuvens pesadas a promessa da beleza que sempre retorna.",
+                "razao_escolha": "Março marca a transição entre verão e outono no Brasil. A imagem da chuva passando e o arco-íris surgindo simboliza transformação e promessa."
+            }
+        },
+        {
+            "mes": 4,
+            "nome_mes": "Abril",
+            "estacao_brasil": "Outono",
+            "poesia": {
+                "numero": 595,
+                "titulo": "O Tempo da Dália",
+                "original": "ダーリヤの　花のいろいろ秋の陽に　もえたつを見ぬわが暇ひまを",
+                "leitura": "Daariya no / hana no iroiro / aki no hi ni / moetatsu o minu / waga himahima o",
+                "traducao": "As várias cores das Dálias ardem como fogo ao sol de outono... E eu aproveito meus momentos de folga para contemplar esse incêndio.",
+                "kigo": "Outono.",
+                "licao_espiritual": "O Recreio da Alma. No meio do trabalho sagrado, o 'tempo livre' é usado para se nutrir da energia (Moetatsu) da natureza. A cor intensa recarrega o espírito.",
+                "razao_escolha": "Abril é outono pleno no Brasil. As dálias com suas cores vibrantes representam a beleza multicolorida desta estação de transição."
+            }
+        },
+        {
+            "mes": 5,
+            "nome_mes": "Maio",
+            "estacao_brasil": "Outono",
+            "poesia": {
+                "numero": 610,
+                "titulo": "Vidros Cintilantes",
+                "original": "うららかに　陽ざす朝なり秋の空　すける玻璃戸はみなきらめける",
+                "leitura": "Uraraka ni / hizasu asa nari aki no sora / sukeru harido wa mina kiramekeru",
+                "traducao": "Radiante e serena é a manhã, banhada de sol sob o céu de outono... As portas de vidro, perfeitamente translúcidas, Cintilam todas, em um espetáculo de pura luz.",
+                "kigo": "Outono. Uraraka geralmente se refere à primavera, mas aqui descreve a doçura e a clareza luminosa de uma manhã de outono ensolarada.",
+                "licao_espiritual": "A transparência da alma. O vidro limpo permite que a luz do sol passe sem obstrução e brilhe. Assim deve ser a mente humana: se estivermos limpos de 'nuvens', a Luz de Deus nos atravessa e faz nossa existência cintilar.",
+                "razao_escolha": "Maio no Brasil tem manhãs claras de outono. A transparência e a luz simbolizam clareza mental e espiritual."
+            }
+        },
+        {
+            "mes": 6,
+            "nome_mes": "Junho",
+            "estacao_brasil": "Inverno (início)",
+            "poesia": {
+                "numero": 625,
+                "titulo": "O Som da Geada",
+                "original": "橋の上の　夜霜さらさら音すなり　寒月空につめたく光る",
+                "leitura": "Hashi no ue no / yoshimo sarasara oto su nari / kangetsu sora ni tsumetaku hikaru",
+                "traducao": "Sobre o tabuleiro da ponte, a geada noturna roça e sussurra — 'sara-sara'... Enquanto no alto, a Lua Fria cintila, Gélida e cortante na vastidão do firmamento.",
+                "kigo": "Inverno Profundo. Kangetsu - Lua Fria de Inverno.",
+                "licao_espiritual": "A percepção do invisível. Ouvir o 'som da geada' exige um silêncio interior absoluto e uma audição espiritual aguçada. A ponte simboliza a travessia entre o mundo material e o espiritual. É a meditação perfeita no frio.",
+                "razao_escolha": "Junho marca o início do inverno no Brasil. A geada e a lua fria capturam a essência desta estação que se aproxima."
+            }
+        },
+        {
+            "mes": 7,
+            "nome_mes": "Julho",
+            "estacao_brasil": "Inverno",
+            "poesia": {
+                "numero": 603,
+                "titulo": "O Toque do Braseiro",
+                "original": "瀬戸火鉢のしたしい触感　ヒシヒシと鳴る　炭火の音",
+                "leitura": "Setohibachi no shitashii shokkan / hishihishi to naru / sumibi no oto",
+                "traducao": "A textura íntima e familiar do braseiro de cerâmica... E o som do carvão que canta — 'hishi-hishi' — Num estalar tenso e abafado.",
+                "kigo": "Inverno (Uso do Hibachi). Retorno ao silêncio doméstico.",
+                "licao_espiritual": "A volta ao Centro. O toque na cerâmica e o som do fogo trazem a mente de volta ao presente e à paz interior. O fogo é vivo e 'fala'.",
+                "razao_escolha": "Julho é o mês mais frio no Brasil. O braseiro representa o calor do lar, o aconchego e a intimidade do inverno."
+            }
+        },
+        {
+            "mes": 8,
+            "nome_mes": "Agosto",
+            "estacao_brasil": "Inverno (fim)",
+            "poesia": {
+                "numero": 631,
+                "titulo": "Folhas na Geada",
+                "original": "二つ三つ　もみぢのちり葉松の葉に　かかるが見ゆる霜白き朝",
+                "leitura": "Futatsu mittsu / momiji no chiriba / matsu no ha ni / kakaru ga miyuru / shimo shiroki asa",
+                "traducao": "Duas, três folhas vermelhas caídas... ficaram presas nos galhos do pinheiro. Vejo-as brilhando nesta manhã branca de geada.",
+                "kigo": "Manhã de Inverno. Contraste Vermelho/Verde/Branco.",
+                "licao_espiritual": "O Encontro Fortuito. O pinheiro (eterno) segura a folha vermelha (efêmera). A geada (pureza) une ambos. Uma composição perfeita criada pelo acaso divino.",
+                "razao_escolha": "Agosto é o fim do inverno, momento de transição. As folhas vermelhas no pinheiro verde simbolizam mudança dentro da permanência."
+            }
+        },
+        {
+            "mes": 9,
+            "nome_mes": "Setembro",
+            "estacao_brasil": "Primavera",
+            "poesia": {
+                "numero": 1183,
+                "titulo": "A Primavera Interior",
+                "original": "春は先づ　人の心に立ちそむか　昨日と同じ寒風ふけども",
+                "leitura": "Haru wa mazu / hito no kokoro ni tachisomu ka / kinō to onaji samukaze fukedomo",
+                "traducao": "A Primavera, por acaso, começa primeiro dentro do coração humano? Pergunto isso porque, lá fora, O mesmo vento gélido de ontem continua a soprar.",
+                "kigo": "Risshun (Início da Primavera no calendário - Fevereiro). O clima ainda é inverno.",
+                "licao_espiritual": "A realidade é criada pela mente. O calendário diz 'Primavera', e o coração sente esperança e calor, mesmo que o mundo físico ainda esteja frio. A mudança espiritual precede a mudança material.",
+                "razao_escolha": "Setembro é o início da primavera no Brasil. Esta poesia fala sobre a primavera nascendo primeiro no coração, sem mencionar meses específicos, sendo perfeita para simbolizar renovação interior e o despertar da natureza."
+            }
+        },
+        {
+            "mes": 10,
+            "nome_mes": "Outubro",
+            "estacao_brasil": "Primavera",
+            "poesia": {
+                "numero": 1,
+                "titulo": "Chuva e Musgo",
+                "original": "雨はれて　露もしとどの篁の　下かげ青く苔の花咲く",
+                "leitura": "Ame harete / tsuyu mo shitodo no / takamura no / shitakage aoku / koke no hana saku",
+                "traducao": "A chuva cessou. No bambuzal ainda denso de orvalho, Sob a sombra fresca e úmida, O musgo floresce em verde profundo.",
+                "kigo": "Fronteira entre primavera e verão. A umidade sugere a aproximação da estação das chuvas.",
+                "licao_espiritual": "Meishu-Sama ensina a encontrar Deus onde ninguém olha: na sombra, no chão, no musgo. O musgo não precisa de sol direto; ele prospera na humildade da sombra, nutrido pela água do céu. É uma lição sobre como a Graça Divina alcança até os lugares mais humildes.",
+                "razao_escolha": "Outubro é primavera chuvosa no Brasil. O musgo florescendo após a chuva simboliza a beleza que nasce da humildade e da nutrição espiritual."
+            }
+        },
+        {
+            "mes": 11,
+            "nome_mes": "Novembro",
+            "estacao_brasil": "Primavera",
+            "poesia": {
+                "numero": 1218,
+                "titulo": "A Montanha de Cerejeiras",
+                "original": "むらさきの　霞の奥にどんよりと　陽うけて桜の山たたずまう",
+                "leitura": "Murasaki no / kasumi no oku ni don'yori to / hi ukete sakura no yama tatazumau",
+                "traducao": "No fundo da bruma purpúrea... Banhada por uma luz difusa e pesada, A montanha coberta de cerejeiras repousa imóvel.",
+                "kigo": "Primavera (Dia nublado ou brumoso). Murasaki no kasumi (Bruma roxa - sinal de elegância e mistério).",
+                "licao_espiritual": "A beleza do Oboro (Vago). A montanha não brilha claramente; ela está oculta na bruma roxa, criando uma atmosfera mística. Meishu-Sama aprecia a beleza que não se revela totalmente, guardando seu segredo nas profundezas.",
+                "razao_escolha": "Novembro é final de primavera no Brasil. As cerejeiras (sakura) são ícone da primavera, e a imagem da montanha envolta em bruma púrpura traz uma atmosfera mística e contemplativa, perfeita para o fim da estação."
+            }
+        },
+        {
+            "mes": 12,
+            "nome_mes": "Dezembro",
+            "estacao_brasil": "Verão",
+            "poesia": {
+                "numero": 14,
+                "titulo": "O Crescimento do Povo",
+                "original": "日の光　月の恵みにすくすくと　たみくさのびるときぞまたるる",
+                "leitura": "Hi no hikari / tsuki no megumi ni / sukusuku to / tamikusa nobiru / toki zo mataruru",
+                "traducao": "Sob a luz do Sol, E a graça da Lua, Aguardo o tempo em que o povo, como a relva, Crescerá vigoroso e próspero.",
+                "kigo": "Embora não haja uma estação explícita, a palavra Sukusuku (crescer rápido e reto) evoca a vitalidade da Primavera/Verão.",
+                "licao_espiritual": "Este poema resume a cosmologia de Meishu-Sama: o equilíbrio entre o Fogo (Sol/Espírito) e a Água (Lua/Matéria). Ele vê o povo como seres vivos que precisam de nutrição espiritual e material equilibrada para florescer. É a esperança do Salvador pela concretização do Paraíso Terrestre.",
+                "razao_escolha": "Dezembro é tempo de celebração, esperança e renovação. Esta poesia expressa o desejo de prosperidade e crescimento para todos, perfeita para encerrar o ano com esperança no futuro."
+            }
+        }
+    ],
+    "metadata": {
+        "titulo": "Calendário Yama to Mizu",
+        "descricao": "12 poesias de Meishu-Sama selecionadas para um calendário mensal, harmonizadas com as estações brasileiras e valores espirituais universais",
+        "fonte": "Coletânea Yama to Mizu (山と水) - Montanha e Água",
+        "autor": "Meishu-Sama (Mokichi Okada)",
+        "criterios_selecao": [
+            "Harmonia com as estações do Brasil (invertidas em relação ao Japão)",
+            "Relevância espiritual para cada momento do ano",
+            "Beleza poética e imagética adequada para uso visual",
+            "Mensagens que ressoam com costumes e valores universais"
+        ]
+    }
+}

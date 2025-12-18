@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Poesias - Yama to Mizu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            /* Cinza nórdico suave */
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* CONTROLES NÓRDICOS */
+        .controls-card {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            padding: 40px;
+            margin-bottom: 40px;
+            border-radius: 4px;
+            /* Raio menor, mais minimalista */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            /* Sombra ultra suave */
+        }
+
+        .controls-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 32px;
+            text-align: center;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            color: #888;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .control-group select,
+        .control-group input {
+            padding: 12px 14px;
+            border: 1px solid #e5e5e5;
+            background: #fff;
+            font-size: 13px;
+            font-weight: 400;
+            color: #1a1a1a;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            border-radius: 0;
+            -webkit-appearance: none;
+            height: 45px;
+            /* Altura fixa para inputs */
+            appearance: none;
+        }
+
+        .control-group .btn {
+            height: 45px;
+            /* Altura fixa para igualar com inputs e entre si */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.2;
+            padding: 0 16px;
+        }
+
+        .control-group select:hover,
+        .control-group input:hover {
+            border-color: #ccc;
+        }
+
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: 1px solid transparent;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.05em;
+            font-family: inherit;
+            text-transform: uppercase;
+            border-radius: 2px;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+            border-color: #333;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .btn-secondary:hover {
+            border-color: #1a1a1a;
+            background: #fff;
+        }
+
+        /* CALENDÁRIO */
+        #calendario {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+        }
+
+        .hero-section {
+            background: #fff;
+            padding: 80px 60px;
+            text-align: center;
+            border-bottom: 1px solid #e5e5e5;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .poesia-original {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 38px;
+            font-weight: 300;
+            color: #1a1a1a;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            letter-spacing: 0.02em;
+        }
+
+        .poesia-traducao {
+            font-size: 15px;
+            color: #525252;
+            line-height: 1.8;
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .calendar-section {
+            padding: 50px 60px;
+            background: #fafafa;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .month-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
+        }
+
+        .year-display {
+            font-size: 20px;
+            font-weight: 300;
+            color: #737373;
+        }
+
+        .fases-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            font-size: 12px;
+            color: #737373;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .fase-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+            border: 1px solid #e5e5e5;
+            width: 1050px;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        .day-header {
+            background: #fafafa;
+            padding: 14px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #737373;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .day-cell {
+            background: #fff;
+            padding: 16px;
+            min-height: 100px;
+            position: relative;
+            border-right: 1px solid #f5f5f5;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .day-cell:nth-child(7n) {
+            border-right: none;
+        }
+
+        .day-cell.outro-mes {
+            background: #fafafa;
+            opacity: 0.3;
+        }
+
+        .day-number {
+            font-size: 16px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .day-cell.feriado .day-number {
+            color: #dc2626;
+            font-weight: 500;
+        }
+
+        .day-cell.domingo .day-number {
+            color: #dc2626;
+        }
+
+        .feriado-nome {
+            font-size: 9px;
+            color: #dc2626;
+            font-weight: 500;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .fase-lua {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* FIM DO CSS DO CALENDÁRIO */
+
+        /* INÍCIO DAS MEDIA QUERIES */
+
+        @media print {
+            @page {
+                size: auto;
+                margin: 10mm;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+
+            body.print-a3 .hero-section {
+                padding: 60px 50px !important;
+                min-height: 350px !important;
+            }
+
+            body.print-a3 .calendar-section {
+                padding: 40px 50px !important;
+            }
+
+            body.print-a4 #calendario {
+                transform: scale(0.8);
+                transform-origin: top center;
+            }
+
+            body.print-a4 .hero-section {
+                padding: 40px 40px !important;
+                min-height: 280px !important;
+            }
+
+            body.print-a4 .calendar-section {
+                padding: 30px 40px !important;
+            }
+
+            body.print-a4 .poesia-original {
+                font-size: 32px !important;
+            }
+
+            body.print-a4 .poesia-traducao {
+                font-size: 13px !important;
+            }
+
+            .controls-card {
+                display: none;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            #calendario {
+                box-shadow: none;
+                margin: 0 auto;
+                border: none;
+            }
+
+            .pagina {
+                page-break-after: always;
+            }
+
+            .pagina:last-child {
+                page-break-after: auto;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            .calendar-grid {
+                width: 100%;
+            }
+
+            .hero-section {
+                padding: 60px 32px;
+            }
+
+            .calendar-section {
+                padding: 40px 32px;
+            }
+
+            .poesia-original {
+                font-size: 28px;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-card {
+                padding: 32px;
+            }
+        }
+
+        /* GRID ANUAL INTERATIVO */
+        .grid-ano {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .card-miniatura {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            /* Scale trick to fit large calendar content into small box */
+            height: 480px;
+            /* Altura fixa para o container */
+        }
+
+        .card-miniatura-content {
+            transform: scale(0.35);
+            /* Zoom out para caber */
+            transform-origin: top left;
+            width: 285%;
+            /* Compensar o scale (100 / 0.35) */
+            height: 285%;
+            pointer-events: none;
+            /* Evitar cliques internos interferindo */
+            background: #fff;
+        }
+
+        .card-miniatura:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-color: #ccc;
+        }
+
+        .card-miniatura.selecionado {
+            border: 2px solid #1a1a1a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-miniatura.selecionado::after {
+            content: '✓ SELECIONADO';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1400px) {
+            .grid-ano {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .grid-ano {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid-ano {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Controles -->
+        <div class="controls-card">
+            <h1 class="controls-title">
+                📅 Gerador de Calendário
+            </h1>
+
+            <!-- Controles -->
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>Mês</label>
+                    <select id="mesSelect" onchange="atualizarCalendario()">
+                        <option value="0">Janeiro</option>
+                        <option value="1">Fevereiro</option>
+                        <option value="2">Março</option>
+                        <option value="3">Abril</option>
+                        <option value="4">Maio</option>
+                        <option value="5">Junho</option>
+                        <option value="6">Julho</option>
+                        <option value="7">Agosto</option>
+                        <option value="8">Setembro</option>
+                        <option value="9">Outubro</option>
+                        <option value="10">Novembro</option>
+                        <option value="11">Dezembro</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Ano</label>
+                    <input type="number" id="anoInput" onchange="atualizarCalendario()">
+                </div>
+
+                <div class="control-group">
+                    <label>Tamanho do Papel</label>
+                    <select id="tamanhoPapel">
+                        <option value="A3">A3 (297 × 420 mm)</option>
+                        <option value="A4">A4 (210 × 297 mm)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <button onclick="randomizarPoesia()" class="btn btn-primary"
+                        style="width: 100%; justify-content: center;">
+                        🎲 Randomizar Mês
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <button onclick="randomizarAnoCompleto()" class="btn btn-primary"
+                        style="width: 100%; justify-content: center;">
+                        🎲 Randomizar Ano Completo
+                    </button>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button class="btn btn-secondary" onclick="alternarVisao()">
+                    👁️ Ver Grade Anual
+                </button>
+                <button class="btn btn-dark" onclick="imprimirMes()">
+                    🖨️ Imprimir Mês
+                </button>
+                <button class="btn btn-primary" onclick="imprimirAnoCompleto()">
+                    📅 Imprimir Ano Completo (12 meses)
+                </button>
+            </div>
+        </div>
+
+        <!-- Visão Única (Padrão) -->
+        <div id="calendario">
+            <!-- Conteúdo do calendário gerado via JS -->
+        </div>
+
+        <!-- Visão Grade Anual (Oculta) -->
+        <div id="visaoAno" class="grid-ano" style="display: none;">
+            <!-- Grid gerado via JS -->
+        </div>
+    </div>
+
+    <script>
+        // Estado global
+        let state = {
+            mes: new Date().getMonth(),
+            ano: new Date().getFullYear(),
+            poesiaSelecionada: 0,
+            temaFiltro: 'Todos',
+            poesiasEscolhidas: Array(12).fill(null), // Array para guardar índice da poesia de cada mês (0-11)
+            todasPoesias: [
+                // JANEIRO - Verão
+                {
+                    title: "Pirilampos",
+                    original: "夕さりて　青田を渡る風涼し　行手の闇を蛍かすめぬ",
+                    translation: "Ao cair da tarde, O vento que cruza os arrozais verdes traz frescor; Pirilampos riscam a escuridão do meu caminho.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Verde Vibrante",
+                    original: "青青と　茂り合う木の葉影に　涼しき風の時々吹ける",
+                    translation: "Azul-verde vibrante! À sombra das folhas que se entrelaçam densamente, Uma brisa fresca sopra de tempos em tempos.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Arrozais Verdes",
+                    original: "青青田原　渡る風こそ心地よけれ　頬に当たりて汗の乾くを",
+                    translation: "O vento que cruza os arrozais verdejantes É tão agradável! Toca meu rosto E seca o suor que escorre.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Vento Perfumado",
+                    original: "風薫る　朝のすずろに心地よき　鈴虫の音を聞きつつ歩む",
+                    translation: "O vento perfumado da manhã traz uma sensação deliciosa! Caminho ouvindo O som dos grilos cantando.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Sombra do Bambu",
+                    original: "竹林の　下陰涼し夏の日の　暑さを忘れしばしたたずむ",
+                    translation: "Fresca é a sombra sob os bambus! Em um dia de verão, Esqueço o calor E fico parado por um momento.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+
+                // FEVEREIRO - Verão
+                {
+                    title: "Expansão da Alma",
+                    original: "風薫り　青葉光れる初夏の　庭に下りたてば胸のひろぎぬ",
+                    translation: "O vento perfumado e as folhas verdes resplandecem; Ao descer ao jardim no início do verão, Meu peito se dilata infinitamente.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Luz nas Folhas",
+                    original: "木の葉影　はだらに光る夏の日の　暑さも忘れしばしたたずむ",
+                    translation: "Através da sombra das folhas, A luz do sol cintila salpicada... Esqueço até o calor do verão E fico parado, contemplando.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Juncos Crescendo",
+                    original: "若葦の　すくすく伸びる夏の野の　力強さを見るこそ嬉し",
+                    translation: "Os juncos jovens crescem vigorosos nos campos de verão... Que alegria ver Essa força poderosa!",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Verde Intenso",
+                    original: "青葉若葉　光り輝く夏の朝　心も晴れて気分爽やか",
+                    translation: "Folhas verdes, folhas novas Brilham radiantes na manhã de verão... Meu coração se abre E meu espírito se torna fresco.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Rio Azul",
+                    original: "青青と　澄める川面に鮎跳ねて　夏のいのちの輝き見せぬ",
+                    translation: "Azul profundo e límpido é o rio... Os peixes saltam na superfície, Mostrando o brilho Da vida no verão.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+
+                // MARÇO - Outono
+                {
+                    title: "O Arco-Íris de Maio",
+                    original: "五月雨の　霽るると見れば遠方に　雲の峯並みうすら虹見ゆ",
+                    translation: "Ao dissipar-se a longa chuva de maio, Vislumbro ao longe picos de nuvens E um tênue arco-íris a surgir.",
+                    kigo: "Outono",
+                    meses: [5]
+                },
+                {
+                    title: "Céu Transparente",
+                    original: "秋晴れの　空の清けさ言葉なし　ただ見上げつつ心洗わる",
+                    translation: "Não há palavras para descrever A pureza do céu claro de outono... Apenas olho para cima E meu coração é lavado.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Ar Cristalino",
+                    original: "秋の空　澄めるが如く心まで　清められゆく思いするかな",
+                    translation: "Como o céu límpido do outono, Sinto que até meu coração Está sendo purificado.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Folhas Coloridas",
+                    original: "もみじ葉の　色づき初むる秋の山　見るも楽しき今日この頃かな",
+                    translation: "As folhas de bordo começam a se colorir Na montanha de outono... Que prazer contemplá-las Nestes dias!",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Brisa Outonal",
+                    original: "秋風の　涼しく吹きて心地よし　暑さ去りたる幸を思いぬ",
+                    translation: "A brisa de outono sopra fresca e agradável... Penso na felicidade De o calor ter passado.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+
+                // ABRIL - Outono  
+                {
+                    title: "O Tempo da Dália",
+                    original: "ダーリヤの　花のいろいろ秋の陽に　もえたつを見ぬわが暇ひまを",
+                    translation: "As várias cores das Dálias ardem como fogo ao sol de outono... E eu aproveito meus momentos de folga para contemplar esse incêndio.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Sol de Outono",
+                    original: "秋の陽の　優しく照らす午後の庭　静けさの中に心安らぐ",
+                    translation: "O sol de outono ilumina gentilmente O jardim da tarde... No silêncio, Meu coração encontra paz.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Montanha Distante",
+                    original: "秋晴れに　遠き山見え心地よし　空気澄みたる今日この頃を",
+                    translation: "No céu claro de outono, vejo montanhas dist antes... Que sensação agradável! Nestes dias de ar puro.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Libélulas Dançando",
+                    original: "秋空に　群れて飛び交う赤とんぼ　夕日を浴びて輝き見せぬ",
+                    translation: "No céu de outono, libélulas vermelhas voam em bando... Banhadas pelo sol poente, Mostram seu brilho.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Noite Fresca",
+                    original: "秋の夜の　涼しき風に誘われて　窓を開けば星の輝き",
+                    translation: "Convidado pela brisa fresca da noite de outono, Abro a janela E vejo o brilho das estrelas.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+
+                // MAIO - Outono
+                {
+                    title: "Vidros Cintilantes",
+                    original: "うららかに　陽ざす朝なり秋の空　すける玻璃戸はみなきらめける",
+                    translation: "Radiante e serena é a manhã, banhada de sol sob o céu de outono... As portas de vidro, perfeitamente translúcidas, Cintilam todas, em um espetáculo de pura luz.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Claridade Matinal",
+                    original: "秋の朝　窓より差し込む光見て　一日の始まり心躍らす",
+                    translation: "Manhã de outono... Vejo a luz entrando pela janela E meu coração salta Com o início do dia.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Grama Outonal",
+                    original: "秋草の　露に濡れたる朝の庭　静寂の中に美しさ宿る",
+                    translation: "As ervas de outono molhadas de orvalho No jardim da manhã... No silêncio Habita a beleza.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Paz do Entardecer",
+                    original: "秋の日の　夕べ静かに暮れゆきて　心の内も穏やかになる",
+                    translation: "O dia de outono vai silenciosamente escurecendo... E dentro do meu coração Também se faz a calma.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+                {
+                    title: "Lua Clara",
+                    original: "秋の月　冴え冴えと照る夜の空　眺めて心清められゆく",
+                    translation: "A lua de outono brilha límpida e clara No céu noturno... Contemplando-a, Meu coração é purificado.",
+                    kigo: "Outono",
+                    meses: [3, 4, 5]
+                },
+
+                // JUNHO - Inverno
+                {
+                    title: "O Som da Geada",
+                    original: "橋の上の　夜霜さらさら音すなり　寒月空につめたく光る",
+                    translation: "Sobre o tabuleiro da ponte, a geada noturna roça e sussurra — 'sara-sara'... Enquanto no alto, a Lua Fria cintila, Gélida e cortante na vastidão do firmamento.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Manhã Gelada",
+                    original: "冬の朝　窓の外には霜降りて　白き世界の美しきかな",
+                    translation: "Manhã de inverno... Fora da janela a geada caiu, Criando um mundo branco De grande beleza.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Ar Frio",
+                    original: "寒き朝　息白く出て冬を知る　身を引き締めて歩み始める",
+                    translation: "Manhã fria... Minha respiração sai branca e sei que é inverno. Armando-me de coragem, Começo a caminhar.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Céu de Inverno",
+                    original: "冬空の　澄み渡りたる青さかな　心まで澄む思いするなり",
+                    translation: "Que azul límpido tem o céu de inverno! Sinto como se Até meu coração Se tornasse transparente.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Ramos Nus",
+                    original: "冬木立　葉を落としたる枝見れば　春を待つ力感じられぬ",
+                    translation: "As árvores de inverno... Vendo os galhos que perderam as folhas, Sinto a força Que aguarda a primavera.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+
+                // JULHO - Inverno
+                {
+                    title: "O Toque do Braseiro",
+                    original: "瀬戸火鉢のしたしい触感　ヒシヒシと鳴る　炭火の音",
+                    translation: "A textura íntima e familiar do braseiro de cerâmica... E o som do carvão que canta — 'hishi-hishi' — Num estalar tenso e abafado.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Calor do Fogo",
+                    original: "炉の火の　温もり嬉しき冬の夜　家族囲みて心和むなり",
+                    translation: "Que alegria o calor do fogo na lareira Numa noite de inverno! A família se reúne E os corações se harmonizam.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Lua Gélida",
+                    original: "寒月の　冴え渡りたる夜の空　凍る思いで眺めておりぬ",
+                    translation: "A lua fria brilha intensamente No céu noturno... Com sentimento de congelamento, Fico contemplando.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Vento Cortante",
+                    original: "木枯らしの　吹く音聞けば身に沁みて　冬の厳しさ改めて知る",
+                    translation: "Ouvindo o som do vento gélido soprar, Sinto penetrar até os ossos E conheço novamente A severidade do inverno.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Neve Silenciosa",
+                    original: "降る雪の　静けさの中に身を置けば　心も静まり安らぎ得たり",
+                    translation: "Colocando-me no silêncio Da neve que cai, Meu coração também se acalma E encontro paz.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+
+                // AGOSTO - Inverno
+                {
+                    title: "Folhas na Geada",
+                    original: "二つ三つ　もみぢのちり葉松の葉に　かかるが見ゆる霜白き朝",
+                    translation: "Duas, três folhas vermelhas caídas... ficaram presas nos galhos do pinheiro. Vejo-as brilhando nesta manhã branca de geada.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Pinheiro Verde",
+                    original: "常緑の　松の緑も冬の朝　霜に覆われ白く輝く",
+                    translation: "Até o verde sempre-vivo do pinheiro Numa manhã de inverno É coberto pela geada E brilha em branco.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Orvalho Gelado",
+                    original: "冬の朝　草葉に凍る露見れば　自然の厳しさ美しきかな",
+                    translation: "Manhã de inverno... Vendo o orvalho congelado nas folhas da grama, A severidade da natureza É bela!",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Quietude Invernal",
+                    original: "冬の夜の　静寂深く心澄む　この静けさに身を委ねたり",
+                    translation: "A noite de inverno... O silêncio é profundo e o coração se purifica. A este silêncio Entrego-me completamente.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+                {
+                    title: "Sol Fraco",
+                    original: "冬日和　弱き日差しも有難く　暖を求める心満たさる",
+                    translation: "Dia de bom tempo no inverno... Até os fracos raios de sol são gratos E satisfazem o coração Que busca calor.",
+                    kigo: "Inverno",
+                    meses: [6, 7, 8]
+                },
+
+                // SETEMBRO - Primavera
+                {
+                    title: "A Primavera Interior",
+                    original: "春は先づ　人の心に立ちそむか　昨日と同じ寒風ふけども",
+                    translation: "A Primavera, por acaso, começa primeiro dentro do coração humano? Pergunto isso porque, lá fora, O mesmo vento gélido de ontem continua a soprar.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Primeiros Brotos",
+                    original: "春めいて　小さな芽吹き見つけたり　大地の命目覚める時を",
+                    translation: "Cheira a primavera... Encontrei pequenos brotos! É o momento em que A vida da terra desperta.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Ar Renovado",
+                    original: "春の風　優しく吹きて心地よし　新しき季節の訪れ感じぬ",
+                    translation: "O vento da primavera sopra gentilmente e agradavelmente... Sinto a chegada Da nova estação.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Esperança Verde",
+                    original: "若草の　萌え出づる野辺を眺むれば　希望に満ちたる思いするなり",
+                    translation: "Contemplando os campos onde A grama jovem brota, Sinto-me Cheio de esperança.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Céu Clareando",
+                    original: "春の空　霞たなびき穏やかに　心も軽くなりゆくを知る",
+                    translation: "O céu da primavera... A bruma paira suavemente E sei que Meu coração também se torna leve.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+
+                // OUTUBRO - Primavera
+                {
+                    title: "Chuva e Musgo",
+                    original: "雨はれて　露もしとどの篁の　下かげ青く苔の花咲く",
+                    translation: "A chuva cessou. No bambuzal ainda denso de orvalho, Sob a sombra fresca e úmida, O musgo floresce em verde profundo.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Riacho Cantando",
+                    original: "春の水　せせらぎの音心地よく　耳を澄ませば心洗わる",
+                    translation: "A água da primavera... O som do riacho murmurando é agradável. Aguçando os ouvidos, Meu coração é lavado.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Verde Ressurgindo",
+                    original: "木々の芽の　吹き出す様に春を見て　生命の力感じ入りぬ",
+                    translation: "Vendo a primavera Nos brotos que explodem das árvores, Sinto profundamente O poder da vida.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Borboletas Dançantes",
+                    original: "蝶々の　舞い飛ぶ春の午後の庭　のどかなる時に心和むなり",
+                    translation: "Borboletas voam dançando No jardim numa tarde de primavera... Neste tempo tranquilo, Meu coração se harmoniza.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Manhã Luminosa",
+                    original: "春の朝　光り溢るる窓辺にて　新しき日の喜び感ず",
+                    translation: "Manhã de primavera... À janela transbordante de luz, Sinto a alegria Do novo dia.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+
+                // NOVEMBRO - Primavera
+                {
+                    title: "A Montanha de Cerejeiras",
+                    original: "むらさきの　霞の奥にどんよりと　陽うけて桜の山たたずまう",
+                    translation: "No fundo da bruma purpúrea... Banhada por uma luz difusa e pesada, A montanha coberta de cerejeiras repousa imóvel.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Flores Desabrochando",
+                    original: "春深く　花々咲き誇る庭見れば　自然の恵み感謝せずおれず",
+                    translation: "Primavera profunda... Vendo o jardim onde as flores desabrocham orgulhosas, Não posso deixar de Agradecer as bênçãos da natureza.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Brisa Floral",
+                    original: "花の香の　漂う春の夕暮れに　心も華やぐ思いするかな",
+                    translation: "No entardecer de primavera onde O perfume das flores fluor a... Sinto como se Meu coração também florescesse.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Pássaros Cantando",
+                    original: "小鳥らの　さえずり聞こゆ春の朝　心弾みて一日始まる",
+                    translation: "Ouço o chilrear dos passarinhos Numa manhã de primavera... Meu coração salta E o dia começa.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+                {
+                    title: "Verde Intenso",
+                    original: "新緑の　眩しき程に光りたる　木々を見上げて力もらいぬ",
+                    translation: "O verde fresco brilha tão intensamente que ofusca... Olhando para as árvores, Recebo força.",
+                    kigo: "Primavera",
+                    meses: [9, 10, 11]
+                },
+
+                // DEZEMBRO - Verão
+                {
+                    title: "O Crescimento do Povo",
+                    original: "日の光　月の恵みにすくすくと　たみくさのびるときぞまたるる",
+                    translation: "Sob a luz do Sol, E a graça da Lua, Aguardo o tempo em que o povo, como a relva, Crescerá vigoroso e próspero.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Céu Azul",
+                    original: "夏空の　青さ見上げて心晴れ　この日の喜び胸に刻まる",
+                    translation: "Olhando o azul do céu de verão, meu coração se abre... A alegria deste dia É gravada em meu peito.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Força Vital",
+                    original: "夏草の　生い茂る野辺の力強さ　見るも頼もし心躍らす",
+                    translation: "A força das ervas de verão crescendo densamente nos campos... É confiável de ver E faz meu coração saltar.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Dia Radiante",
+                    original: "夏の日の　光り満ちたる午後の庭　生命溢るる様美しき",
+                    translation: "Jardim da tarde cheio Da luz do dia de verão... Bela é a aparência Transbordante de vida.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                },
+                {
+                    title: "Energia do Sol",
+                    original: "太陽の　恵み受けたる大地見て　感謝の思い新たにするなり",
+                    translation: "Vendo a terra recebendo As bênçãos do sol, Renovo os sentimentos De gratidão.",
+                    kigo: "Verão",
+                    meses: [1, 2, 12]
+                }
+            ]
+        };
+
+        const mesesPt = [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ];
+
+        const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+        const feriadosBrasileiros = {
+            0: [
+                { dia: 1, nome: 'Ano Novo' },
+                { dia: 25, nome: 'Aniversário de SP' }
+            ],
+            3: [{ dia: 21, nome: 'Tiradentes' }],
+            4: [{ dia: 1, nome: 'Dia do Trabalho' }],
+            6: [{ dia: 9, nome: 'Revolução Constitucionalista' }],
+            8: [{ dia: 7, nome: 'Independência do Brasil' }],
+            9: [{ dia: 12, nome: 'Nossa Senhora Aparecida' }],
+            10: [
+                { dia: 2, nome: 'Finados' },
+                { dia: 15, nome: 'Proclamação da República' },
+                { dia: 20, nome: 'Consciência Negra' }
+            ],
+            11: [{ dia: 25, nome: 'Natal' }]
+        };
+
+        // Inicialização
+        document.getElementById('mesSelect').value = state.mes;
+        document.getElementById('anoInput').value = state.ano;
+
+        function carregarJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const json = JSON.parse(e.target.result);
+
+                    // Aceita diferentes formatos de JSON
+                    let poesias = [];
+                    if (json.calendario) {
+                        // Formato do JSON que criamos (brasileiro)
+                        poesias = json.calendario.map(item => ({
+                            title: item.poesia.titulo,
+                            original: item.poesia.original,
+                            translation: item.poesia.traducao,
+                            leitura: item.poesia.leitura,
+                            kigo: item.estacao_brasil,
+                            month: item.mes // mes em português (1-12)
+                        }));
+                    } else if (Array.isArray(json)) {
+                        poesias = json;
+                    } else if (json.poesias || json.poems) {
+                        poesias = json.poesias || json.poems;
+                    }
+
+                    if (poesias.length > 0) {
+                        state.todasPoesias = poesias;
+                        state.poesiaSelecionada = 0;
+                        state.temaFiltro = 'Todos';
+
+                        atualizarSelects();
+                        atualizarCalendario();
+
+                        document.getElementById('json-status').textContent = `✅ ${poesias.length} poesias carregadas`;
+                        alert(`✅ ${poesias.length} poesias carregadas com sucesso!`);
+                    } else {
+                        alert('❌ Formato de JSON inválido.');
+                    }
+                } catch (error) {
+                    alert('❌ Erro ao ler o arquivo JSON: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function randomizarPoesia() {
+            // Filtra poesias que são apropriadas para o mês atual
+            const mesAtual = state.mes + 1;
+            const poesiasDoMes = state.todasPoesias.filter(p => p.meses && p.meses.includes(mesAtual));
+
+            if (poesiasDoMes.length === 0) {
+                alert('Não há poesias disponíveis para este mês.');
+                return;
+            }
+
+            // Escolhe uma poesia aleatória
+            const indiceAleatorio = Math.floor(Math.random() * poesiasDoMes.length);
+            const poesiaEscolhida = poesiasDoMes[indiceAleatorio];
+
+            // Encontra o índice real no array completo
+            const indiceReal = state.todasPoesias.indexOf(poesiaEscolhida);
+
+            // Salva na memória
+            state.poesiasEscolhidas[state.mes] = indiceReal;
+            state.poesiaSelecionada = indiceReal;
+
+            // Atualiza dependendo da visão
+            if (state.modoVisualizacao === 'grade') {
+                renderizarAnoView();
+            } else {
+                atualizarCalendario();
+            }
+        }
+
+        function randomizarAnoCompleto() {
+            // Nota: Não usa localStorage (compatibilidade com modo privado)
+
+            const novasEscolhas = [];
+            let ultimaPoesiaEscolhida = null;
+
+            // Para cada mês (1-12)
+            for (let mes = 1; mes <= 12; mes++) {
+                const poesiasDoMes = state.todasPoesias.filter(p => p.meses && p.meses.includes(mes));
+
+                if (poesiasDoMes.length === 0) {
+                    novasEscolhas.push(null);
+                    continue;
+                }
+
+                // Filtra poesias que NÃO são consecutivas
+                let pool = poesiasDoMes.filter((p) => {
+                    const indiceReal = state.todasPoesias.indexOf(p);
+                    return indiceReal !== ultimaPoesiaEscolhida;
+                });
+
+
+
+                // Se ainda assim não há opções, usa todas
+                if (pool.length === 0) pool = poesiasDoMes;
+
+                // Escolhe aleatória
+                const indiceAleatorio = Math.floor(Math.random() * pool.length);
+                const poesiaEscolhida = pool[indiceAleatorio];
+                const indiceReal = state.todasPoesias.indexOf(poesiaEscolhida);
+
+                novasEscolhas.push(indiceReal);
+            }
+
+            // Salva as escolhas deste ano (apenas em memória)
+            state.poesiasEscolhidas = novasEscolhas;
+
+            // Atualiza o calendário para o mês atual
+            state.poesiaSelecionada = novasEscolhas[state.mes];
+            const poesiaAtual = state.todasPoesias[novasEscolhas[state.mes]];
+            const fasesLua = obterDiasFasesLua(state.mes, state.ano);
+            const dias = gerarCalendario(state.mes, state.ano);
+            renderizarCalendario(poesiaAtual, fasesLua, dias);
+
+            alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\n${novasEscolhas.filter(p => p !== null).length} poesias escolhidas.\n\nNão há repetições consecutivas!`);
+        }
+
+        function atualizarCalendario() {
+            state.mes = parseInt(document.getElementById('mesSelect').value);
+            state.ano = parseInt(document.getElementById('anoInput').value);
+
+            const poesiasFiltradas = state.temaFiltro === 'Todos'
+                ? state.todasPoesias
+                : state.todasPoesias.filter(p => p.kigo && p.kigo.includes(state.temaFiltro));
+
+            // Busca a poesia específica para o mês atual (mes + 1 porque é 0-indexed)
+            const mesAtual = state.mes + 1;
+            let poesiaDoMesIndex = poesiasFiltradas.findIndex(p => p.meses && p.meses.includes(mesAtual));
+
+            // Se não houver poesia específica selecionada, escolhe a primeira do mês 
+            if (poesiaDoMesIndex === -1) {
+                // Tenta encontrar qualquer poesia do mês na lista completa
+                poesiaDoMesIndex = state.todasPoesias.findIndex(p => p.meses && p.meses.includes(mesAtual));
+                if (poesiaDoMesIndex !== -1) {
+                    state.poesiaSelecionada = poesiaDoMesIndex;
+                }
+            } else {
+                state.poesiaSelecionada = poesiaDoMesIndex;
+            }
+
+            const poesiaAtual = state.todasPoesias[state.poesiaSelecionada] || poesiasFiltradas[0];
+            const fasesLua = obterDiasFasesLua(state.mes, state.ano);
+            const dias = gerarCalendario(state.mes, state.ano);
+
+            renderizarCalendario(poesiaAtual, fasesLua, dias);
+        }
+
+        function gerarCalendario(mes, ano) {
+            const primeiroDia = new Date(ano, mes, 1).getDay();
+            const ultimoDia = new Date(ano, mes + 1, 0).getDate();
+
+            const dias = [];
+
+            for (let i = 0; i < primeiroDia; i++) {
+                dias.push({ dia: '', mesAtual: false });
+            }
+
+            for (let i = 1; i <= ultimoDia; i++) {
+                dias.push({ dia: i, mesAtual: true });
+            }
+
+            const diasRestantes = 42 - dias.length;
+            for (let i = 0; i < diasRestantes; i++) {
+                dias.push({ dia: '', mesAtual: false });
+            }
+
+            return dias;
+        }
+
+        function calcularPascoa(ano) {
+            const a = ano % 19;
+            const b = Math.floor(ano / 100);
+            const c = ano % 100;
+            const d = Math.floor(b / 4);
+            const e = b % 4;
+            const f = Math.floor((b + 8) / 25);
+            const g = Math.floor((b - f + 1) / 3);
+            const h = (19 * a + b - d - g + 15) % 30;
+            const i = Math.floor(c / 4);
+            const k = c % 4;
+            const l = (32 + 2 * e + 2 * i - h - k) % 7;
+            const m = Math.floor((a + 11 * h + 22 * l) / 451);
+            const mesPascoa = Math.floor((h + l - 7 * m + 114) / 31);
+            const diaPascoa = ((h + l - 7 * m + 114) % 31) + 1;
+
+            return new Date(ano, mesPascoa - 1, diaPascoa);
+        }
+
+        function ehFeriado(dia, mes, ano) {
+            const feriadoFixo = feriadosBrasileiros[mes]?.find(f => f.dia === dia);
+            if (feriadoFixo) return feriadoFixo.nome;
+
+            const pascoa = calcularPascoa(ano);
+
+            const carnaval = new Date(pascoa);
+            carnaval.setDate(pascoa.getDate() - 47);
+            if (mes === carnaval.getMonth() && dia === carnaval.getDate()) return 'Carnaval';
+
+            const sextaSanta = new Date(pascoa);
+            sextaSanta.setDate(pascoa.getDate() - 2);
+            if (mes === sextaSanta.getMonth() && dia === sextaSanta.getDate()) return 'Sexta-feira Santa';
+
+            const corpus = new Date(pascoa);
+            corpus.setDate(pascoa.getDate() + 60);
+            if (mes === corpus.getMonth() && dia === corpus.getDate()) return 'Corpus Christi';
+
+            return null;
+        }
+
+        function obterDiasFasesLua(mes, ano) {
+            const ultimoDia = new Date(ano, mes + 1, 0).getDate();
+            const fases = { nova: null, crescente: null, cheia: null, minguante: null };
+
+            for (let dia = 1; dia <= ultimoDia; dia++) {
+                const data = new Date(ano, mes, dia);
+                const conhecidaLuaNova = new Date(2000, 0, 6);
+                const cicleLunar = 29.53058867;
+                const diasDesde = (data - conhecidaLuaNova) / (1000 * 60 * 60 * 24);
+                const fase = ((diasDesde % cicleLunar) + cicleLunar) % cicleLunar;
+
+                if (fase < 1.5 && fases.nova === null) fases.nova = dia;
+                else if (fase >= 6.5 && fase < 8.5 && fases.crescente === null) fases.crescente = dia;
+                else if (fase >= 13.5 && fase < 15.5 && fases.cheia === null) fases.cheia = dia;
+                else if (fase >= 20.5 && fase < 22.5 && fases.minguante === null) fases.minguante = dia;
+            }
+
+            return fases;
+        }
+
+        function renderizarCalendario(poesia, fasesLua, dias) {
+            const calendario = document.getElementById('calendario');
+
+            let diasHTML = '';
+            dias.forEach((d, i) => {
+                const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, state.mes, state.ano) : null;
+                const isDomingo = i % 7 === 0;
+                const rowIndex = Math.floor(i / 7);
+                const colIndex = i % 7;
+
+                const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
+                const borderRight = colIndex < 6 ? 'border-right: 1px solid #e5e5e5;' : '';
+
+                diasHTML += `
+          <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
+               style="${borderBottom} ${borderRight}">
+            ${d.dia ? `
+              <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''}"
+                   style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (d.mesAtual ? '#1a1a1a' : '#bbb')};">
+                ${d.dia}
+              </div>
+              ${nomeFeriado ? `<div class="holiday-name">${nomeFeriado}</div>` : ''}
+            ` : ''}
+          </div>
+        `;
+            });
+
+            calendario.innerHTML = `
+        <div class="hero-section">
+          <div style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 40px; font-weight: 400;">Yama to Mizu</div>
+          <div class="poesia-original">${poesia.original}</div>
+          <div class="poesia-traducao">${poesia.translation}</div>
+          <div style="font-size: 12px; color: #999; margin-top: 35px; font-weight: 300; letter-spacing: 1px;">— Meishu-sama</div>
+        </div>
+        
+        <div class="calendar-section">
+          <div class="calendar-header">
+            <div class="month-title">${mesesPt[state.mes]}</div>
+            
+            <div class="moon-phases">
+              <div class="moon-phases-title">Fases da lua</div>
+              <div class="moon-phases-row">
+                <span class="moon-icon">◐</span>
+                <span>${fasesLua.crescente || '-'}</span>
+                <span class="moon-icon" style="margin-left: 4px;">○</span>
+                <span>${fasesLua.cheia || '-'}</span>
+                <span class="moon-icon" style="margin-left: 4px;">◑</span>
+                <span>${fasesLua.minguante || '-'}</span>
+                <span class="moon-icon" style="margin-left: 4px;">●</span>
+                <span>${fasesLua.nova || '-'}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="calendar-grid">
+            ${diasSemana.map((dia, i) => `
+              <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}">
+                ${dia}
+              </div>
+            `).join('')}
+            
+            ${diasHTML}
+          </div>
+          
+          <div class="year-footer">${state.ano}</div>
+        </div>
+      `;
+        }
+
+        // --- LÓGICA DA VISÃO ANUAL INTERATIVA ---
+
+        state.modoVisualizacao = 'unico'; // 'unico' ou 'grade'
+
+        function alternarVisao() {
+            const calendarioDiv = document.getElementById('calendario');
+            const visaoAnoDiv = document.getElementById('visaoAno');
+            const btn = document.querySelector('button[onclick="alternarVisao()"]');
+
+            if (state.modoVisualizacao === 'unico') {
+                state.modoVisualizacao = 'grade';
+                calendarioDiv.style.display = 'none';
+                visaoAnoDiv.style.display = 'grid';
+                btn.innerHTML = '👁️ Ver Mês Único';
+                renderizarAnoView();
+            } else {
+                state.modoVisualizacao = 'unico';
+                calendarioDiv.style.display = 'block';
+                visaoAnoDiv.style.display = 'none';
+                btn.innerHTML = '👁️ Ver Grade Anual';
+                atualizarCalendario(); // Volta para o mês selecionado
+            }
+        }
+
+        function selecionarMes(mesIndex) {
+            state.mes = mesIndex;
+            document.getElementById('mesSelect').value = mesIndex;
+
+            // Re-renderizar grade para atualizar seleção visual
+            renderizarAnoView();
+        }
+
+        function renderizarAnoView() {
+            const visaoAnoDiv = document.getElementById('visaoAno');
+            if (state.modoVisualizacao !== 'grade') return;
+
+            let htmlFull = '';
+
+            for (let m = 0; m < 12; m++) {
+                // Obter poesia
+                let poesiaDoMes;
+                const indicePoesiaEscolhida = state.poesiasEscolhidas[m];
+
+                if (indicePoesiaEscolhida !== null) {
+                    poesiaDoMes = state.todasPoesias[indicePoesiaEscolhida];
+                } else {
+                    // Se não tiver escolhida, pega padrão da época
+                    poesiaDoMes = state.todasPoesias.find(p => p.meses.includes(m + 1)) || state.todasPoesias[0];
+                }
+
+                const fasesLuaMes = obterDiasFasesLua(m, state.ano);
+                const diasMes = gerarCalendario(m, state.ano);
+                const isSelecionado = (m === state.mes);
+
+                // Gerar grid de dias do mês
+                let diasHTML = '';
+                diasMes.forEach((d, i) => {
+                    const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, m, state.ano) : null;
+                    const isDomingo = i % 7 === 0;
+                    const rowIndex = Math.floor(i / 7);
+                    const colIndex = i % 7;
+                    const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
+                    const borderRight = colIndex < 6 ? 'border-right: 1px solid #e5e5e5;' : '';
+
+                    diasHTML += `
+                      <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
+                           style="${borderBottom} ${borderRight}">
+                        ${d.dia ? `<div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''}"
+                               style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (d.mesAtual ? '#1a1a1a' : '#bbb')};">
+                            ${d.dia}
+                          </div>` : ''}
+                      </div>`;
+                });
+
+                // HTML do Card Miniatura
+                htmlFull += `
+                <div class="card-miniatura ${isSelecionado ? 'selecionado' : ''}" onclick="selecionarMes(${m})">
+                    <div class="card-miniatura-content">
+                         <div class="hero-section">
+                          <div style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 40px; font-weight: 400;">Yama to Mizu</div>
+                          <div class="poesia-original">${poesiaDoMes.original}</div>
+                          <div class="poesia-traducao">${poesiaDoMes.translation}</div>
+                        </div>
+                        
+                        <div class="calendar-section">
+                          <div class="calendar-header">
+                            <div class="month-title">${mesesPt[m]}</div>
+                            <div class="moon-phases">
+                              <div class="moon-phases-row">
+                                <span class="moon-icon">◐</span>
+                                <span>${fasesLuaMes.crescente || '-'}</span>
+                                <span class="moon-icon" style="margin-left: 4px;">○</span>
+                                <span>${fasesLuaMes.cheia || '-'}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="calendar-grid">
+                            ${diasSemana.map((dia, i) => `<div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}">${dia}</div>`).join('')}
+                            ${diasHTML}
+                          </div>
+                          <div class="year-footer">${state.ano}</div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            visaoAnoDiv.innerHTML = htmlFull;
+        }
+
+        // --- FIM LÓGICA VISÃO ANUAL ---
+
+        function imprimirMes() {
+            const tamanhoPapel = document.getElementById('tamanhoPapel').value;
+
+            // Adiciona classe ao body baseado no tamanho selecionado
+            document.body.classList.add(`print-${tamanhoPapel.toLowerCase()}`);
+
+            // Aguarda um pouco para aplicar o estilo
+            setTimeout(() => {
+                window.print();
+
+                // Remove a classe após imprimir
+                window.onafterprint = () => {
+                    document.body.classList.remove(`print-${tamanhoPapel.toLowerCase()}`);
+                };
+            }, 100);
+        }
+
+        function imprimirAnoCompleto() {
+            const tamanhoPapel = document.getElementById('tamanhoPapel').value;
+            const janelaImpressao = window.open('', '', 'height=1200,width=1400');
+
+            let htmlCompleto = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Calendário ${state.ano} - Ano Completo</title>
+          <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+          <style>
+            ${document.querySelector('style').textContent}
+            .pagina { page-break-after: always; }
+            .pagina:last-child { page-break-after: auto; }
+          </style>
+        </head>
+        <body class="print-${tamanhoPapel.toLowerCase()}">
+      `;
+
+            for (let m = 0; m < 12; m++) {
+                // Obter poesia (usa lógica de escolhidas se houver)
+                let poesiaDoMes;
+                const indicePoesiaEscolhida = state.poesiasEscolhidas[m];
+
+                if (indicePoesiaEscolhida !== null) {
+                    poesiaDoMes = state.todasPoesias[indicePoesiaEscolhida];
+                } else {
+                    poesiaDoMes = state.todasPoesias.find(p => p.meses.includes(m + 1)) || state.todasPoesias[0];
+                }
+
+                const fasesLuaMes = obterDiasFasesLua(m, state.ano);
+                const diasMes = gerarCalendario(m, state.ano);
+
+                let diasHTML = '';
+                diasMes.forEach((d, i) => {
+                    const nomeFeriado = d.mesAtual && d.dia ? ehFeriado(d.dia, m, state.ano) : null;
+                    const isDomingo = i % 7 === 0;
+                    const rowIndex = Math.floor(i / 7);
+                    const colIndex = i % 7;
+
+                    const borderBottom = rowIndex < 5 ? 'border-bottom: 1px solid #e5e5e5;' : '';
+                    const borderRight = colIndex < 6 ? 'border-right: 1px solid #e5e5e5;' : '';
+
+                    diasHTML += `
+            <div class="day-cell ${d.mesAtual ? 'current-month' : 'other-month'}" 
+                 style="${borderBottom} ${borderRight}">
+              ${d.dia ? `
+                <div class="day-number ${nomeFeriado ? 'holiday' : ''} ${isDomingo ? 'sunday' : ''}"
+                     style="color: ${nomeFeriado || isDomingo ? '#dc2626' : (d.mesAtual ? '#1a1a1a' : '#bbb')};">
+                  ${d.dia}
+                </div>
+                ${nomeFeriado ? `<div class="holiday-name">${nomeFeriado}</div>` : ''}
+              ` : ''}
+            </div>
+          `;
+                });
+
+                htmlCompleto += `
+          <div class="pagina" id="calendario">
+            <div class="hero-section">
+              <div style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 40px; font-weight: 400;">Yama to Mizu</div>
+              <div class="poesia-original">${poesiaDoMes.original}</div>
+              <div class="poesia-traducao">${poesiaDoMes.translation}</div>
+              <div style="font-size: 12px; color: #999; margin-top: 35px; font-weight: 300; letter-spacing: 1px;">— Meishu-sama</div>
+            </div>
+            
+            <div class="calendar-section">
+              <div class="calendar-header">
+                <div class="month-title">${mesesPt[m]}</div>
+                
+                <div class="moon-phases">
+                  <div class="moon-phases-title">Fases da lua</div>
+                  <div class="moon-phases-row">
+                    <span class="moon-icon">◐</span>
+                    <span>${fasesLuaMes.crescente || '-'}</span>
+                    <span class="moon-icon" style="margin-left: 4px;">○</span>
+                    <span>${fasesLuaMes.cheia || '-'}</span>
+                    <span class="moon-icon" style="margin-left: 4px;">◑</span>
+                    <span>${fasesLuaMes.minguante || '-'}</span>
+                    <span class="moon-icon" style="margin-left: 4px;">●</span>
+                    <span>${fasesLuaMes.nova || '-'}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="calendar-grid">
+                ${diasSemana.map((dia, i) => `
+                  <div class="day-header" style="${i < 6 ? 'border-right: 1px solid #e5e5e5;' : ''}">
+                    ${dia}
+                  </div>
+                `).join('')}
+                
+                ${diasHTML}
+              </div>
+              
+              <div class="year-footer">${state.ano}</div>
+            </div>
+          </div>
+        `;
+            }
+
+            htmlCompleto += '</body></html>';
+
+            janelaImpressao.document.write(htmlCompleto);
+            janelaImpressao.document.close();
+
+            setTimeout(() => {
+                janelaImpressao.print();
+                janelaImpressao.onafterprint = () => janelaImpressao.close();
+            }, 500);
+        }
+
+        // Inicializar
+        atualizarCalendario();
+    </script>
+</body>
+
+</html>
