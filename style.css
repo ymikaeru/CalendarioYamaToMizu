@@ -329,6 +329,7 @@ body {
     height: 100%;
     min-height: 500px;
     position: relative;
+    top: 50px;
 }
 
 .poem-line {

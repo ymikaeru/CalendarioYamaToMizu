@@ -164,6 +164,10 @@ body.printing-year #calendario {
     border: none !important;
 }
 
+.print-mode .poesia-columns {
+    top: -30px !important;
+}
+
 .print-mode .poem-line {
     font-size: 30px !important;
     position: absolute !important;
@@ -171,7 +175,7 @@ body.printing-year #calendario {
 
 
 .print-mode .poem-line:nth-child(1) {
-    top: 8%;
+    top: 15%;
     right: -10%;
     !important;
     /* Ajuste fino para centralizar se necessário, ou remova */
@@ -180,7 +184,7 @@ body.printing-year #calendario {
 
 /* Linha 2 (Meio) */
 .print-mode .poem-line:nth-child(2) {
-    top: 15%;
+    top: 26%;
     right: 62% !important;
     /* Ajuste fino para centralizar se necessário, ou remova */
 }
@@ -188,7 +192,7 @@ body.printing-year #calendario {
 
 /* Linha 3 (Esquerda / Baixo) */
 .print-mode .poem-line:nth-child(3) {
-    top: 48%;
+    top: 46%;
     right: 100%;
 }
 
