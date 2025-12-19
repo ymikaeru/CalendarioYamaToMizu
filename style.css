@@ -134,6 +134,8 @@ body {
     align-items: center;
     writing-mode: vertical-rl;
     text-orientation: upright;
+    position: relative;
+    /* Contexto de posicionamento para o header */
 }
 
 .poesia-original {
@@ -256,7 +258,7 @@ body {
 
 .weekday-jp {
     position: relative;
-    left: 4px;
+    left: -96px;
     top: -2px;
 }
 
@@ -352,13 +354,13 @@ body {
 
 /* Linha 1 (Direita / Cima) */
 .poem-line:nth-child(1) {
-    top: 10%;
+    top: 8%;
     right: -50%;
 }
 
 /* Linha 2 (Meio) */
 .poem-line:nth-child(2) {
-    top: 17%;
+    top: 19%;
     right: 50%;
     transform: translateX(50%);
     /* Ajuste fino para centralizar se necessário, ou remova */
@@ -366,7 +368,7 @@ body {
 
 /* Linha 3 (Esquerda / Baixo) */
 .poem-line:nth-child(3) {
-    top: 41%;
+    top: 42%;
     right: 100%;
 }
 
@@ -444,6 +446,25 @@ body {
     margin-bottom: 15px;
     letter-spacing: 0.03em;
     font-weight: 500;
+}
+
+.source-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 40px;
+    /* Espaço do topo */
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    /* Tamanho equilibrado */
+    letter-spacing: 0.1em;
+    color: #888;
+    text-transform: uppercase;
+    writing-mode: horizontal-tb;
+    pointer-events: none;
+    /* Para não bloquear cliques se sobrepor algo */
 }
 
 .footer-obra-titulo {
