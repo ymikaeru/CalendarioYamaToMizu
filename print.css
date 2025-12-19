@@ -1,0 +1,215 @@
+/* --- IMPRESSÃO RIGOROSA (V3 SAFE ZONE) --- */
+
+/* RESET TOTAL */
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+
+html,
+body {
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+}
+
+/* SANAO: Ao imprimir Ano Completo, usamos classe .printing-year no body */
+
+/* Padrão (Mês Atual): Esconde tudo menos #calendario */
+body:not(.printing-year)>*:not(#calendario) {
+    display: none !important;
+}
+
+body:not(.printing-year) #calendario {
+    display: block !important;
+}
+
+body:not(.printing-year) #print-container {
+    display: none !important;
+}
+
+/* Modo Ano Completo: Esconde tudo menos #print-container */
+body.printing-year>*:not(#print-container) {
+    display: none !important;
+}
+
+body.printing-year #print-container {
+    display: block !important;
+}
+
+body.printing-year #calendario {
+    display: none !important;
+}
+
+/* Estilos Base do Container de Impressão (Mês Atual) */
+#calendario {
+    position: relative !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* PÁGINA PARA O ANO COMPLETO */
+#print-container {
+    margin: 0;
+    padding: 0;
+    width: 210mm;
+    height: 297mm;
+}
+
+#print-container .pagina {
+    position: relative !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    page-break-after: always !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* --- LAYOUT ABSOLUTO RÍGIDO V3 (SAFE ZONE) --- */
+
+/* 1. SEÇÃO CALENDÁRIO (Esquerda) */
+.calendar-section {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 45% !important;
+    height: 230mm !important;
+    /* Segurança máxima */
+    padding: 15mm 10mm 0 15mm !important;
+    /* Top padding levemente menor */
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* 2. HEADER DA LISTA */
+.calendar-header {
+    flex: 0 0 auto !important;
+    margin-bottom: 1mm !important;
+}
+
+.list-header {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 1mm !important;
+    padding-bottom: 1mm !important;
+}
+
+/* 3. LISTA DE DIAS (Flex-Fit) */
+.calendar-list {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Dias auto-ajustáveis */
+.day-row {
+    flex: 1 1 auto !important;
+    display: grid !important;
+    grid-template-columns: 35px 50px 1fr !important;
+    align-items: center !important;
+    padding: 0 !important;
+    border-bottom: 0.5px dotted #ccc !important;
+    min-height: 0 !important;
+}
+
+.day-num {
+    font-size: 10px !important;
+    margin: 0 !important;
+}
+
+.day-weekday-jp {
+    font-size: 9px !important;
+}
+
+.day-feriado {
+    font-size: 8px !important;
+    line-height: 1 !important;
+    transform: scale(0.9);
+    transform-origin: right center;
+}
+
+
+/* 4. SEÇÃO POESIA (Direita) */
+.hero-section {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 55% !important;
+    height: 230mm !important;
+    padding: 20mm 15mm 0 10mm !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+.poem-line {
+    font-size: 30px !important;
+    position: absolute !important;
+}
+
+
+.poem-line:nth-child(1) {
+    top: 10%;
+    right: -10%;
+    !important;
+    /* Ajuste fino para centralizar se necessário, ou remova */
+}
+
+
+/* Linha 2 (Meio) */
+.poem-line:nth-child(2) {
+    top: 17%;
+    right: 62% !important;
+    /* Ajuste fino para centralizar se necessário, ou remova */
+}
+
+
+/* 5. RODAPÉ (Baixo) */
+.calendar-footer {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 49mm !important;
+    padding: 0 15mm 10mm 15mm !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+}
+
+.month-title {
+    font-size: 22px !important;
+    margin: 0 !important;
+}
+
+.traducao-texto {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+}
+
+.romaji-texto {
+    font-size: 10px !important;
+    margin-bottom: 6px !important;
+}
+
+.mini-cal {
+    font-size: 8px !important;
+}
+
+.footer-obra-titulo {
+    margin-bottom: 10px !important;
+}

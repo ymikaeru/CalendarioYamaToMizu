@@ -1,0 +1,551 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+JP:wght@300;400&family=Zen+Antique+Soft&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8f8f8;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 80px 24px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.controls-card {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 40px;
+    margin-bottom: 60px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.controls-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.control-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.control-group select,
+.control-group input,
+.btn {
+    height: 48px;
+    width: 100%;
+    padding: 0 16px;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    border-radius: 0;
+    transition: all 0.2s;
+    appearance: none;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    font-size: 12px;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+.btn-primary:hover {
+    background: #333;
+}
+
+.btn-secondary {
+    background: #fff;
+    color: #111;
+    border: 1px solid #e5e5e5;
+}
+
+.btn-secondary:hover {
+    border-color: #111;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* CALENDÁRIO - LAYOUT HORIZONTAL (LANDSCAPE) */
+#calendario {
+    background: #fff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+/* ÁREA DA POESIA - DIREITA (VERTICAL) */
+.hero-section {
+    background: #fff;
+    padding: 80px 40px;
+    width: 55%;
+    border-bottom: none;
+    border-left: 1px solid #f0f0f0;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+.poesia-original {
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1.8;
+    margin-bottom: 0;
+    margin-left: 40px;
+    color: #111;
+    letter-spacing: 0.15em;
+}
+
+.poesia-traducao {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #666;
+    line-height: 1.8;
+    max-width: none;
+    margin: 0;
+    font-style: italic;
+    writing-mode: horizontal-tb;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    display: block;
+}
+
+/* ÁREA DO CALENDÁRIO - ESQUERDA (SECUNDÁRIO) */
+.calendar-section {
+    padding: 50px 60px;
+    background: #fff;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3px;
+    border-bottom: 1px solid #888;
+    padding-bottom: 20px;
+}
+
+.month-title {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #888;
+    line-height: 1;
+}
+
+.moon-phases {
+    text-align: right;
+}
+
+.moon-phases-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+.moon-phases-row {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: #555;
+    font-family: 'Inter', sans-serif;
+}
+
+.moon-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 28px;
+    gap: 4px;
+}
+
+.moon-phase span:first-child {
+    font-size: 18px;
+    line-height: 1;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+
+.moon-phase span:last-child {
+    font-size: 10px;
+    color: #999;
+}
+
+/* LISTA VERTICAL DE DIAS */
+.calendar-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.list-header {
+    display: grid;
+    grid-template-columns: 40px 60px 1fr;
+    padding: 10px 0;
+    border-bottom: 1px solid #888;
+    margin-bottom: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    font-weight: 700;
+}
+
+.weekday-jp {
+    position: relative;
+    left: 4px;
+    top: -2px;
+}
+
+.day-row {
+    display: grid;
+    grid-template-columns: 40px 60px 1fr;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px dotted #eee;
+    font-family: 'Inter', sans-serif;
+}
+
+.day-row:last-child {
+    border-bottom: none;
+}
+
+.day-num {
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #111;
+}
+
+.day-weekday-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    color: #555;
+    padding-left: 8px;
+}
+
+.day-info-container {
+    text-align: right;
+    font-size: 11px;
+}
+
+.day-feriado {
+    color: #dc2626;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Cores da Linha */
+.sunday-row .day-num,
+.sunday-row .day-weekday-jp {
+    color: #dc2626;
+}
+
+.saturday-row .day-num,
+.saturday-row .day-weekday-jp {
+    color: #2563eb;
+}
+
+.holiday-row .day-num,
+.holiday-row .day-weekday-jp {
+    color: #dc2626;
+}
+
+/* POESIA EM 3 COLUNAS VERTICAIS */
+.poesia-columns {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px 60px;
+    height: 100%;
+    min-height: 500px;
+    position: relative;
+}
+
+.poem-line {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #111;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+/* Posicionamento Absoluto (Substituindo Transform) */
+.poem-line {
+    position: absolute;
+    /* Resetando posições para garantir controle total */
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+}
+
+/* Linha 1 (Direita / Cima) */
+.poem-line:nth-child(1) {
+    top: 10%;
+    right: -50%;
+}
+
+/* Linha 2 (Meio) */
+.poem-line:nth-child(2) {
+    top: 17%;
+    right: 50%;
+    transform: translateX(50%);
+    /* Ajuste fino para centralizar se necessário, ou remova */
+}
+
+/* Linha 3 (Esquerda / Baixo) */
+.poem-line:nth-child(3) {
+    top: 41%;
+    right: 100%;
+}
+
+/* RODAPÉ: Mini Calendários + Tradução + Romaji */
+.calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px 40px;
+    background: #fafafa;
+    border-top: 2px solid #ddd;
+    width: 100%;
+    flex-shrink: 0;
+    min-height: 140px;
+}
+
+.footer-mini-cal {
+    flex: 0 0 150px;
+}
+
+.mini-cal {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+}
+
+.mini-cal-header {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #111;
+}
+
+.mini-cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+}
+
+.mini-cal-days span {
+    padding: 2px;
+}
+
+.mini-cal-days .sun {
+    color: #dc2626;
+}
+
+.mini-cal-days .sat {
+    color: #2563eb;
+}
+
+.footer-traducao {
+    flex: 1;
+    text-align: center;
+    padding: 0 15px;
+    max-width: 640px;
+}
+
+.traducao-texto {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #555;
+    font-style: italic;
+}
+
+.traducao-autor {
+    font-size: 11px;
+    color: #999;
+    margin-top: 10px;
+}
+
+.romaji-texto {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 15px;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+}
+
+.footer-obra-titulo {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+/* Assinaturas */
+.signature-jp {
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 28px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    position: absolute;
+    bottom: 80px;
+    left: 120px;
+    color: #111;
+}
+
+.poesia-traducao-wrapper {
+    position: absolute;
+    bottom: 40px;
+    width: 80%;
+    text-align: center;
+}
+
+.signature-pt {
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.hanko-seal {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #d93d3d;
+    border-radius: 8px;
+    color: #d93d3d;
+    font-family: 'Yuji Syuku', serif;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+    opacity: 0.8;
+    transform: rotate(-5deg);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.year-footer {
+    margin-top: 40px;
+    text-align: right;
+    font-size: 80px;
+    font-weight: 800;
+    color: #f0f0f0;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .calendar-section {
+        padding: 40px;
+    }
+
+    .day-number {
+        font-size: 20px;
+    }
+
+    .day-cell {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .month-title {
+        font-size: 32px;
+    }
+
+    .hero-section {
+        padding: 60px 24px;
+    }
+
+    .calendar-section {
+        padding: 30px 20px;
+    }
+
+    .day-header {
+        text-align: center;
+    }
+}
