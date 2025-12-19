@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+JP:wght@300;400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="print.css" media="print">
+    <link rel="stylesheet" href="print.css" media="all">
 </head>
 
 <body>
@@ -50,14 +50,6 @@
 
                 <div class="control-group">
                     <label>&nbsp;</label>
-                    <button onclick="randomizarPoesia()" class="btn btn-primary"
-                        style="width: 100%; justify-content: center;">
-                        🎲 Randomizar Mês
-                    </button>
-                </div>
-
-                <div class="control-group">
-                    <label>&nbsp;</label>
                     <button onclick="randomizarAnoCompleto()" class="btn btn-primary"
                         style="width: 100%; justify-content: center;">
                         🎲 Randomizar Ano Completo
@@ -69,9 +61,9 @@
                 <button class="btn btn-primary" onclick="imprimirAnoCompleto()">
                     📅 Imprimir Ano Completo (12 meses)
                 </button>
-                <button class="btn btn-secondary" onclick="debugVisualizacao()"
-                    style="background-color: #e67e22; color: white;">
-                    🐛 Debug Visual
+                <button class="btn btn-secondary" onclick="alternarGradeAnual()"
+                    style="background-color: #8e44ad; color: white;">
+                    📅 Ver Grade Anual
                 </button>
             </div>
 
@@ -81,6 +73,38 @@
         <!-- Visão Única (Padrão) -->
         <div id="calendario">
             <!-- Conteúdo do calendário gerado via JS -->
+        </div>
+
+        <!-- Visão Grade Anual (Oculta por padrão) -->
+        <div id="grid-view" style="display: none;">
+            <!-- Conteúdo da grade gerado via JS -->
+        </div>
+
+        <!-- MODAL DE SELEÇÃO DE POESIA -->
+        <div id="modal-poesia" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-titulo">Escolher Poesia</h2>
+                    <button class="btn-close" onclick="fecharModalPoesia()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="filter-controls">
+                        <label>
+                            <input type="checkbox" id="check-mostrar-todos" onchange="atualizarListaModal()">
+                            Mostrar poesias de outros meses
+                        </label>
+                    </div>
+                    <div id="lista-poesias" class="poem-list">
+                        <!-- Lista gerada via JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModalPoesia()">Cancelar</button>
+                    <!-- Seleção é imediata ao clicar na lista, ou pode ter botão Confirmar se preferir. 
+                         Vamos fazer seleção imediata para ser mais rápido ou confirmar? 
+                         Melhor Confirmar para dar feedback visual antes. -->
+                </div>
+            </div>
         </div>
 
     </div>

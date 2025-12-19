@@ -137,7 +137,12 @@ function randomizarAnoCompleto() {
     inicializarPoesiasUnicas();
 
     // Atualiza a visualização
-    atualizarCalendario();
+    if (isGridView) {
+        const gridView = document.getElementById('grid-view');
+        gerarGradeAnual(gridView);
+    } else {
+        atualizarCalendario();
+    }
 
     alert(`✅ Ano ${state.ano} randomizado com sucesso!\n\nCada mês recebeu uma poesia única (sem repetições).`);
 }
@@ -174,6 +179,12 @@ function atualizarCalendario() {
     const dias = gerarCalendario(state.mes, state.ano);
 
     renderizarCalendario(poesiaAtual, fasesLua, dias);
+
+    // Se estiver no modo Grade Anual, atualiza ela também
+    if (typeof isGridView !== 'undefined' && isGridView) {
+        const gridView = document.getElementById('grid-view');
+        if (gridView) gerarGradeAnual(gridView);
+    }
 }
 
 function gerarCalendario(mes, ano) {
@@ -419,7 +430,7 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
                 ${miniCalAnterior}
             </div>
             <div class="footer-traducao">
-                <div class="footer-obra-titulo">山と水</div>
+                <div class="footer-obra-titulo">${poesia.title || 'Sem Título'}</div>
                 <div class="romaji-texto">${poesia.romaji || ''}</div>
                 <div class="traducao-texto">${poesia.translation || poesia.traducao}</div>
             </div>
@@ -486,7 +497,7 @@ function gerarContainerAnoCompleto() {
         const htmlMes = gerarHTMLMes(m, state.ano, poesiaDoMes, fasesLua, dias);
 
         const pagina = document.createElement('div');
-        pagina.className = 'pagina';
+        pagina.className = 'pagina print-mode'; // Adiciona print-mode para ativar estilos V3
         pagina.innerHTML = htmlMes;
         printContainer.appendChild(pagina);
     }
@@ -520,60 +531,177 @@ function imprimirAnoCompleto() {
     }, 500);
 }
 
-// --- NOVO: MODO DE DEBUG VISUAL ---
-function debugVisualizacao() {
-    // 1. Gera o conteúdo
-    const printContainer = gerarContainerAnoCompleto();
-    document.body.appendChild(printContainer);
 
-    // 2. Ativa o layout de impressão na tela
-    document.body.classList.add('printing-year');
 
-    // 3. Força o CSS de print a aparecer na tela (se estiver com media="print")
-    const printLink = document.querySelector('link[href*="print.css"]');
-    if (printLink) {
-        printLink.setAttribute('data-original-media', printLink.media);
-        printLink.media = 'all';
+// --- GRADE ANUAL (GRID VIEW) ---
+let isGridView = false;
+
+function alternarGradeAnual() {
+    isGridView = !isGridView;
+    const calendario = document.getElementById('calendario');
+    const gridView = document.getElementById('grid-view');
+    const btn = document.querySelector('button[onclick="alternarGradeAnual()"]');
+
+    if (isGridView) {
+        // Ativa Grid
+        calendario.style.display = 'none';
+        gridView.style.display = 'grid'; // CSS Grid
+        btn.innerHTML = '🔙 Voltar para Mês Único';
+        btn.style.backgroundColor = '#7f8c8d';
+
+        gerarGradeAnual(gridView);
+    } else {
+        // Volta para Mês Único
+        gridView.style.display = 'none';
+        calendario.style.display = 'flex'; // ou block, dependendo do CSS original
+        btn.innerHTML = '📅 Ver Grade Anual';
+        btn.style.backgroundColor = '#8e44ad';
+    }
+}
+
+function gerarGradeAnual(container) {
+    container.innerHTML = ''; // Limpa anterior
+
+    for (let m = 0; m < 12; m++) {
+        // Encontra dados do mês
+        let indicePoesia = state.poesiasEscolhidas[m];
+        let poesiaDoMes = state.todasPoesias[indicePoesia];
+        if (!poesiaDoMes) {
+            poesiaDoMes = state.todasPoesias.find(p => p.meses && p.meses.includes(m + 1)) || state.todasPoesias[0];
+        }
+
+        const fasesLua = obterDiasFasesLua(m, state.ano);
+        const dias = gerarCalendario(m, state.ano);
+
+        // Gera HTML interno usando a mesma função do print
+        const htmlMes = gerarHTMLMes(m, state.ano, poesiaDoMes, fasesLua, dias);
+
+        // Cria Wrapper da Grade
+        const wrapper = document.createElement('div');
+        wrapper.className = 'month-card-wrapper';
+        wrapper.title = 'Clique para trocar a poesia deste mês';
+        wrapper.onclick = () => abrirSeletorPoesia(m); // Adiciona click
+
+        // Cria Container de Conteúdo (que será escalado)
+        const content = document.createElement('div');
+        content.className = 'month-card-content print-mode'; // Adiciona classe print-mode
+        content.innerHTML = htmlMes;
+
+        wrapper.appendChild(content);
+        container.appendChild(wrapper);
+
+        // AJUSTE DE ESCALA DINÂMICO
+        // Precisamos esperar renderizar para calcular a escala correta
+        // Mas como layout é fixo (210mm x 297mm), podemos calcular baseado na largura do wrapper
+        requestAnimationFrame(() => {
+            const scale = wrapper.clientWidth / content.offsetWidth;
+            content.style.transform = `scale(${scale})`;
+            // Garante que altura do wrapper bata com altura escalada? 
+            // Já usamos aspect-ratio no CSS, então wrapper deve estar ok.
+        });
     }
 
-    // 4. Cria botão de saída
-    const btnSair = document.createElement('button');
-    btnSair.innerText = "❌ SAIR DO MODO DEBUG";
-    btnSair.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 99999;
-        padding: 15px 30px;
-        background: red;
-        color: white;
-        border: 4px solid white;
-        font-size: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    `;
+    // Resize Observer para ajustar escala se janela mudar de tamanho
+    const ro = new ResizeObserver(entries => {
+        entries.forEach(entry => {
+            const wrapper = entry.target;
+            const content = wrapper.querySelector('.month-card-content');
+            if (content) {
+                const scale = wrapper.clientWidth / 210 / 3.7795275591; // mm to px approx or just use offsetWidth
+                // Melhor usar offsetWidth fixo do content (que é 210mm convertido em px pelo browser)
+                const scalePreciso = wrapper.clientWidth / content.offsetWidth;
+                content.style.transform = `scale(${scalePreciso})`;
+            }
+        });
+    });
 
-    btnSair.onclick = () => {
-        // Limpa tudo
-        document.body.classList.remove('printing-year');
-        if (printContainer && printContainer.parentNode) {
-            printContainer.parentNode.removeChild(printContainer);
+    document.querySelectorAll('.month-card-wrapper').forEach(el => ro.observe(el));
+}
+
+// --- LOGICA DO MODAL DE SELEÇÃO ---
+
+let tempMesSelecionado = null;
+
+function abrirSeletorPoesia(mesIndex) {
+    tempMesSelecionado = mesIndex;
+    const nomeMes = MESES_PT[mesIndex];
+    document.getElementById('modal-titulo').textContent = `Escolher Poesia para ${nomeMes}`;
+
+    // Mostra modal
+    document.getElementById('modal-poesia').style.display = 'flex';
+
+    // Reseta checkbox para filtrado por padrão
+    document.getElementById('check-mostrar-todos').checked = false;
+
+    atualizarListaModal();
+}
+
+function fecharModalPoesia() {
+    document.getElementById('modal-poesia').style.display = 'none';
+    tempMesSelecionado = null;
+}
+
+function atualizarListaModal() {
+    const mostrarTodos = document.getElementById('check-mostrar-todos').checked;
+    const listaContainer = document.getElementById('lista-poesias');
+    listaContainer.innerHTML = '';
+
+    const mesAlvo = tempMesSelecionado + 1; // 1-12
+    const poesiaAtualIndex = state.poesiasEscolhidas[tempMesSelecionado];
+
+    state.todasPoesias.forEach((poesia, index) => {
+        // Lógica de filtro
+        const pertenceAoMes = poesia.meses && poesia.meses.includes(mesAlvo);
+
+        if (!mostrarTodos && !pertenceAoMes) {
+            return; // Pula se não for do mês e filtro estiver ativo
         }
-        btnSair.remove();
 
-        // Restaura media query
-        if (printLink && printLink.hasAttribute('data-original-media')) {
-            printLink.media = printLink.getAttribute('data-original-media');
+        // Cria item da lista
+        const item = document.createElement('div');
+        item.className = 'poem-item';
+        if (index === poesiaAtualIndex) item.classList.add('selected');
+
+        const textoPoesia = poesia.translation || poesia.original;
+
+        // Visualização com Título Restaurado
+        item.innerHTML = `
+            <div class="poem-item-title">
+                ${poesia.title || 'Poesia ' + (index + 1)}
+            </div>
+            <div class="poem-item-preview">
+                "${textoPoesia.substring(0, 100) + (textoPoesia.length > 100 ? '...' : '')}"
+            </div>
+        `;
+
+        item.onclick = () => selecionarPoesia(index);
+
+        listaContainer.appendChild(item);
+    });
+}
+
+function selecionarPoesia(index) {
+    if (tempMesSelecionado === null) return;
+
+    // Atualiza estado
+    state.poesiasEscolhidas[tempMesSelecionado] = index;
+
+    // Feedback visual e fecha
+    fecharModalPoesia();
+
+    // Atualiza a View
+    // Se estiver no modo Grid:
+    if (isGridView) {
+        const gridView = document.getElementById('grid-view');
+        gerarGradeAnual(gridView);
+    } else {
+        // Se estiver no modo Single (caso adicionemos suporte no futuro, já atualiza state)
+        // Se quiser suportar clique no modo single, precisa adicionar onclick lá também.
+        // Mas o pedido foi focado no grid. De qualquer forma, atualiza calendario se mes bater.
+        if (state.mes === tempMesSelecionado) {
+            atualizarCalendario();
         }
-
-        alert("Debug finalizado.");
-    };
-
-    document.body.appendChild(btnSair);
-
-    // Feedback
-    alert("🐛 MODO DEBUG ATIVADO!\n\nO layout de impressão foi renderizado na tela.\nUse o Inspector do navegador para ajustar.\nClique no botão vermelho 'SAIR' no canto inferior direito para voltar.");
+    }
 }
 
 // ---Inicialização---
