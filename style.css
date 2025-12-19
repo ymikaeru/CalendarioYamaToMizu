@@ -256,9 +256,10 @@ body {
     font-weight: 700;
 }
 
+
 .weekday-jp {
     position: relative;
-    left: -96px;
+    left: 4px;
     top: -2px;
 }
 
@@ -465,6 +466,11 @@ body {
     writing-mode: horizontal-tb;
     pointer-events: none;
     /* Para não bloquear cliques se sobrepor algo */
+}
+
+.source-header.sub {
+    color: #a7a7a7;
+    top: 31px;
 }
 
 .footer-obra-titulo {

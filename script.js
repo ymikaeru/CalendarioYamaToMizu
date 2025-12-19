@@ -422,6 +422,7 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
 
         <div class="hero-section">
             <div class="source-header">Poemas de Meishu-sama</div>
+            <div class="source-header sub">"Yama to Mizu"</div>
             <div class="poesia-columns">
                 ${poemHTML}
             </div>
