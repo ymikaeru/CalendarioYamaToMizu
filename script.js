@@ -401,6 +401,7 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
             <div class="calendar-header">
                 <div class="month-title">
                     ${ano}
+                    <br>
                     <span class="month-label">${MESES_PT[mes].toUpperCase()}</span>
                 </div>
                 <div class="moon-phases">
@@ -420,6 +421,7 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
         </div>
 
         <div class="hero-section">
+            <div class="source-header">Poemas de Meishu-sama</div>
             <div class="poesia-columns">
                 ${poemHTML}
             </div>
