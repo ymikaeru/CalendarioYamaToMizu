@@ -138,6 +138,12 @@ body.printing-year #calendario {
     font-size: 9px !important;
 }
 
+.print-mode .weekday-jp {
+    position: relative;
+    left: -96px
+}
+
+
 .print-mode .day-feriado {
     font-size: 8px !important;
     line-height: 1 !important;
@@ -235,6 +241,11 @@ body.printing-year #calendario {
     writing-mode: horizontal-tb !important;
     margin: 0 !important;
     background: transparent !important;
+}
+
+.print-mode .source-header.sub {
+    color: #a7a7a7 !important;
+    top: 25px !important;
 }
 
 .print-mode .footer-obra-titulo {
