@@ -346,17 +346,17 @@ body:has(.layout-nordic) {
 
     .nordic-left-panel .poem-line:nth-child(1) {
         right: 35% !important;
-        top: 5% !important;
+        top: 0% !important;
     }
 
     .nordic-left-panel .poem-line:nth-child(2) {
-        top: 5% !important;
+        top: 0% !important;
         /* right mantido do style.css ou herdado */
     }
 
     .nordic-left-panel .poem-line:nth-child(3) {
         left: 42% !important;
-        top: 5% !important;
+        top: 0% !important;
     }
 
     /* Quebra de linha nos feriados */
