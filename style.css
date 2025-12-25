@@ -861,7 +861,7 @@ body {
 .nordic-left-panel .poem-line {
     writing-mode: vertical-rl;
     font-family: 'Zen Antique Soft', serif;
-    font-size: 21px;
+    font-size: 20px;
     /* Um pouco menor que o A4 */
     color: #555;
     position: absolute;
