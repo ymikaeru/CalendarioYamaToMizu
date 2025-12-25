@@ -281,3 +281,40 @@ body.printing-year #calendario {
     margin-top: 10px !important;
     /* Pequeno ajuste para não colar no topo absoluto */
 }
+
+/* --- PRINT RULES FOR NORDIC LAYOUT (19x15cm) --- */
+
+@page nordic {
+    size: 190mm 150mm;
+    margin: 0;
+}
+
+body:has(.layout-nordic) {
+    /* Alguns navegadores suportam isso para mudar o tamanho da página dinamicamente */
+    /* size: 190mm 150mm; */
+}
+
+@media print {
+    /* Força o tamanho da página quando detectado layout nordico? 
+       CSS padrão não permite condicional de @page baseado em conteudo, 
+       mas podemos tentar escovar bits ou sugerir ao usuario Custom Size.
+    */
+
+    /* Se estivermos imprimindo o container nórdico */
+    .layout-nordic {
+        width: 190mm !important;
+        height: 150mm !important;
+        page-break-inside: avoid;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    /* Tenta forçar via classe no body se JS adicionar */
+    body.print-nordic @page {
+        size: 190mm 150mm;
+        margin: 0;
+    }
+}

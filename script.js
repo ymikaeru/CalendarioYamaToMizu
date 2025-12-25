@@ -412,6 +412,107 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
     const miniCalAnterior = gerarMiniCalendario(mesAnterior, anoAnterior);
     const miniCalProximo = gerarMiniCalendario(mesProximo, anoProximo);
 
+    // SE FOR LAYOUT NORDIC (19x15cm)
+    if (state.layout === 'nordic') {
+        const primeiroDia = new Date(ano, mes, 1).getDay();
+        const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+        const diasMesAnterior = new Date(ano, mes, 0).getDate();
+
+        // Gera array completo de células do grid (incluindo dias vazios/mes anterior/proximo)
+        // Grid 7 colunas x 6 linhas = 42 células fixas ou dinâmico?
+        // Vamos usar 6 linhas fixas para estabilidade
+        const totalCelulas = 42;
+        let celulasHTML = '';
+
+        // Dias do mês anterior
+        for (let i = 0; i < primeiroDia; i++) {
+            const diaNum = diasMesAnterior - (primeiroDia - 1) + i;
+            celulasHTML += `<div class="nordic-day-cell other-month">${diaNum}</div>`;
+        }
+
+        // Dias do mês atual
+        for (let i = 1; i <= diasNoMes; i++) {
+            const diaSemana = (primeiroDia + i - 1) % 7;
+            const feriado = ehFeriado(i, mes, ano);
+            const isDomingo = diaSemana === 0;
+            const isSabado = diaSemana === 6;
+
+            let classes = 'nordic-day-cell';
+            if (isDomingo || feriado) classes += ' sunday';
+            else if (isSabado) classes += ' saturday';
+
+            // Compromissos (Dots)
+            let dots = '';
+            const diaKey = `${ano}-${mes}-${i}`;
+            if (state.compromissos[diaKey]) {
+                dots = state.compromissos[diaKey].map(c =>
+                    `<span style="color: ${c.cor}; font-size: 16px; line-height: 0; position: relative; top: 2px;">•</span>`
+                ).join('');
+            }
+
+            celulasHTML += `
+                <div class="${classes}" onclick="abrirModalCompromisso(${i})">
+                    ${i}
+                    <div style="position: absolute; bottom: 2px; right: 2px; display: flex;">${dots}</div>
+                </div>`;
+        }
+
+        // Dias do próximo mês para completar grid
+        const celulasUsadas = primeiroDia + diasNoMes;
+        const restantes = totalCelulas - celulasUsadas;
+        for (let i = 1; i <= restantes; i++) {
+            celulasHTML += `<div class="nordic-day-cell other-month">${i}</div>`;
+        }
+
+        const headersDias = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB']
+            .map((d, i) => `<div class="nordic-day-head" style="${i === 0 ? 'color:#e74c3c' : (i === 6 ? 'color:#2563eb' : '')}">${d}</div>`)
+            .join('');
+
+        return `
+            <div class="layout-nordic">
+                <!-- PAINEL ESQUERDO: Poesia estilo Square -->
+                <div class="nordic-left-panel">
+                    <div class="sq-collection-title">POEMAS "YAMA TO MIZU"</div>
+                    
+                     <div class="sq-poem-text">
+                        <div class="sq-poem-wrapper">
+                            ${dividirPoemaEm3(poesia.original).map(line => `<div class="poem-line">${line}</div>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="sq-translation-block">
+                        <div class="sq-trans-title">${poesia.title || poesia.tituloPT || 'Título'}</div>
+                        <div class="sq-trans-romaji">${poesia.romaji || poesia.leitura || ''}</div>
+                        <div class="sq-trans-text">${poesia.translation || poesia.traducao || 'Tradução...'}</div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DIREITO: Calendário Grid -->
+                <div class="nordic-right-panel">
+                    <div class="nordic-header">
+                        <div class="nordic-month-year">
+                            <div class="nordic-year">${ano}</div>
+                            <div class="nordic-month">${MESES_PT[mes]}</div>
+                        </div>
+                        <div class="nordic-moon-phases">
+                           <!-- Reuse SVG logic if needed or simplify -->
+                           ${luasHTML}
+                        </div>
+                    </div>
+                    
+                    <div class="nordic-grid">
+                        <div class="nordic-days-header">
+                            ${headersDias}
+                        </div>
+                        <div class="nordic-days-body">
+                            ${celulasHTML}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
     // SE FOR LAYOUT SQUARE (TIPO MUSEU)
     if (state.layout === 'square') {
         // Dividir dias em 1-16 (Esq) e 17-Fim (Dir)
@@ -580,6 +681,10 @@ function imprimirMesAtual() {
     const body = document.body;
     const originalPadding = body.style.padding;
     body.style.padding = '0';
+
+    if (state.layout === 'nordic') {
+        body.classList.add('print-nordic');
+    }
 
     // Imprime
     window.print();

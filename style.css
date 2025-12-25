@@ -799,6 +799,232 @@ body {
     /* Remove flex do original */
 }
 
+/* --- LAYOUT NÓRDICO (19x15cm) --- */
+.layout-nordic {
+    /* Tamanho: 190mm x 150mm */
+    /* Na tela, vamos simular com pixels ou manter mm se o browser aceitar bem */
+    width: 190mm;
+    height: 150mm;
+    background: #fdfcf8;
+    /* Cor creme suave */
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    /* Centralizar na tela */
+    position: relative;
+    padding-top: 40px;
+}
+
+/* Coluna Esquerda: Poesia (Estilo Square) + Footer */
+.nordic-left-panel {
+    width: 50%;
+    /* Metade do espaço */
+    height: 100%;
+    position: relative;
+    padding: 0;
+    /* Controle absoluto interno */
+    border-right: 1px dashed #e0e0e0;
+}
+
+/* Reusa estilos do Square para a parte da poesia */
+.nordic-left-panel .sq-collection-title {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.nordic-left-panel .sq-poem-text {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    /* Área principal */
+}
+
+.nordic-left-panel .sq-poem-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ajustes nas linhas de poesia para caber no 19x15 */
+.nordic-left-panel .poem-line {
+    writing-mode: vertical-rl;
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 21px;
+    /* Um pouco menor que o A4 */
+    color: #555;
+    position: absolute;
+    height: auto;
+    white-space: nowrap;
+}
+
+.nordic-left-panel .poem-line:nth-child(1) {
+    right: 35%;
+    top: 5%;
+}
+
+.nordic-left-panel .poem-line:nth-child(2) {
+    right: 50%;
+    transform: translateX(50%);
+    top: 5%;
+}
+
+.nordic-left-panel .poem-line:nth-child(3) {
+    left: 42%;
+    /* right: auto */
+    top: 5%;
+}
+
+/* Bloco de Tradução no layout nórdico */
+.nordic-left-panel .sq-translation-block {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    padding: 0 30px;
+    text-align: center;
+}
+
+.nordic-left-panel .sq-trans-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nordic-left-panel .sq-trans-romaji {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #95a5a6;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.nordic-left-panel .sq-trans-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+
+/* Coluna Direita: Calendário Grade */
+.nordic-right-panel {
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nordic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.nordic-month-year {
+    line-height: 1;
+}
+
+.nordic-year {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.nordic-month {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #333;
+    letter-spacing: -1px;
+}
+
+.nordic-moon-phases {
+    display: flex;
+    gap: 8px;
+}
+
+.nordic-grid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nordic-days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.nordic-day-head {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.nordic-days-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 1fr;
+    /* Distribui altura igualmente */
+    gap: 4px;
+    flex: 1;
+}
+
+.nordic-day-cell {
+    border-top: 1px solid #eee;
+    padding-top: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #333;
+    position: relative;
+    min-height: 40px;
+    cursor: pointer;
+}
+
+.nordic-day-cell:hover {
+    background-color: #f9f9f9;
+}
+
+.nordic-day-cell.sunday {
+    color: #e74c3c;
+}
+
+.nordic-day-cell.saturday {
+    color: #2563eb;
+}
+
+.nordic-day-cell.other-month {
+    color: #ddd;
+}
+
+
 /* O HTML injetado agora é .square-layout-container */
 .square-layout-container {
     width: 13cm;
