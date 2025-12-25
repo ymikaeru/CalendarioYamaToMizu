@@ -67,6 +67,14 @@
                 </button>
             </div>
 
+            <div class="control-group">
+                <label>Layout:</label>
+                <select id="layoutSelect" onchange="alterarLayout()">
+                    <option value="vertical">Vertical (Padrão)</option>
+                    <option value="square">Square (Museu)</option>
+                </select>
+            </div>
+
             <div id="json-status" style="margin-top: 10px; font-size: 12px; color: #666; text-align: center;"></div>
         </div>
 
@@ -103,6 +111,73 @@
                     <!-- Seleção é imediata ao clicar na lista, ou pode ter botão Confirmar se preferir. 
                          Vamos fazer seleção imediata para ser mais rápido ou confirmar? 
                          Melhor Confirmar para dar feedback visual antes. -->
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE COMPROMISSOS -->
+        <div id="modal-compromisso" class="modal-overlay" style="display: none;">
+            <div class="modal-content" style="max-width: 400px; height: auto;">
+                <div class="modal-header">
+                    <h2 id="modal-compromisso-titulo">Adicionar Compromisso</h2>
+                    <button class="btn-close" onclick="fecharModalCompromisso()">×</button>
+                </div>
+                <div class="modal-body" style="padding: 24px;">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="input-compromisso"
+                            style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Descrição:</label>
+                        <input type="text" id="input-compromisso" class="form-control" placeholder="Ex: Dentista 14h"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="input-tamanho"
+                                style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Tamanho:</label>
+                            <select id="input-tamanho" class="form-control"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="10px">Pequeno (10px)</option>
+                                <option value="12px" selected>Normal (12px)</option>
+                                <option value="14px">Grande (14px)</option>
+                                <option value="18px">Extra (18px)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 12px;">
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="input-negrito">
+                                <span style="font-weight: 600; color: #555;">Negrito</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Cor:</label>
+                        <div class="color-options" style="display: flex; gap: 10px;">
+                            <div class="color-option selected" data-color="#e74c3c"
+                                style="width: 30px; height: 30px; background: #e74c3c; border-radius: 50%; cursor: pointer; border: 2px solid transparent;"
+                                onclick="selecionarCor(this)"></div>
+                            <div class="color-option" data-color="#2ecc71"
+                                style="width: 30px; height: 30px; background: #2ecc71; border-radius: 50%; cursor: pointer; border: 2px solid transparent;"
+                                onclick="selecionarCor(this)"></div>
+                            <div class="color-option" data-color="#3498db"
+                                style="width: 30px; height: 30px; background: #3498db; border-radius: 50%; cursor: pointer; border: 2px solid transparent;"
+                                onclick="selecionarCor(this)"></div>
+                            <div class="color-option" data-color="#f1c40f"
+                                style="width: 30px; height: 30px; background: #f1c40f; border-radius: 50%; cursor: pointer; border: 2px solid transparent;"
+                                onclick="selecionarCor(this)"></div>
+                            <div class="color-option" data-color="#9b59b6"
+                                style="width: 30px; height: 30px; background: #9b59b6; border-radius: 50%; cursor: pointer; border: 2px solid transparent;"
+                                onclick="selecionarCor(this)"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                    <button class="btn btn-danger" id="btn-excluir-compromisso" onclick="excluirCompromissoAtual()"
+                        style="background-color: #e74c3c; color: white; border: none; display: none;">Excluir</button>
+                    <div style="display: flex; gap: 10px; margin-left: auto;">
+                        <button class="btn btn-secondary" onclick="fecharModalCompromisso()">Cancelar</button>
+                        <button class="btn btn-primary" onclick="salvarCompromisso()">Salvar</button>
+                    </div>
                 </div>
             </div>
         </div>

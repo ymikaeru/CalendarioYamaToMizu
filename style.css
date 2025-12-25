@@ -54,8 +54,8 @@ body {
     display: block;
 }
 
-.control-group select,
 .control-group input,
+.control-group select,
 .btn {
     height: 48px;
     width: 100%;
@@ -336,10 +336,10 @@ body {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     font-family: 'Zen Antique Soft', serif;
-    font-size: 42px;
+    font-size: 48px;
     font-weight: 400;
     line-height: 1.4;
-    color: #111;
+    color: #555;
     letter-spacing: 0.05em;
     white-space: nowrap;
 }
@@ -362,7 +362,7 @@ body {
 
 /* Linha 2 (Meio) */
 .poem-line:nth-child(2) {
-    top: 19%;
+    top: 16%;
     right: 50%;
     transform: translateX(50%);
     /* Ajuste fino para centralizar se necessário, ou remova */
@@ -754,4 +754,409 @@ body {
     border-top: 1px solid #eee;
     background: #fdfdfd;
     text-align: right;
+}
+
+/* --- ESTILOS DOS COMPROMISSOS --- */
+.compromissos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+    align-items: flex-end;
+}
+
+.compromisso-item {
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    transition: opacity 0.2s;
+}
+
+.compromisso-item:hover {
+    opacity: 0.8;
+    /* text-decoration: line-through; REMOVIDO: Agora abre edição */
+    transform: scale(1.02);
+}
+
+.color-option.selected {
+    border-color: #333 !important;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* --- LAYOUT QUADRADO (REDESIGN MUSEU) --- */
+.layout-square {
+    /* Container que envolve tudo */
+    background: #fdfcf8 !important;
+    /* Cor de papel levemente creme */
+    height: auto;
+    padding: 0;
+    display: block;
+    /* Remove flex do original */
+}
+
+/* O HTML injetado agora é .square-layout-container */
+.square-layout-container {
+    width: 13cm;
+    height: 13cm;
+    margin: 0 auto;
+    padding: 20px;
+    /* Reduzido de 40px */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', 'Noto Serif JP', serif;
+    /* Fonte mais clássica */
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Sombra para destacar o formato no fundo branco */
+}
+
+.sq-header {
+    text-align: center;
+    margin-bottom: 5px;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    left: 0;
+}
+
+.sq-month {
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #333;
+    font-family: 'Times New Roman', serif;
+}
+
+.sq-year {
+    font-size: 32px;
+    line-height: 0.9;
+    color: #333;
+    font-family: 'Times New Roman', serif;
+    margin-bottom: 5px;
+}
+
+.sq-body {
+    display: flex;
+    flex: 1;
+    margin-top: 50px;
+    /* Ajustado */
+    height: 100%;
+}
+
+.sq-col-left,
+.sq-col-right {
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.sq-col-center {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    /* Agora vertical para empilhar Poesia e Tradução */
+    align-items: center;
+    justify-content: center;
+    background-color: #f1e8ff30;
+    /* Remove fundo bege, usa o do papel ou transparente */
+    margin: 0 10px;
+    position: relative;
+    overflow: hidden;
+    height: 416px;
+}
+
+/* Ajuste das linhas dos dias */
+.square-day-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    /* Fonte reduzida */
+    padding: 2px 4px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    line-height: 1.2;
+    height: 100%;
+    max-height: 22px;
+}
+
+.square-day-row:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.square-day-row.has-appt {
+    font-weight: normal;
+    /* Indicador sutil de compromisso, talvez um sublinhado ou cor de fundo */
+    background: #fff8e1;
+}
+
+.sq-day-num {
+    font-size: 14px;
+    /* Reduzido */
+    font-family: 'Times New Roman', serif;
+    /* color: #111; REMOVED to allow inheritance */
+}
+
+.sq-day-weekday {
+    font-size: 9px;
+    /* Reduzido */
+    text-transform: uppercase;
+    /* color: #555; REMOVED to allow inheritance */
+    font-family: 'Times New Roman', serif;
+}
+
+/* Print Spec */
+@media print {
+    @page {
+        margin: 0;
+        size: auto;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .square-layout-container {
+        width: 13cm !important;
+        height: 13cm !important;
+        box-shadow: none !important;
+        margin: 0 auto !important;
+        /* Centraliza na página */
+        page-break-inside: avoid;
+        border: 1px solid #ddd;
+        /* Opcional: borda fina para corte */
+        background: white;
+    }
+
+    /* Esconde tudo que não for o container ativo */
+    body.layout-square-active>*:not(.container) {
+        display: none !important;
+    }
+
+    /* Garante que o container principal seja visível */
+    .container {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        /* Para centralizar na folha */
+    }
+
+    /* Ajustes específicos de espaçamento para impressão se necessário */
+    .sq-poem-text {
+        flex: 1 !important;
+    }
+
+    /* REMOVIDO: overrides de tamanho de fonte e gap.
+       Agora usamos o mesmo estilo da tela (17px, Zen Antique, etc)
+       pois o layout já foi ajustado (cascade removida, texto centralizado).
+    */
+
+    /* Garante que o titulo da coleção e rodapé mantenham proporção */
+    .sq-collection-title {
+        /* Manter ajuste se necessário, ou remover se quiser igual tela */
+    }
+}
+
+/* Alinhamento espelhado */
+.sq-col-left .square-day-row {
+    /* Esquerda: [Week] [Num] */
+    flex-direction: row;
+    text-align: right;
+}
+
+.sq-col-right .square-day-row {
+    /* Direita: [Num] [Week] */
+    flex-direction: row-reverse;
+    text-align: left;
+    max-height: 22px;
+}
+
+/* Título da Coleção acima da poesia */
+.sq-collection-title {
+    font-family: 'Times New Roman', serif;
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    /* Mais espaço para separar do poema */
+    text-align: center;
+    width: 100%;
+    line-height: 1.6;
+    padding-top: 3px;
+}
+
+/* Título Japonês acima da poesia */
+.sq-poem-title-jp {
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 24px;
+    color: #5400b8;
+    /* Mesmo tom roxo */
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Poesia no centro - Parte Superior */
+.sq-poem-text {
+    width: 100%;
+    /* height: 56%; REMOVIDO: Usar flex para preencher espaço */
+    height: auto;
+    flex: 1;
+    /* Ocupa todo espaço disponível entre topo e tradução */
+    min-height: 0;
+    /* IMPORTANTE: Permite que flex-child encolha corretamente e evita overflow */
+    position: relative;
+    /* FLEXBOX para centralização perfeita do BLOCO */
+    display: flex;
+    flex-direction: column;
+    /* Eixo principal vertical */
+    justify-content: center;
+    /* Centraliza verticalmente o wrapper */
+    align-items: center;
+    /* Centraliza horizontalmente o wrapper */
+    margin-top: 0;
+    padding-top: 0;
+    /* Remove padding superior */
+    /* padding-bottom: 20px; */
+    /* Pequeno ajuste visual inferior */
+}
+
+/* Wrapper interno para manter alinhamento quadrado no topo */
+.sq-poem-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    /* As linhas começam do topo (Square) */
+    gap: 7px;
+    /* Espaço entre colunas */
+}
+
+/* Blocos de Tradução - Parte Inferior */
+.sq-translation-block {
+    height: auto;
+    /* Altura automática baseada no texto */
+    padding-bottom: 10px;
+    /* Espaço inferior */
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Alinha ao fundo se tiver altura */
+    align-items: center;
+    text-align: center;
+    gap: 3px;
+    margin-top: 20px;
+    /* Reduzido de 40px para equilibrar espaço */
+    z-index: 2;
+}
+
+.sq-trans-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.sq-trans-romaji {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    color: #888;
+    font-weight: 300;
+}
+
+.sq-trans-text {
+    font-family: 'Times New Roman', serif;
+    font-size: 14px;
+    font-style: italic;
+    /* Mais forte como na imagem */
+    color: #555;
+    line-height: 1.4;
+    max-width: 95%;
+}
+
+
+/* Sobrescreve estilos das linhas da poesia para este contexto */
+.square-layout-container .poem-line {
+    font-family: 'Zen Antique Soft', serif;
+    font-size: 17px;
+    /* Reduzido de 24px para 18px */
+    color: #555;
+    writing-mode: vertical-rl;
+    height: auto;
+    /* Fix: mudado de 100% para auto para evitar colapso */
+    max-height: 100%;
+    /* Garante que não estoure */
+
+    /* Resetando posicionamento absoluto para Flexbox */
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+}
+
+/* Remover overrides específicos de child pois Flex cuida disso */
+/* RESET CASCATA: Alinha todos iguais */
+.square-layout-container .poem-line:nth-child(1),
+.square-layout-container .poem-line:nth-child(2),
+.square-layout-container .poem-line:nth-child(3) {
+    margin-top: 0 !important;
+    transform: none !important;
+}
+
+.sq-footer {
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    left: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+    .sq-body {
+        flex-direction: column;
+    }
+
+    .sq-col-left,
+    .sq-col-right,
+    .sq-col-center {
+        width: 100%;
+        margin: 0;
+    }
+
+    .sq-col-center {
+        height: 300px;
+        order: -1;
+        /* Poesia primeiro */
+        margin-bottom: 20px;
+    }
+
+    .sq-col-left,
+    .sq-col-right {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        /* Grid de dias em mobile */
+    }
 }

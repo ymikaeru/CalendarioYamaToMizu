@@ -5,7 +5,9 @@ let state = {
     poesiaSelecionada: 0,
     temaFiltro: 'Todos',
     poesiasEscolhidas: Array(12).fill(null),
-    todasPoesias: TODAS_POESIAS
+    todasPoesias: TODAS_POESIAS,
+    compromissos: {}, // Formato: "YYYY-M-D": [{ desc: "...", cor: "..." }]
+    layout: 'vertical' // ou 'square'
 };
 
 // --- FUNÇÕES ---
@@ -370,12 +372,26 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
         if (isSabado) rowClass += ' saturday-row';
         if (feriadoNome) rowClass += ' holiday-row';
 
+        // Renderizar Compromissos
+        const diaKey = `${ano}-${mes}-${dia.dia}`;
+        let compromissosHTML = '';
+        if (state.compromissos[diaKey]) {
+            compromissosHTML = state.compromissos[diaKey].map((comp, idx) => `
+                <div class="compromisso-item" 
+                     style="color: ${comp.cor}; font-size: ${comp.tamanho || '10px'}; font-weight: ${comp.negrito ? 'bold' : 'normal'};" 
+                     onclick="abrirModalCompromisso(${dia.dia}, ${idx}, event)">
+                    • ${comp.descricao}
+                </div>
+            `).join('');
+        }
+
         return `
-        <div class="${rowClass}" >
+        <div class="${rowClass}" onclick="abrirModalCompromisso(${dia.dia})">
                 <div class="day-num">${dia.dia}</div>
                 <div class="day-weekday-jp">${diaSemanaInfo.jp}</div>
                 <div class="day-info-container">
                     <div class="day-feriado">${feriadoNome ? feriadoNome : ''}</div>
+                    <div class="compromissos-container">${compromissosHTML}</div>
                 </div>
             </div>
         `;
@@ -396,6 +412,109 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
     const miniCalAnterior = gerarMiniCalendario(mesAnterior, anoAnterior);
     const miniCalProximo = gerarMiniCalendario(mesProximo, anoProximo);
 
+    // SE FOR LAYOUT SQUARE (TIPO MUSEU)
+    if (state.layout === 'square') {
+        // Dividir dias em 1-16 (Esq) e 17-Fim (Dir)
+        // Dias vazios/início do mês não importam tanto na visualização de lista corrida, 
+        // mas vamos manter a lógica de dias do mês.
+
+        // Filtra apenas dias reais (1 a 31)
+        const diasReais = dias.filter(d => d.mesAtual);
+
+        // Coluna 1: Dias 1 a 16
+        const diasCol1 = diasReais.filter(d => d.dia <= 16);
+        // Coluna 2: Dias 17 a 31
+        const diasCol2 = diasReais.filter(d => d.dia > 16);
+
+        const renderDiaItem = (dia) => {
+            const feriadoNome = ehFeriado(dia.dia, mes, ano);
+            const dataObj = new Date(ano, mes, dia.dia);
+            const diaSemanaIndex = dataObj.getDay();
+
+            // Nomes curtos em inglês ou português? A imagem usa "Sun", "Mon". 
+            // Vamos usar EN curto para fidelidade ou manter PT? O usuário pediu layout...
+            // O código original usa Kanji. Vamos manter Kanji + EN/PT curto?
+            // A imagem mostra: "17 Tue", "18 Wed".
+            // Vamos usar array customizado para EN curto se quiser fidelidade, mas vamos usar os dados que temos.
+
+            const DIAS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const nomeDia = DIAS_EN[diaSemanaIndex];
+
+            const isDomingo = diaSemanaIndex === 0;
+            const isSabado = diaSemanaIndex === 6;
+
+            let corDia = '#333';
+            if (isDomingo || feriadoNome) corDia = '#e74c3c'; // Vermelho
+            else if (isSabado) corDia = '#2563eb'; // Azul
+
+            // Renderizar Compromissos (versão mista/compacta)
+            const diaKey = `${ano}-${mes}-${dia.dia}`;
+            let hasCompromisso = state.compromissos[diaKey] ? 'has-appt' : '';
+
+            // Renderiza pequenos pontos ou contadores para mobile/compact
+            let dots = '';
+            if (state.compromissos[diaKey]) {
+                // Se quiser mostrar bolinhas coloridas
+                dots = state.compromissos[diaKey].map(c =>
+                    `<span style="color: ${c.cor}">•</span>`
+                ).join('');
+            }
+
+            return `
+            <div class="square-day-row ${hasCompromisso}" onclick="abrirModalCompromisso(${dia.dia})" style="color: ${corDia}">
+                <span class="sq-day-weekday">${nomeDia}</span>
+                <span class="sq-day-num">${dia.dia} ${dots}</span> 
+            </div>
+            `;
+        };
+
+        const htmlCol1 = diasCol1.map(renderDiaItem).join('');
+        const htmlCol2 = diasCol2.map(renderDiaItem).join('');
+
+        return `
+            <div class="square-layout-container">
+                <div class="sq-header">
+                    <div class="sq-year">${ano}</div>
+                    <div class="sq-month">${MESES_PT[mes].toUpperCase()}</div>
+                </div>
+                
+                <div class="sq-body">
+                    <div class="sq-col-left">
+                        ${htmlCol1}
+                    </div>
+                    <!-- Coluna Central: Poesia -->
+            <div class="sq-col-center">
+                <!-- Título da Coleção (Estático) -->
+                <div class="sq-collection-title">
+                    POEMAS "YAMA TO MIZU"
+                </div>
+                
+                <div class="sq-poem-text">
+                    <div class="sq-poem-wrapper">
+                        ${dividirPoemaEm3(poesia.original).map(line => `<div class="poem-line">${line}</div>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="sq-translation-block">
+                    <div class="sq-trans-title">${poesia.title || poesia.tituloPT || 'Título'}</div>
+                    <div class="sq-trans-romaji">${poesia.romaji || poesia.leitura || ''}</div>
+                    <div class="sq-trans-text">${poesia.translation || poesia.traducao || 'Tradução...'}</div>
+                </div>
+            </div>
+                    
+                    <div class="sq-col-right">
+                        ${htmlCol2}
+                    </div>
+                </div>
+                
+                <div class="sq-footer">
+                     <!-- Footer limpo ou com assinatura -->
+                </div>
+            </div>
+        `;
+    }
+
+    // LAYOUT ORIGINAL (Mantido)
     return `
         <div class="calendar-section" >
             <div class="calendar-header">
@@ -707,6 +826,169 @@ function selecionarPoesia(index) {
     }
 }
 
+
+// --- LÓGICA DE COMPROMISSOS ---
+
+let dataCompromissoSelecionada = null; // Guardará o dia do mês atual
+let corSelecionada = '#e74c3c'; // Padrão
+let indexEdicao = null; // Se !== null, estamos editando
+
+function abrirModalCompromisso(dia, index = null, event = null) {
+    if (event) event.stopPropagation();
+
+    dataCompromissoSelecionada = dia;
+    indexEdicao = index;
+
+    document.getElementById('modal-compromisso').style.display = 'flex';
+
+    // Título
+    document.getElementById('modal-compromisso-titulo').textContent =
+        (index !== null ? 'Editar Compromisso' : 'Adicionar Compromisso') + ` - Dia ${dia}`;
+
+    // Reset ou Pre-fill
+    if (index !== null) {
+        // Modo EDIÇÃO
+        const diaKey = `${state.ano}-${state.mes}-${dia}`;
+        const item = state.compromissos[diaKey][index];
+
+        document.getElementById('input-compromisso').value = item.descricao;
+        document.getElementById('input-tamanho').value = item.tamanho || '10px';
+        document.getElementById('input-negrito').checked = !!item.negrito;
+
+        // Selecionar cor visualmente
+        let cor = item.cor || '#e74c3c';
+        const corDiv = document.querySelector(`.color-option[data-color="${cor}"]`);
+        if (corDiv) selecionarCor(corDiv);
+
+        // Mostrar botão excluir
+        document.getElementById('btn-excluir-compromisso').style.display = 'block';
+    } else {
+        // Modo NOVO POEMA
+        document.getElementById('input-compromisso').value = '';
+        document.getElementById('input-tamanho').value = '10px';
+        document.getElementById('input-negrito').checked = false;
+
+        // Reset cor para primeira (vermelho)
+        const firstColor = document.querySelector('.color-option');
+        if (firstColor) selecionarCor(firstColor);
+
+        // Esconder botão excluir
+        document.getElementById('btn-excluir-compromisso').style.display = 'none';
+    }
+
+    document.getElementById('input-compromisso').focus();
+}
+
+function fecharModalCompromisso() {
+    document.getElementById('modal-compromisso').style.display = 'none';
+    dataCompromissoSelecionada = null;
+    indexEdicao = null;
+}
+
+function selecionarCor(elemento) {
+    // Remove classe selected de todos
+    document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+    // Adiciona ao clicado
+    elemento.classList.add('selected');
+    corSelecionada = elemento.getAttribute('data-color');
+}
+
+function salvarCompromisso() {
+    const descricao = document.getElementById('input-compromisso').value.trim();
+    const tamanho = document.getElementById('input-tamanho').value;
+    const negrito = document.getElementById('input-negrito').checked;
+
+    if (!descricao) {
+        alert('Digite uma descrição!');
+        return;
+    }
+
+    if (dataCompromissoSelecionada === null) return;
+
+    const diaKey = `${state.ano}-${state.mes}-${dataCompromissoSelecionada}`;
+
+    if (!state.compromissos[diaKey]) {
+        state.compromissos[diaKey] = [];
+    }
+
+    const novoItem = {
+        descricao: descricao,
+        cor: corSelecionada,
+        tamanho: tamanho,
+        negrito: negrito
+    };
+
+    if (indexEdicao !== null) {
+        // Atualiza existente
+        state.compromissos[diaKey][indexEdicao] = novoItem;
+    } else {
+        // Adiciona novo
+        state.compromissos[diaKey].push(novoItem);
+    }
+
+    salvarCompromissosLocais();
+    fecharModalCompromisso();
+    atualizarCalendario();
+}
+
+// Nova função de excluir chamada pelo botão do modal
+function excluirCompromissoAtual() {
+    if (indexEdicao === null || dataCompromissoSelecionada === null) return;
+
+    const diaKey = `${state.ano}-${state.mes}-${dataCompromissoSelecionada}`;
+
+    if (confirm('Tem certeza que deseja excluir este compromisso?')) {
+        removerCompromisso(diaKey, indexEdicao);
+        fecharModalCompromisso();
+    }
+}
+
+function removerCompromisso(diaKey, index, event) {
+    if (event) event.stopPropagation(); // Evita abrir o modal de adicionar ao clicar para remover
+
+    if (state.compromissos[diaKey]) {
+        state.compromissos[diaKey].splice(index, 1);
+        if (state.compromissos[diaKey].length === 0) {
+            delete state.compromissos[diaKey];
+        }
+        salvarCompromissosLocais();
+        atualizarCalendario();
+    }
+}
+
+function salvarCompromissosLocais() {
+    localStorage.setItem('yama_compromissos', JSON.stringify(state.compromissos));
+}
+
+function carregarCompromissos() {
+    const salvos = localStorage.getItem('yama_compromissos');
+    if (salvos) {
+        try {
+            state.compromissos = JSON.parse(salvos);
+        } catch (e) {
+            console.error('Erro ao carregar compromissos', e);
+        }
+    }
+}
+
+// --- LÓGICA DE LAYOUT ---
+
+function alterarLayout() {
+    const select = document.getElementById('layoutSelect');
+    state.layout = select.value;
+
+    const calendario = document.getElementById('calendario');
+
+    if (state.layout === 'square') {
+        calendario.classList.add('layout-square');
+    } else {
+        calendario.classList.remove('layout-square');
+    }
+
+    // Força re-renderização completa do HTML
+    atualizarCalendario();
+}
+
 // ---Inicialização---
 document.addEventListener('DOMContentLoaded', () => {
     // Inicializa campos
@@ -718,6 +1000,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializa poesias únicas
     inicializarPoesiasUnicas();
+
+    // Carrega compromissos salvos
+    carregarCompromissos();
 
     // Renderiza primeira vez
     atualizarCalendario();

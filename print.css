@@ -81,7 +81,7 @@ body.printing-year #calendario {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    width: 45% !important;
+    width: 55% !important;
     height: 230mm !important;
     /* Segurança máxima */
     padding: 15mm 10mm 0 15mm !important;
@@ -152,48 +152,42 @@ body.printing-year #calendario {
 }
 
 
-/* 4. SEÇÃO POESIA (Direita) */
+/* 4. SEÇÃO POESIA (Direita) - Vertical Layout Only */
 .print-mode .hero-section {
     position: absolute !important;
     top: 19px !important;
     right: 0 !important;
-    width: 55% !important;
+    width: 45% !important;
     height: 230mm !important;
-    padding: 20mm 15mm 0 10mm !important;
+    padding: 20mm 0mm 0 0mm !important;
     background: transparent !important;
     border: none !important;
 }
 
-.print-mode .poesia-columns {
+.print-mode .hero-section .poesia-columns {
     top: -30px !important;
+    position: relative !important;
 }
 
-.print-mode .poem-line {
+.print-mode .hero-section .poem-line {
     font-size: 30px !important;
     position: absolute !important;
+    writing-mode: vertical-rl;
 }
 
-
-.print-mode .poem-line:nth-child(1) {
-    top: 15%;
-    right: -10%;
-    !important;
-    /* Ajuste fino para centralizar se necessário, ou remova */
+.print-mode .hero-section .poem-line:nth-child(1) {
+    top: 15% !important;
+    right: -10% !important;
 }
 
-
-/* Linha 2 (Meio) */
-.print-mode .poem-line:nth-child(2) {
-    top: 26%;
+.print-mode .hero-section .poem-line:nth-child(2) {
+    top: 26% !important;
     right: 62% !important;
-    /* Ajuste fino para centralizar se necessário, ou remova */
 }
 
-
-/* Linha 3 (Esquerda / Baixo) */
-.print-mode .poem-line:nth-child(3) {
-    top: 46%;
-    right: 100%;
+.print-mode .hero-section .poem-line:nth-child(3) {
+    top: 46% !important;
+    right: 100% !important;
 }
 
 
