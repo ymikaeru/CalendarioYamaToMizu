@@ -295,26 +295,80 @@ body:has(.layout-nordic) {
 }
 
 @media print {
-    /* Força o tamanho da página quando detectado layout nordico? 
-       CSS padrão não permite condicional de @page baseado em conteudo, 
-       mas podemos tentar escovar bits ou sugerir ao usuario Custom Size.
-    */
 
-    /* Se estivermos imprimindo o container nórdico */
+    /* Associa a classe ao nome da página definido acima (suporte Chrome/Edge) */
     .layout-nordic {
+        page: nordic;
         width: 190mm !important;
         height: 150mm !important;
         page-break-inside: avoid;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
         margin: 0 !important;
+        /* Padding igual ao style.css */
+        padding-top: 40px !important;
+
         box-shadow: none !important;
         border: none !important;
+
+        /* Garante posicionamento correto para impressão */
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
     }
 
-    /* Tenta forçar via classe no body se JS adicionar */
-    body.print-nordic @page {
-        size: 190mm 150mm;
-        margin: 0;
+    /* REPLICANDO ESTILOS DO STYLE.CSS PARA GARANTIR PRECISÃO NO PRINT */
+
+    .nordic-month {
+        font-size: 28px !important;
+    }
+
+    .nordic-right-panel {
+        width: 70% !important;
+    }
+
+    /* Se a direita aumentou para 70%, a esquerda deve diminuir se for flex, 
+       mas style.css mostra esquerda com 50% fixo?
+       Se o container é flex row, e esquerda é width 50% e direita 70%, vai estourar.
+       O usuário mudou APENAS a direita para 70%.
+       Vou assumir que a esquerda deve ser 30% ou auto. 
+       Na dúvida, vou forçar esquerda para 30% para caber, já que o usuário não mandou diff da esquerda.
+       Ou deixo o usuário corrigir se quebrar.
+       Melhor seguir o fluxo: Direita 70%.
+    */
+
+    .nordic-left-panel {
+        width: 30% !important;
+    }
+
+    .nordic-left-panel .poem-line {
+        font-size: 20px !important;
+        color: #555 !important;
+    }
+
+    .nordic-left-panel .poem-line:nth-child(1) {
+        right: 35% !important;
+        top: 5% !important;
+    }
+
+    .nordic-left-panel .poem-line:nth-child(2) {
+        top: 5% !important;
+        /* right mantido do style.css ou herdado */
+    }
+
+    .nordic-left-panel .poem-line:nth-child(3) {
+        left: 42% !important;
+        top: 5% !important;
+    }
+
+    /* Quebra de linha nos feriados */
+    .nordic-holiday-name {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Regra de fallback caso o browser não suporte custom page names */
+    body.print-nordic {
+        width: 190mm;
+        height: 150mm;
     }
 }

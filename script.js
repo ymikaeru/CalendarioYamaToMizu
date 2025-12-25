@@ -441,19 +441,26 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
             if (isDomingo || feriado) classes += ' sunday';
             else if (isSabado) classes += ' saturday';
 
-            // Compromissos (Dots)
-            let dots = '';
+            // Holiday Name HTML
+            let holidayHTML = '';
+            if (feriado) {
+                holidayHTML = `<div class="nordic-holiday-name">${feriado}</div>`;
+            }
+
+            // Compromissos (Text + Dots)
+            let apptHTML = '';
             const diaKey = `${ano}-${mes}-${i}`;
             if (state.compromissos[diaKey]) {
-                dots = state.compromissos[diaKey].map(c =>
-                    `<span style="color: ${c.cor}; font-size: 16px; line-height: 0; position: relative; top: 2px;">•</span>`
+                apptHTML = state.compromissos[diaKey].map(c =>
+                    `<div class="nordic-appt-item" style="color: ${c.cor}">• ${c.descricao}</div>`
                 ).join('');
             }
 
             celulasHTML += `
                 <div class="${classes}" onclick="abrirModalCompromisso(${i})">
-                    ${i}
-                    <div style="position: absolute; bottom: 2px; right: 2px; display: flex;">${dots}</div>
+                    <div class="nordic-day-num">${i}</div>
+                    ${holidayHTML}
+                    ${apptHTML}
                 </div>`;
         }
 

@@ -831,7 +831,7 @@ body {
 /* Reusa estilos do Square para a parte da poesia */
 .nordic-left-panel .sq-collection-title {
     position: absolute;
-    top: 25px;
+    top: 14px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -925,7 +925,7 @@ body {
 
 /* Coluna Direita: Calendário Grade */
 .nordic-right-panel {
-    width: 50%;
+    width: 70%;
     height: 100%;
     padding: 20px;
     display: flex;
@@ -1022,6 +1022,45 @@ body {
 
 .nordic-day-cell.other-month {
     color: #ddd;
+    background: #fdfcf8;
+}
+
+.nordic-day-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2px 4px;
+    /* Reduced top padding */
+    gap: 1px;
+}
+
+.nordic-day-num {
+    font-size: 14px;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.nordic-holiday-name {
+    font-size: 8px;
+    color: #e74c3c;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 2px;
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.nordic-appt-item {
+    font-size: 9px;
+    line-height: 1.1;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
 }
 
 
