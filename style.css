@@ -124,7 +124,8 @@ body {
 .hero-section {
     background: #fff;
     padding: 80px 40px;
-    width: 55%;
+    width: 40%;
+    /* Ajustado para 40% conforme solicitado (era 55%) */
     border-bottom: none;
     border-left: 1px solid #f0f0f0;
     border-right: none;
@@ -167,9 +168,10 @@ body {
 
 /* ÁREA DO CALENDÁRIO - ESQUERDA (SECUNDÁRIO) */
 .calendar-section {
-    padding: 50px 60px;
+    padding: 20px 30px;
     background: #fff;
-    width: 45%;
+    width: 60%;
+    /* Ajustado para 60% conforme solicitado (era 45%) */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -296,8 +298,11 @@ body {
 }
 
 .day-feriado {
-    color: #dc2626;
-    font-weight: 600;
+    color: #888;
+    /* Alterado para cinza conforme solicitado */
+    font-weight: 300;
+    font-size: 9px;
+    /* Adicionado tamanho 9px conforme solicitado */
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -315,7 +320,8 @@ body {
 
 .holiday-row .day-num,
 .holiday-row .day-weekday-jp {
-    color: #dc2626;
+    color: #888;
+    /* Alterado para cinza conforme solicitado */
 }
 
 /* POESIA EM 3 COLUNAS VERTICAIS */
@@ -356,13 +362,13 @@ body {
 
 /* Linha 1 (Direita / Cima) */
 .poem-line:nth-child(1) {
-    top: 8%;
+    top: 5%;
     right: -50%;
 }
 
 /* Linha 2 (Meio) */
 .poem-line:nth-child(2) {
-    top: 16%;
+    top: 10%;
     right: 50%;
     transform: translateX(50%);
     /* Ajuste fino para centralizar se necessário, ou remova */
@@ -370,7 +376,7 @@ body {
 
 /* Linha 3 (Esquerda / Baixo) */
 .poem-line:nth-child(3) {
-    top: 42%;
+    top: 16%;
     right: 100%;
 }
 
@@ -384,7 +390,10 @@ body {
     border-top: 2px solid #ddd;
     width: 100%;
     flex-shrink: 0;
+    flex-shrink: 0;
     min-height: 140px;
+    display: none;
+    /* Oculta rodapé antigo no layout vertical padrão */
 }
 
 
@@ -416,6 +425,10 @@ body {
     color: #dc2626;
 }
 
+.mini-cal-days .feriado-mini {
+    color: #888;
+}
+
 .mini-cal-days .sat {
     color: #2563eb;
 }
@@ -441,6 +454,30 @@ body {
     margin-top: 10px;
 }
 
+/* NOVO RODAPÉ INTEGRADO (Vertical Layout) */
+.calendar-footer-integrated {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background: transparent;
+    /* Transparente pois já está no fundo branco da hero */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    writing-mode: horizontal-tb;
+    /* Volta para horizontal */
+    text-orientation: mixed;
+}
+
+.calendar-footer-integrated .footer-traducao {
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 .romaji-texto {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -455,7 +492,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    padding-top: 40px;
+    padding-top: 20px;
     /* Espaço do topo */
     text-align: center;
     font-family: 'Cinzel', serif;
@@ -568,7 +605,7 @@ body {
     }
 
     .calendar-section {
-        padding: 30px 20px;
+        padding: 20px 30px;
     }
 
     .day-header {
@@ -1020,6 +1057,10 @@ body {
     color: #2563eb;
 }
 
+.nordic-day-cell.holiday-nordic {
+    color: #888;
+}
+
 .nordic-day-cell.other-month {
     color: #ddd;
     background: #fdfcf8;
@@ -1033,6 +1074,8 @@ body {
     padding: 2px 4px;
     /* Reduced top padding */
     gap: 1px;
+    overflow: hidden;
+    /* Trava o tamanho */
 }
 
 .nordic-day-num {
@@ -1043,14 +1086,18 @@ body {
 
 .nordic-holiday-name {
     font-size: 8px;
-    color: #e74c3c;
+    color: #888;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 300;
     line-height: 1.1;
     margin-bottom: 2px;
     width: 100%;
-    white-space: normal;
-    word-wrap: break-word;
+    white-space: nowrap;
+    /* Impede quebra de linha */
+    overflow: hidden;
+    /* Esconde excesso */
+    text-overflow: ellipsis;
+    /* Adiciona ... */
 }
 
 .nordic-appt-item {
@@ -1100,7 +1147,7 @@ body {
 }
 
 .sq-year {
-    font-size: 32px;
+    font-size: 22px;
     line-height: 0.9;
     color: #333;
     font-family: 'Times New Roman', serif;
@@ -1110,7 +1157,7 @@ body {
 .sq-body {
     display: flex;
     flex: 1;
-    margin-top: 50px;
+    margin-top: 36px;
     /* Ajustado */
     height: 100%;
 }
@@ -1121,7 +1168,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    height: 100%;
+    height: 95%;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -1232,9 +1279,8 @@ body {
     */
 
     /* Garante que o titulo da coleção e rodapé mantenham proporção */
-    .sq-collection-title {
-        /* Manter ajuste se necessário, ou remover se quiser igual tela */
-    }
+    /* Garante que o titulo da coleção e rodapé mantenham proporção */
+    /* .sq-collection-title {} - Removido regra vazia */
 }
 
 /* Alinhamento espelhado */
@@ -1258,7 +1304,7 @@ body {
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    margin-bottom: 20px;
+    margin-bottom: -30px;
     /* Mais espaço para separar do poema */
     text-align: center;
     width: 100%;
@@ -1316,7 +1362,7 @@ body {
 .sq-translation-block {
     height: auto;
     /* Altura automática baseada no texto */
-    padding-bottom: 10px;
+    padding-bottom: 31px;
     /* Espaço inferior */
     width: 90%;
     display: flex;
@@ -1349,7 +1395,7 @@ body {
 
 .sq-trans-text {
     font-family: 'Times New Roman', serif;
-    font-size: 14px;
+    font-size: 12px;
     font-style: italic;
     /* Mais forte como na imagem */
     color: #555;
@@ -1384,7 +1430,7 @@ body {
 .square-layout-container .poem-line:nth-child(1),
 .square-layout-container .poem-line:nth-child(2),
 .square-layout-container .poem-line:nth-child(3) {
-    margin-top: 0 !important;
+    margin-top: 44px !important;
     transform: none !important;
 }
 

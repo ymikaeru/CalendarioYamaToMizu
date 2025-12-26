@@ -321,10 +321,12 @@ function gerarMiniCalendario(mes, ano) {
         const feriado = ehFeriado(d, mes, ano);
         let classe = '';
 
-        if (feriado || diaSemana === 0) {
-            classe = 'sun'; // Vermelho para domingos e feriados
+        if (feriado) {
+            classe = 'feriado-mini'; // Classe específica para feriados
+        } else if (diaSemana === 0) {
+            classe = 'sun';
         } else if (diaSemana === 6) {
-            classe = 'sat'; // Azul para sábados
+            classe = 'sat';
         }
 
         html += `<span class="${classe}">${d}</span>`;
@@ -403,14 +405,14 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
         `<div class="poem-line" > ${linha}</div> `
     ).join('');
 
-    // Mini calendários
-    const mesAnterior = mes === 0 ? 11 : mes - 1;
-    const anoAnterior = mes === 0 ? ano - 1 : ano;
-    const mesProximo = mes === 11 ? 0 : mes + 1;
-    const anoProximo = mes === 11 ? ano + 1 : ano;
+    // Mini calendários (REMOVIDOS DO LAYOUT VERTICAL)
+    // const mesAnterior = mes === 0 ? 11 : mes - 1;
+    // const anoAnterior = mes === 0 ? ano - 1 : ano;
+    // const mesProximo = mes === 11 ? 0 : mes + 1;
+    // const anoProximo = mes === 11 ? ano + 1 : ano;
 
-    const miniCalAnterior = gerarMiniCalendario(mesAnterior, anoAnterior);
-    const miniCalProximo = gerarMiniCalendario(mesProximo, anoProximo);
+    // const miniCalAnterior = gerarMiniCalendario(mesAnterior, anoAnterior);
+    // const miniCalProximo = gerarMiniCalendario(mesProximo, anoProximo);
 
     // SE FOR LAYOUT NORDIC (19x15cm)
     if (state.layout === 'nordic') {
@@ -438,7 +440,8 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
             const isSabado = diaSemana === 6;
 
             let classes = 'nordic-day-cell';
-            if (isDomingo || feriado) classes += ' sunday';
+            if (feriado) classes += ' holiday-nordic';
+            else if (isDomingo) classes += ' sunday';
             else if (isSabado) classes += ' saturday';
 
             // Holiday Name HTML
@@ -552,7 +555,8 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
             const isSabado = diaSemanaIndex === 6;
 
             let corDia = '#333';
-            if (isDomingo || feriadoNome) corDia = '#e74c3c'; // Vermelho
+            if (feriadoNome) corDia = '#888'; // Cinza para feriados
+            else if (isDomingo) corDia = '#e74c3c'; // Vermelho
             else if (isSabado) corDia = '#2563eb'; // Azul
 
             // Renderizar Compromissos (versão mista/compacta)
@@ -622,7 +626,6 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
         `;
     }
 
-    // LAYOUT ORIGINAL (Mantido)
     return `
         <div class="calendar-section" >
             <div class="calendar-header">
@@ -653,19 +656,14 @@ function gerarHTMLMes(mes, ano, poesia, fasesLua, dias) {
             <div class="poesia-columns">
                 ${poemHTML}
             </div>
-        </div>
 
-        <div class="calendar-footer">
-            <div class="footer-mini-cal">
-                ${miniCalAnterior}
-            </div>
-            <div class="footer-traducao">
-                <div class="footer-obra-titulo">${poesia.title || 'Sem Título'}</div>
-                <div class="romaji-texto">${poesia.romaji || ''}</div>
-                <div class="traducao-texto">${poesia.translation || poesia.traducao}</div>
-            </div>
-            <div class="footer-mini-cal">
-                ${miniCalProximo}
+            <!-- Footer movido para dentro da Hero Section -->
+            <div class="calendar-footer-integrated">
+                 <div class="footer-traducao">
+                    <div class="footer-obra-titulo">${poesia.title || 'Sem Título'}</div>
+                    <div class="romaji-texto">${poesia.romaji || ''}</div>
+                    <div class="traducao-texto">${poesia.translation || poesia.traducao}</div>
+                </div>
             </div>
         </div>
     `;

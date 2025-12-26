@@ -3,13 +3,13 @@
 /* RESET TOTAL (Apenas para impressora real) */
 @media print {
     @page {
-        size: A4 portrait;
+        size: 215mm 279mm;
         margin: 0;
     }
 
     html,
     body {
-        width: 210mm !important;
+        width: 215mm !important;
         height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -42,8 +42,8 @@ body.printing-year #calendario {
 
 .print-mode {
     position: relative;
-    width: 210mm;
-    height: 297mm;
+    width: 215mm;
+    height: 279mm;
     background: white;
     overflow: hidden;
 }
@@ -60,13 +60,13 @@ body.printing-year #calendario {
 #print-container {
     margin: 0;
     padding: 0;
-    width: 210mm;
+    width: 215mm;
 }
 
 #print-container .pagina {
     position: relative !important;
-    width: 210mm !important;
-    height: 297mm !important;
+    width: 215mm !important;
+    height: 279mm !important;
     page-break-after: always !important;
     overflow: hidden !important;
     margin: 0 !important;
@@ -81,11 +81,12 @@ body.printing-year #calendario {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    width: 55% !important;
-    height: 230mm !important;
+    width: 60% !important;
+    /* Ajustado para 60% */
+    height: 275mm !important;
     /* Segurança máxima */
-    padding: 15mm 10mm 0 15mm !important;
-    /* Top padding levemente menor */
+    padding: 5mm 8mm 0 8mm !important;
+    /* Ajustado para match style.css (20px 30px) */
     margin: 0 !important;
     display: flex !important;
     flex-direction: column !important;
@@ -97,13 +98,18 @@ body.printing-year #calendario {
 .print-mode .calendar-header {
     flex: 0 0 auto !important;
     margin-bottom: 1mm !important;
+    border-bottom: 0.3mm solid #888 !important;
+    /* Restaurado border */
+    padding-bottom: 5mm !important;
+    /* Ajuste proporcional */
 }
 
 .print-mode .list-header {
     flex: 0 0 auto !important;
     display: flex !important;
     justify-content: space-between !important;
-    /* border-bottom removido pelo usuário */
+    border-bottom: 0.3mm solid #888 !important;
+    /* Restaurado border */
     margin-bottom: 1mm !important;
     padding-bottom: 1mm !important;
 }
@@ -145,7 +151,10 @@ body.printing-year #calendario {
 
 
 .print-mode .day-feriado {
-    font-size: 8px !important;
+    font-size: 9px !important;
+    /* Alterado para 9px conforme solicitado */
+    font-weight: 300 !important;
+    /* Adicionado peso 300 */
     line-height: 1 !important;
     transform: scale(0.9);
     transform-origin: right center;
@@ -155,17 +164,19 @@ body.printing-year #calendario {
 /* 4. SEÇÃO POESIA (Direita) - Vertical Layout Only */
 .print-mode .hero-section {
     position: absolute !important;
-    top: 19px !important;
+    top: 0 !important;
     right: 0 !important;
-    width: 45% !important;
-    height: 230mm !important;
-    padding: 20mm 0mm 0 0mm !important;
+    width: 40% !important;
+    /* Ajustado para 40% */
+    height: 279mm !important;
+    padding: 10mm 0mm 0 0mm !important;
+    /* Slightly less top padding */
     background: transparent !important;
     border: none !important;
 }
 
 .print-mode .hero-section .poesia-columns {
-    top: -30px !important;
+    top: 130px !important;
     position: relative !important;
 }
 
@@ -176,17 +187,20 @@ body.printing-year #calendario {
 }
 
 .print-mode .hero-section .poem-line:nth-child(1) {
-    top: 15% !important;
+    top: 5% !important;
+    /* Ajustado para match style.css (5%) */
     right: -10% !important;
 }
 
 .print-mode .hero-section .poem-line:nth-child(2) {
-    top: 26% !important;
+    top: 10% !important;
+    /* Ajustado para match style.css (10%) */
     right: 62% !important;
 }
 
 .print-mode .hero-section .poem-line:nth-child(3) {
-    top: 46% !important;
+    top: 16% !important;
+    /* Ajustado para match style.css (16%) */
     right: 100% !important;
 }
 
@@ -227,8 +241,8 @@ body.printing-year #calendario {
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    padding-top: 10mm !important;
-    /* Margem segura do topo */
+    padding-top: 5mm !important;
+    /* Ajustado para match style.css (20px) */
     text-align: center !important;
     font-family: 'Cinzel', serif !important;
     font-size: 16px !important;
@@ -276,10 +290,50 @@ body.printing-year #calendario {
 }
 
 /* Alinhamento superior dos mini calendarios */
+/* Alinhamento superior dos mini calendarios */
 .print-mode .footer-mini-cal {
+    /* Pequeno ajuste para não colar no topo dos mini cals (que não existem mais aqui, mas mantendo compatibilidade) */
     align-self: flex-start !important;
     margin-top: 10px !important;
-    /* Pequeno ajuste para não colar no topo absoluto */
+}
+
+/* NOVO RODAPÉ INTEGRADO (PRINT) */
+.print-mode .calendar-footer-integrated {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 50mm !important;
+    padding: 3mm 5mm !important;
+    /* Ajustado para match style.css (10px 20px) */
+    background: transparent !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    z-index: 10 !important;
+}
+
+.print-mode .calendar-footer-integrated .footer-traducao {
+    text-align: center !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.print-mode .footer-obra-titulo {
+    font-size: 14px !important;
+    margin-bottom: 5px !important;
+}
+
+.print-mode .romaji-texto {
+    font-size: 10px !important;
+    margin-bottom: 2px !important;
+}
+
+.print-mode .traducao-texto {
+    font-size: 11px !important;
+    /* Ajuste para caber se for longo */
+    line-height: 1.4 !important;
 }
 
 /* --- PRINT RULES FOR NORDIC LAYOUT (19x15cm) --- */
@@ -289,10 +343,9 @@ body.printing-year #calendario {
     margin: 0;
 }
 
-body:has(.layout-nordic) {
-    /* Alguns navegadores suportam isso para mudar o tamanho da página dinamicamente */
-    /* size: 190mm 150mm; */
-}
+/* body:has(.layout-nordic) {
+    size: 190mm 150mm; 
+} */
 
 @media print {
 
